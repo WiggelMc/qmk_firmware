@@ -33,17 +33,13 @@ uint16_t active_codes = 0;
 enum chorder_phase current_phase = IDLE_PHASE;
 enum chorder_mode current_mode = CHORD_MODE;
 
-void submit_chord(uint16_t codes) {
-    //TODO
-}
-
 void handle_chord_mode(uint16_t code, bool pressed) {
     if (pressed) {
         current_phase = PRESS_PHASE;
         active_codes |= ((uint16_t)1 << code);
     } else {
         if (current_phase == PRESS_PHASE) {
-            submit_chord(active_codes);
+            process_chord(active_codes);
         }
         current_phase = IDLE_PHASE;
         active_codes &= ~((uint16_t)1 << code);
@@ -85,10 +81,17 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
 
         if (record->event.pressed) {
             handle_reset();
-            pgm_read_word(&chorder_keymap.values[0]);
         }
         return false;
     }
 
     return true;
+}
+
+void send_key(uint16_t keycode, uint8_t modifiers) {
+
+}
+
+void send_control_code(uint16_t control_code) {
+
 }

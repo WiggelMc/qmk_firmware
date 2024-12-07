@@ -21,23 +21,11 @@
 #include QMK_KEYBOARD_H
 #include "action.h"
 
-struct chorder_keymap_entry {
-    uint8_t options;
-    // Is Command
-    // Modifiers (Ctrl, Alt, Meta, Shift)
-    uint16_t value;
-};
+#define MATCH(value, pattern, mask) (value & mask) == (pattern & mask)
+#define CODE(v1, v2) 0b ## v1 ## v2
+#define MASK(v1, v2) CODE(v1,v2)
 
-struct chorder_keymap_bucket {
-    uint16_t matcher;
-    uint16_t mask;
-    uint16_t options[16];
-    uint16_t size;
-    uint16_t *values;
-};
-
-
-extern const struct chorder_keymap_entry PROGMEM chorder_keymap[1024];
+extern bool process_chord(uint16_t keycode);
 extern const uint16_t PROGMEM direct_key_keymap[10];
 
 enum custom_keycodes {
@@ -56,5 +44,10 @@ enum custom_keycodes {
 // const uint16_t EEEEEMCH_SAFE_RANGE = MCH_R + 1;
 
 bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
+
+void send_key(uint16_t keycode, uint8_t modifiers);
+void send_control_code(uint16_t control_code);
+
+
 
 #endif
