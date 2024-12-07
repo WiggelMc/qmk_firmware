@@ -41,11 +41,22 @@ enum custom_keycodes {
     MCH_9,
     MCH_R
 };
-// const uint16_t EEEEEMCH_SAFE_RANGE = MCH_R + 1;
+const uint16_t MCH_SAFE_RANGE;
+
+typedef enum {
+    M_L_CTRL = 1 << 0,
+    M_L_SHIFT = 1 << 1,
+    M_L_ALT = 1 << 2,
+    M_L_META = 1 << 3,
+    M_R_CTRL = 1 << 4,
+    M_R_SHIFT = 1 << 5,
+    M_R_ALT = 1 << 6,
+    M_R_META = 1 << 7,
+} modifiers;
 
 bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
 
-void send_key(uint16_t keycode, uint8_t modifiers);
+void send_key(uint16_t keycode, modifiers modifiers);
 void send_control_code(uint16_t control_code);
 
 

@@ -19,6 +19,8 @@
 #include "quantum.h"
 #include QMK_KEYBOARD_H
 
+const uint16_t MCH_SAFE_RANGE = MCH_R + 1;
+
 enum chorder_phase {
     IDLE_PHASE,
     PRESS_PHASE,
@@ -40,6 +42,7 @@ void handle_chord_mode(uint16_t code, bool pressed) {
     } else {
         if (current_phase == PRESS_PHASE) {
             process_chord(active_codes);
+            //TODO: if function running, put code into function, else process normally
         }
         current_phase = IDLE_PHASE;
         active_codes &= ~((uint16_t)1 << code);
@@ -88,7 +91,7 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void send_key(uint16_t keycode, uint8_t modifiers) {
+void send_key(uint16_t keycode, modifiers modifiers) {
 
 }
 

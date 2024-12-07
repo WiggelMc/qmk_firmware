@@ -21,13 +21,13 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
-     * ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
-     * │ 0 │ 1 │ 2 │ 3 │ 4 │       │ 5 │ 6 │ 7 │ 8 │ 9 │
-     * └───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┘
+     * ┌───┬───┬───┬───┐       ┌───┬───┬───┬───┐
+     * │ 0 │ 1 │ 2 │ 3 │       │ 6 │ 7 │ 8 │ 9 │
+     * └───┴───┴───┴───┘       └───┴───┴───┴───┘
      *
-     *                   ┌───┐   ┌───┐
-     *                   │ R │   │ R │
-     *                   └───┘   └───┘
+     *         ┌───┬───┐       ┌───┬───┐
+     *         │ R │ 4 │       │ 5 │ R |
+     *         └───┴───┘       └───┴───┘
      */
     [0] = LAYOUT(MCH_0, MCH_1, MCH_2, MCH_3, MCH_4, MCH_5, MCH_6, MCH_7, MCH_8, MCH_9, MCH_R, MCH_R)};
 
@@ -59,7 +59,7 @@ bool process_chord(uint16_t keycode) {
     bool shift = (keycode & MASK(10000, 00000)) != 0;
     bool ctrl = (keycode & MASK(01000, 00000)) != 0;
     bool alt = (keycode & MASK(00100, 00000)) != 0;
-    uint8_t modifiers = ctrl << 0 | shift << 1 | alt << 2;
+    modifiers modifiers = (ctrl ? M_L_CTRL : 0) | (shift ? M_L_SHIFT : 0) | (alt ? M_L_ALT : 0);
 
     if (keycode == CODE(00000,00001)) {
         // ----- ----9
@@ -80,7 +80,7 @@ bool process_chord(uint16_t keycode) {
         uint16_t index = (keycode & MASK(00011,11110)) >> 1;
         uint16_t value = pgm_read_word(&keys_a[index]);
 
-        uprintf("Keys A: %d | %d, %d, %d", value, shift, ctrl, alt);
+        uprintf("Keys A: %d | %d", value, modifiers);
         send_key(value, modifiers);
 
     } else if (MATCH(keycode, CODE(00000,00101), MASK(00000,00111))) {
@@ -89,7 +89,7 @@ bool process_chord(uint16_t keycode) {
         uint16_t index = (keycode & MASK(00011,11000)) >> 3;
         uint16_t value = pgm_read_word(&keys_b[index]);
 
-        uprintf("Keys B: %d | %d, %d, %d", value, shift, ctrl, alt);
+        uprintf("Keys B: %d | %d", value, modifiers);
         send_key(value, modifiers);
 
     } else if (MATCH(keycode, CODE(00000,00011), MASK(00000,00011))) {

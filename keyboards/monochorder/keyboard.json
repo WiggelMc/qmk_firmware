@@ -7,7 +7,7 @@
     "features": {
         "bootmagic": true,
         "command": false,
-        "console": false,
+        "console": true,
         "extrakey": true,
         "mousekey": true,
         "nkro": true
@@ -19,8 +19,8 @@
         "vid": "0xFEED"
     },
     "matrix_pins": {
-        "cols": ["B7", "F1", "F4"],
-        "rows": ["D1", "D0", "D3", "D2"]
+        "cols": ["C6", "D7", "E6"],
+        "rows": ["B4", "B5"]
     },
     "layouts": {
         "LAYOUT": {
@@ -29,16 +29,16 @@
                 {"matrix": [1, 0], "x": 1, "y": 0, "label": "MCH_1"},
                 {"matrix": [1, 1], "x": 2, "y": 0, "label": "MCH_2"},
                 {"matrix": [1, 2], "x": 3, "y": 0, "label": "MCH_3"},
-                {"matrix": [0, 2], "x": 4, "y": 0, "label": "MCH_4"},
+                {"matrix": [0, 2], "x": 3, "y": 2, "label": "MCH_4"},
 
-                {"matrix": [2, 2], "x": 6, "y": 0, "label": "MCH_5"},
-                {"matrix": [3, 2], "x": 7, "y": 0, "label": "MCH_6"},
-                {"matrix": [3, 1], "x": 8, "y": 0, "label": "MCH_7"},
-                {"matrix": [3, 0], "x": 9, "y": 0, "label": "MCH_8"},
-                {"matrix": [2, 0], "x": 10, "y": 0, "label": "MCH_9"},
+                {"matrix": [2, 2], "x": 6, "y": 2, "label": "MCH_5"},
+                {"matrix": [3, 2], "x": 6, "y": 0, "label": "MCH_6"},
+                {"matrix": [3, 1], "x": 7, "y": 0, "label": "MCH_7"},
+                {"matrix": [3, 0], "x": 8, "y": 0, "label": "MCH_8"},
+                {"matrix": [2, 0], "x": 9, "y": 0, "label": "MCH_9"},
 
-                {"matrix": [0, 1], "x": 4, "y": 2, "label": "MCH_R1"},
-                {"matrix": [2, 1], "x": 6, "y": 2, "label": "MCH_R2"}
+                {"matrix": [0, 1], "x": 2, "y": 2, "label": "MCH_R1"},
+                {"matrix": [2, 1], "x": 7, "y": 2, "label": "MCH_R2"}
             ]
         }
     }
