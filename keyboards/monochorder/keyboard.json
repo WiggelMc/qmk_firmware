@@ -18,8 +18,12 @@
         "pid": "0x0000",
         "vid": "0xFEED"
     },
+    "matrix_pins": {
+        "cols": ["B7", "F1", "F4"],
+        "rows": ["D1", "D0", "D3", "D2"]
+    },
     "layouts": {
-        "LAYOUT_monochorder": {
+        "LAYOUT": {
             "layout": [
                 {"matrix": [0, 0], "x": 0, "y": 0, "label": "MCH_0"},
                 {"matrix": [1, 0], "x": 1, "y": 0, "label": "MCH_1"},

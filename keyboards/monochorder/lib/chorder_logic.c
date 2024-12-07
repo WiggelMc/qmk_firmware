@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "chorder_logic.h"
+#include "quantum.h"
 #include QMK_KEYBOARD_H
 
 enum chorder_phase {
@@ -49,16 +50,16 @@ void handle_chord_mode(uint16_t code, bool pressed) {
     }
 }
 
-void handle_reset() {
+void handle_reset(void) {
     current_mode = CHORD_MODE;
 }
 
 void handle_direct_key_mode(uint16_t code, bool pressed) {
     uint16_t key = pgm_read_word(&direct_key_keymap[code]);
     if (pressed) {
-        register_code(key);
+        register_code16(key);
     } else {
-        unregister_code(key);
+        unregister_code16(key);
     }
 }
 
@@ -84,7 +85,7 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
 
         if (record->event.pressed) {
             handle_reset();
-            pgm_read_word(&chorder_keymap[0]);
+            pgm_read_word(&chorder_keymap.values[0]);
         }
         return false;
     }

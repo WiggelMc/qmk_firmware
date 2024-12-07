@@ -14,18 +14,30 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 
-#ifndef SAFE_RANGE
-#error "MATRIX_ROWS undeclared. Must be set when building."
-#define SAFE_RANGE 1
-#endif
 
-#ifndef CHORDER_KEYMAP
-#define CHORDER_KEYMAP
+#ifndef CHORDER_LOGIC_H
+#define CHORDER_LOGIC_H
 
-
+#include QMK_KEYBOARD_H
 #include "action.h"
 
-extern const uint16_t PROGMEM chorder_keymap[];
+struct chorder_keymap_entry {
+    uint8_t options;
+    // Is Command
+    // Modifiers (Ctrl, Alt, Meta, Shift)
+    uint16_t value;
+};
+
+struct chorder_keymap_bucket {
+    uint16_t matcher;
+    uint16_t mask;
+    uint16_t options[16];
+    uint16_t size;
+    uint16_t *values;
+};
+
+
+extern const struct chorder_keymap_entry PROGMEM chorder_keymap[1024];
 extern const uint16_t PROGMEM direct_key_keymap[10];
 
 enum custom_keycodes {
@@ -41,7 +53,7 @@ enum custom_keycodes {
     MCH_9,
     MCH_R
 };
-const uint16_t MCH_SAFE_RANGE = MCH_R + 1;
+// const uint16_t EEEEEMCH_SAFE_RANGE = MCH_R + 1;
 
 bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
 
