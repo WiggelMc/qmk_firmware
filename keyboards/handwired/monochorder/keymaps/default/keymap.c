@@ -236,14 +236,18 @@ const uint16_t PROGMEM keys_b_layer_1[16] = {
 };
 
 const uint16_t PROGMEM control_codes_a[256] = {
+    // ^^^^^ ^^^89
+
     [0] = 0
 };
 
 const uint16_t PROGMEM control_codes_b[128] = {
+    // ^^^^^ ^^--9
+
     [0] = 0
 };
 
-bool process_chord(uint16_t keycode, uint8_t layer) {
+void process_chord(uint16_t keycode, uint8_t layer) {
     bool shift = (keycode & MASK(10000, 00000)) != 0;
     bool ctrl = (keycode & MASK(01000, 00000)) != 0;
     bool alt = (keycode & MASK(00100, 00000)) != 0;
@@ -254,7 +258,7 @@ bool process_chord(uint16_t keycode, uint8_t layer) {
         // CANCEL
 
         print("Cancel");
-        //TODO: Send Cancel Code
+        send_control_code(CC_CANCEL);
 
     } else if (keycode == CODE(11111,11111)) {
         // 01234 56789
@@ -323,8 +327,6 @@ bool process_chord(uint16_t keycode, uint8_t layer) {
         send_control_code(value);
 
     }
-
-    return false;
 }
 
 const uint16_t PROGMEM direct_key_keymap[10] = {

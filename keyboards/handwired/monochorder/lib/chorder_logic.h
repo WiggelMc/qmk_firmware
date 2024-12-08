@@ -31,7 +31,7 @@ typedef struct {
     uint8_t layer;
 } flags_t;
 
-extern bool process_chord(uint16_t keycode, uint8_t layer);
+extern void process_chord(uint16_t keycode, uint8_t layer);
 extern const uint16_t PROGMEM direct_key_keymap[10];
 
 enum custom_keycodes {
@@ -65,6 +65,39 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
 void send_key(uint16_t keycode, modifiers_t modifiers);
 void send_control_code(uint16_t control_code);
 
+enum control_codes {
+    CC_CANCEL,
+    CC_SET_OPTION,
+    CC_REPEAT_LAST_PRESS,
+    CC_REPEAT_LAST_RESULT,
 
+    CC_FLAG_MOD_META,
+    CC_FLAG_MOD_CTRL,
+    CC_FLAG_MOD_SHIFT,
+    CC_FLAG_MOD_ALT,
+    CC_FLAG_MOD_R_META,
+    CC_FLAG_MOD_R_CTRL,
+    CC_FLAG_MOD_R_SHIFT,
+    CC_FLAG_MOD_R_ALT,
+
+    CC_FLAG_LAYER_1,
+    CC_FLAG_LAYER_2,
+    CC_FLAG_LAYER_3,
+    CC_FLAG_LAYER_4,
+
+    CC_FLAG_HOLD_PRESS,
+    CC_FLAG_HOLD_RELEASE,
+    CC_FLAG_HOLD_ONCE,
+
+    CC_FLAG_LOCK_FLAG,
+    CC_FLAG_LOCK_FUNCTION,
+
+    CC_ENTER_SPECIAL_MODE,
+
+    CC_TYPE_BYTE_HEX,
+    CC_TYPE_BYTE_BIN,
+    CC_TYPE_BYTE_OCT,
+    CC_TYPE_BYTE_DEC,
+};
 
 #endif
