@@ -119,7 +119,7 @@ void process_function_initial(bool (*function)(uint16_t code, state_t *state)) {
 }
 
 void process_function(uint16_t code, bool (*function)(uint16_t code, state_t *state)) {
-    if (input_state.active_codes == CODE(00000, 00001)) {
+    if (input_state.active_codes == CODE(00000,00001)) {
         reset_state(&state);
 
     } else {
@@ -155,8 +155,18 @@ void handle_chord_mode(uint16_t code, bool pressed) {
     }
 }
 
+void release_all_keys(void) {
+    for (uint16_t keycode = 0; keycode <= 0xFF; keycode++) {
+        if (keycode != KC_NO) {
+            unregister_code16(keycode);
+        }
+    }
+    // TODO: Test if Modifiers need to be removed seperately
+}
+
 void handle_reset(void) {
     reset_state(&state);
+    release_all_keys();
     input_state.current_mode = MODE_CHORD;
 }
 
@@ -200,14 +210,25 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
 
 void send_key(uint16_t keycode, modifiers_t modifiers) {
     if (keycode != 0) {
+        uint16_t modified_code = ((modifiers | state.flags.normal.modifiers) << 8) | keycode;
         switch (state.flags.normal.hold_mode) {
             case HOLD_OFF:
-                tap_code16(((modifiers | state.flags.normal.modifiers) << 8) | keycode);
+                // tap CODE and all CODES from HOLD_ONCE list, clear HOLD_ONCE list
+                tap_code16(modified_code);
                 break;
             case HOLD_PRESS:
+                // ADD CODE to HOLD list and register
+                register_code16(modified_code);
+                break;
             case HOLD_RELEASE:
+                // REMOVE CODE from HOLD and HOLD_ONCE list and unregister
+                unregister_code16(modified_code);
+                break;
             case HOLD_ONCE:
+                // ADD CODE to HOLD_ONCE list
+
                 //TODO: Handle Hold
+                // Store held keys in arrays: HOLD, HOLD_ONCE of type uint16_t with length 32 each
                 break;
         }
     }
@@ -215,9 +236,83 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
     try_reset_flags_all(&state.flags);
 }
 
+bool fn_cancel(uint16_t code, state_t *state) {
+    reset_state(state);
+    return true;
+}
+
+bool fn_set_option(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+bool fn_repeat_last_press(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+bool fn_repeat_last_result(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+bool fn_enter_special_mode(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+bool fn_hold_release_all(uint16_t code, state_t *state) {
+    release_all_keys();
+    //TODO: unregister all CODES from HOLD list, clear HOLD and HOLD_ONCE list (remove release_all_keys)
+    return true;
+}
+
+bool fn_type_byte_hex(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+bool fn_type_byte_bin(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+bool fn_type_byte_oct(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+bool fn_type_byte_dec(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
+
 bool (*get_function(uint16_t control_code))(uint16_t code, state_t *state) {
-    //TODO: Implement functions
-    return NULL;
+    switch (control_code) {
+        case CC_CANCEL:
+            return &fn_cancel;
+        case CC_SET_OPTION:
+            return &fn_set_option;
+        case CC_REPEAT_LAST_PRESS:
+            return &fn_repeat_last_press;
+        case CC_REPEAT_LAST_RESULT:
+            return &fn_repeat_last_result;
+        case CC_ENTER_SPECIAL_MODE:
+            return &fn_enter_special_mode;
+        case CC_HOLD_RELEASE_ALL:
+            return &fn_hold_release_all;
+        case CC_TYPE_BYTE_HEX:
+            return &fn_type_byte_hex;
+        case CC_TYPE_BYTE_BIN:
+            return &fn_type_byte_bin;
+        case CC_TYPE_BYTE_OCT:
+            return &fn_type_byte_oct;
+        case CC_TYPE_BYTE_DEC:
+            return &fn_type_byte_dec;
+        default:
+            return NULL;
+    }
 }
 
 void handle_flag_modifier(modifiers_t modifier) {

@@ -233,19 +233,19 @@ const uint16_t PROGMEM keys_b[][16] = {
 const uint16_t PROGMEM control_codes_a[256] = {
     // ^^^^^ ^^^89
 
-    [0] = 0
+    [CODE(00000,000)] = 0
 };
 
 const uint16_t PROGMEM control_codes_b[128] = {
     // ^^^^^ ^^--9
 
-    [0] = 0
+    [CODE(00000,00)] = 0
 };
 
 void process_chord(uint16_t keycode, uint8_t layer) {
-    bool shift = (keycode & MASK(10000, 00000)) != 0;
-    bool ctrl = (keycode & MASK(01000, 00000)) != 0;
-    bool alt = (keycode & MASK(00100, 00000)) != 0;
+    bool shift = (keycode & MASK(10000,00000)) != 0;
+    bool ctrl = (keycode & MASK(01000,00000)) != 0;
+    bool alt = (keycode & MASK(00100,00000)) != 0;
     modifiers_t modifiers = (ctrl ? M_L_CTRL : 0) | (shift ? M_L_SHIFT : 0) | (alt ? M_L_ALT : 0);
 
     if (keycode == CODE(00000,00001)) {

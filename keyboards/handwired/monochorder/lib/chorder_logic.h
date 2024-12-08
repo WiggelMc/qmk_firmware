@@ -92,6 +92,7 @@ enum control_codes {
     CC_FLAG_LOCK_FUNCTION,
 
     CC_ENTER_SPECIAL_MODE,
+    CC_HOLD_RELEASE_ALL,
 
     CC_TYPE_BYTE_HEX,
     CC_TYPE_BYTE_BIN,
