@@ -25,7 +25,13 @@
 #define CODE(v1, v2) 0b ## v1 ## v2
 #define MASK(v1, v2) CODE(v1,v2)
 
-extern bool process_chord(uint16_t keycode);
+#define KC_RESERVED 0
+
+typedef struct {
+    uint8_t layer;
+} flags_t;
+
+extern bool process_chord(uint16_t keycode, uint8_t layer);
 extern const uint16_t PROGMEM direct_key_keymap[10];
 
 enum custom_keycodes {
@@ -52,11 +58,11 @@ typedef enum {
     M_R_SHIFT = 1 << 5,
     M_R_ALT = 1 << 6,
     M_R_META = 1 << 7,
-} modifiers;
+} modifiers_t;
 
 bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
 
-void send_key(uint16_t keycode, modifiers modifiers);
+void send_key(uint16_t keycode, modifiers_t modifiers);
 void send_control_code(uint16_t control_code);
 
 

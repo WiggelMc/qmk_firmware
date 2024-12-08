@@ -41,7 +41,8 @@ void handle_chord_mode(uint16_t code, bool pressed) {
         active_codes |= ((uint16_t)1 << code);
     } else {
         if (current_phase == PRESS_PHASE) {
-            process_chord(active_codes);
+            //TODO: Keep track of flags
+            process_chord(active_codes, 0);
             //TODO: if function running, put code into function, else process normally
         }
         current_phase = IDLE_PHASE;
@@ -91,7 +92,7 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void send_key(uint16_t keycode, modifiers modifiers) {
+void send_key(uint16_t keycode, modifiers_t modifiers) {
 
 }
 
