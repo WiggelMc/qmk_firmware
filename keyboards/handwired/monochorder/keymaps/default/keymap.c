@@ -267,7 +267,7 @@ void process_chord(uint16_t keycode, uint8_t layer) {
         uint16_t index = (keycode & MASK(00011,11110)) >> 1;
 
         const uint16_t (*keymap)[64] = NULL;
-        if (layer < ARR_LEN(keys_a)) {
+        if (layer < ARRAY_SIZE(keys_a)) {
             keymap = &keys_a[layer];
         }
 
@@ -285,7 +285,7 @@ void process_chord(uint16_t keycode, uint8_t layer) {
         uint16_t index = (keycode & MASK(00011,11000)) >> 3;
 
         const uint16_t (*keymap)[16] = NULL;
-        if (layer < ARR_LEN(keys_b)) {
+        if (layer < ARRAY_SIZE(keys_b)) {
             keymap = &keys_b[layer];
         }
 
@@ -318,6 +318,8 @@ void process_chord(uint16_t keycode, uint8_t layer) {
     }
 }
 
-const uint16_t PROGMEM direct_key_keymap[10] = {
-    KC_0, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9,
+const uint16_t PROGMEM direct_key_keymap[][10] = {
+    [0] = {KC_0, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9}
 };
+
+const size_t direct_key_keymap_count = ARRAY_SIZE(direct_key_keymap);

@@ -118,9 +118,14 @@ void process_function_initial(bool (*function)(uint16_t code, state_t *state)) {
     }
 }
 
+void cancel(void) {
+    reset_flags_all(&state.flags);
+    reset_function_state(&state.function_state);
+}
+
 void process_function(uint16_t code, bool (*function)(uint16_t code, state_t *state)) {
     if (input_state.active_codes == CODE(00000,00001)) {
-        reset_state(&state);
+        cancel();
 
     } else {
         bool done = state.function_state.running(input_state.active_codes, &state);
@@ -155,27 +160,22 @@ void handle_chord_mode(uint16_t code, bool pressed) {
     }
 }
 
-void release_all_keys(void) {
-    for (uint16_t keycode = 0; keycode <= 0xFF; keycode++) {
-        if (keycode != KC_NO) {
-            unregister_code16(keycode);
-        }
-    }
-    // TODO: Test if Modifiers need to be removed seperately
-}
-
 void handle_reset(void) {
+    // TODO: Release all HOLD keys
     reset_state(&state);
-    release_all_keys();
-    input_state.current_mode = MODE_CHORD;
+    input_state.current_mode = MODE_CHORD; // TODO: Reset input_state (wrap in function, eg. switch state)
 }
 
 void handle_direct_key_mode(uint16_t code, bool pressed) {
-    uint16_t key = pgm_read_word(&direct_key_keymap[code]);
-    if (pressed) {
-        register_code16(key);
-    } else {
-        unregister_code16(key);
+    uint8_t direct_key_index = 0; //TODO: Read dynamically (maybe wrap the states of different modes into a struct??)
+
+    if (direct_key_index < direct_key_keymap_count) {
+        uint16_t key = pgm_read_word(&direct_key_keymap[direct_key_index][code]);
+        if (pressed) {
+            register_code16(key);
+        } else {
+            unregister_code16(key);
+        }
     }
 }
 
@@ -237,7 +237,7 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
 }
 
 bool fn_cancel(uint16_t code, state_t *state) {
-    reset_state(state);
+    cancel();
     return true;
 }
 
@@ -256,14 +256,18 @@ bool fn_repeat_last_result(uint16_t code, state_t *state) {
     return true;
 }
 
+bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
+    // TODO: Implement
+    return true;
+}
+
 bool fn_enter_special_mode(uint16_t code, state_t *state) {
     // TODO: Implement
     return true;
 }
 
 bool fn_hold_release_all(uint16_t code, state_t *state) {
-    release_all_keys();
-    //TODO: unregister all CODES from HOLD list, clear HOLD and HOLD_ONCE list (remove release_all_keys)
+    //TODO: unregister all CODES from HOLD list, clear HOLD and HOLD_ONCE list
     return true;
 }
 
@@ -298,6 +302,8 @@ bool (*get_function(uint16_t control_code))(uint16_t code, state_t *state) {
             return &fn_repeat_last_press;
         case CC_REPEAT_LAST_RESULT:
             return &fn_repeat_last_result;
+        case CC_ENTER_DIRECT_KEY_MODE:
+            return &fn_enter_direct_key_mode;
         case CC_ENTER_SPECIAL_MODE:
             return &fn_enter_special_mode;
         case CC_HOLD_RELEASE_ALL:

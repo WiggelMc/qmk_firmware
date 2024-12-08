@@ -25,13 +25,12 @@
 #define CODE(v1, v2) 0b ## v1 ## v2
 #define MASK(v1, v2) CODE(v1,v2)
 
-#define ARR_LEN(arr) (sizeof(arr) / sizeof(*arr))
-
 #define KC_RESERVED 0
 
 
 extern void process_chord(uint16_t keycode, uint8_t layer);
-extern const uint16_t PROGMEM direct_key_keymap[10];
+extern const uint16_t PROGMEM direct_key_keymap[][10];
+extern const size_t direct_key_keymap_count;
 
 enum custom_keycodes {
     MCH_0 = SAFE_RANGE,
@@ -91,6 +90,7 @@ enum control_codes {
     CC_FLAG_LOCK_FLAG,
     CC_FLAG_LOCK_FUNCTION,
 
+    CC_ENTER_DIRECT_KEY_MODE,
     CC_ENTER_SPECIAL_MODE,
     CC_HOLD_RELEASE_ALL,
 
