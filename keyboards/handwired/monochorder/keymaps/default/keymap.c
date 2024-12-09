@@ -29,7 +29,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *         │ R │ 4 │       │ 5 │ R |
      *         └───┴───┘       └───┴───┘
      */
-    [0] = LAYOUT(MCH_0, MCH_1, MCH_2, MCH_3, MCH_4, MCH_5, MCH_6, MCH_7, MCH_8, MCH_9, MCH_R, MCH_R)};
+    [0] = LAYOUT(MCH_0, MCH_1, MCH_2, MCH_3,    MCH_6, MCH_7, MCH_8, MCH_9,
+		   	       MCH_R, MCH_4,    MCH_5, MCH_R
+    )};
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_chorder_logic(keycode, record)) {
