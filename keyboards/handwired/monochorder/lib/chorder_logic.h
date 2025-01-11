@@ -27,7 +27,7 @@
 
 #define KC_RESERVED 0
 
-extern void                   process_chord(uint16_t keycode, uint8_t layer);
+extern void                   process_chord(uint16_t code, uint8_t layer);
 extern const uint16_t PROGMEM direct_key_keymap[][10];
 extern const size_t           direct_key_keymap_count;
 
