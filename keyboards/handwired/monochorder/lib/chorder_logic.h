@@ -24,6 +24,7 @@
 #define MATCH(value, pattern, mask) ((value & mask) == (pattern & mask))
 #define CODE(v1, v2) 0b ## v1 ## v2
 #define MASK(v1, v2) CODE(v1,v2)
+#define TEST_BITS(value, mask) ((value & mask) != 0)
 
 #define KC_RESERVED 0
 

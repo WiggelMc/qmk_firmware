@@ -248,9 +248,9 @@ const uint16_t cancel_code = CODE(00000,00001);
 const uint16_t noop_code = CODE(11111,11111);
 
 void process_chord(uint16_t code, uint8_t layer) {
-    bool shift = (code & MASK(10000,00000)) != 0;
-    bool ctrl = (code & MASK(01000,00000)) != 0;
-    bool alt = (code & MASK(00100,00000)) != 0;
+    bool shift = TEST_BITS(code, MASK(10000,00000));
+    bool ctrl = TEST_BITS(code, MASK(01000,00000));
+    bool alt = TEST_BITS(code, MASK(00100,00000));
     modifiers_t modifiers = (ctrl ? M_L_CTRL : 0) | (shift ? M_L_SHIFT : 0) | (alt ? M_L_ALT : 0);
 
     if (MATCH(code, CODE(00000,00000), MASK(00000,00001))) {
@@ -322,7 +322,7 @@ const uint16_t zero_code = CODE(00000,10001);
 
 read_byte_data_t* read_byte_data(uint16_t code) {
     uint16_t mod_mask = MASK(10000,00000);
-    bool mod = (code & mod_mask) != 0;
+    bool mod = TEST_BITS(code, mod_mask);
 
     if ((code & ~mod_mask) == zero_code) {
         read_byte_data_t* data = (read_byte_data_t*) malloc(sizeof(read_byte_data_t));
@@ -330,7 +330,7 @@ read_byte_data_t* read_byte_data(uint16_t code) {
         data->mod = mod;
         return data;
 
-    } else if ((code & MASK(00000,00001)) != 0) {
+    } else if (TEST_BITS(code, MASK(00000,00001))) {
         return NULL;
 
     } else {
@@ -348,7 +348,7 @@ uint16_t* read_9bit_data(uint16_t code) {
         *data = 0;
         return data;
 
-    } else if ((code & MASK(00000,00001)) != 0) {
+    } else if (TEST_BITS(code, MASK(00000,00001))) {
         return NULL;
 
     } else {
