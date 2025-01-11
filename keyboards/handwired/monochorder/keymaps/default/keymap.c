@@ -268,7 +268,7 @@ void process_chord(uint16_t code, uint8_t layer) {
             value = pgm_read_word(keymap[index]);
         }
 
-        uprintf("Keys A: %d | %d", value, modifiers);
+        uprintf("Keys A: %u | %02X", value, modifiers);
         send_key(value, modifiers);
 
     } else if (MATCH(code, CODE(00000,00101), MASK(00000,00111))) {
@@ -286,7 +286,7 @@ void process_chord(uint16_t code, uint8_t layer) {
             value = pgm_read_word(keymap[index]);
         }
 
-        uprintf("Keys B: %d | %d", value, modifiers);
+        uprintf("Keys B: %u | %02X", value, modifiers);
         send_key(value, modifiers);
 
     } else if (MATCH(code, CODE(00000,00011), MASK(00000,00011))) {
@@ -295,7 +295,7 @@ void process_chord(uint16_t code, uint8_t layer) {
         uint16_t index = (code & MASK(11111,11100)) >> 2;
         uint16_t value = pgm_read_word(&control_codes_a[index]);
 
-        uprintf("Control Codes A: %d", value);
+        uprintf("Control Codes A: %u", value);
         send_control_code(value);
 
     } else if (MATCH(code, CODE(00000,00001), MASK(00000,00111))) {
@@ -304,7 +304,7 @@ void process_chord(uint16_t code, uint8_t layer) {
         uint16_t index = (code & MASK(11111,11100)) >> 2;
         uint16_t value = pgm_read_word(&control_codes_b[index]);
 
-        uprintf("Control Codes B: %d", value);
+        uprintf("Control Codes B: %u", value);
         send_control_code(value);
 
     }
