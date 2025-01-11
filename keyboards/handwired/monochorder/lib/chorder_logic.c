@@ -124,21 +124,16 @@ void cancel(void) {
 }
 
 void process_function(uint16_t code, bool (*function)(uint16_t code, state_t *state)) {
-    if (input_state.active_codes == CODE(00000,00001)) {
-        cancel();
+    bool done = state.function_state.running(input_state.active_codes, &state);
 
-    } else {
-        bool done = state.function_state.running(input_state.active_codes, &state);
+    if (done) {
+        bool (*f)(uint16_t code, state_t *state) = state.function_state.running;
+        reset_function_state(&state.function_state);
 
-        if (done) {
-            bool (*f)(uint16_t code, state_t *state) = state.function_state.running;
-            reset_function_state(&state.function_state);
-
-            if (state.flags.normal.function_lock) {
-                process_function_initial(f);
-            } else {
-                try_reset_flags_all(&state.flags);
-            }
+        if (state.flags.normal.function_lock) {
+            process_function_initial(f);
+        } else {
+            try_reset_flags_all(&state.flags);
         }
     }
 }
@@ -149,7 +144,11 @@ void handle_chord_mode(uint16_t code, bool pressed) {
         input_state.active_codes |= ((uint16_t)1 << code);
     } else {
         if (input_state.current_phase == PHASE_PRESS) {
-            if (state.function_state.running == NULL) {
+            if (input_state.active_codes == noop_code) {
+                //Do Nothing
+            } else if (input_state.active_codes == cancel_code) {
+                cancel();
+            } else if (state.function_state.running == NULL) {
                 process_chord(input_state.active_codes, state.flags.normal.layer);
             } else {
                 process_function(input_state.active_codes, state.function_state.running);
@@ -242,7 +241,35 @@ bool fn_cancel(uint16_t code, state_t *state) {
 }
 
 bool fn_set_option(uint16_t code, state_t *state) {
-    // TODO: Implement
+    switch (PHASE(state)) {
+        case 0:
+            PHASE(state) = 1;
+            return false;
+        case 1:
+            uint16_t* option_ptr = read_9bit_data(code);
+            if (option_ptr == NULL) {
+                return true;
+            }
+
+            state->function_state.data[1] = *option_ptr;
+            free(option_ptr);
+            PHASE(state) = 2;
+            return false;
+        case 2:
+            uint16_t* value_ptr = read_9bit_data(code);
+            if (value_ptr == NULL) {
+                return true;
+            }
+
+            uint16_t option = state->function_state.data[1];
+            uint16_t value = *value_ptr;
+            free(value_ptr);
+
+            //TODO: Set [option] to [value]
+            uprintf("Set Option: %03u to %03u", option, value);
+
+            return true;
+    }
     return true;
 }
 
@@ -257,7 +284,27 @@ bool fn_repeat_last_result(uint16_t code, state_t *state) {
 }
 
 bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
-    // TODO: Implement
+    switch (PHASE(state)) {
+        case 0:
+            PHASE(state) = 1;
+            return false;
+        case 1:
+            uint16_t* index_ptr = read_9bit_data(code);
+            if (index_ptr == NULL) {
+                return true;
+            }
+
+            uint16_t index = *index_ptr;
+            free(index_ptr);
+            if (index >= direct_key_keymap_count) {
+                return true;
+            }
+
+            //TODO: Enter mode with [index]
+            uprintf("Enter Direct Key Mode with Index %u", index);
+
+            return true;
+    }
     return true;
 }
 
@@ -272,22 +319,96 @@ bool fn_hold_release_all(uint16_t code, state_t *state) {
 }
 
 bool fn_type_byte_hex(uint16_t code, state_t *state) {
-    // TODO: Implement
+    switch (PHASE(state)) {
+        case 0:
+            PHASE(state) = 1;
+            return false;
+        case 1:
+            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            if (byte_data_ptr == NULL) {
+                return true;
+            }
+
+            char hex_string[3];
+            sprintf(hex_string, byte_data_ptr->mod ? "%02X" : "%02x", byte_data_ptr->byte);
+
+            free(byte_data_ptr);
+            send_string(hex_string);
+            return true;
+    }
     return true;
 }
 
 bool fn_type_byte_bin(uint16_t code, state_t *state) {
-    // TODO: Implement
+    switch (PHASE(state)) {
+        case 0:
+            PHASE(state) = 1;
+            return false;
+        case 1:
+            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            if (byte_data_ptr == NULL) {
+                return true;
+            }
+
+            uint8_t byte = byte_data_ptr->byte;
+            char bin_string[9];
+            sprintf(bin_string, "%c%c%c%c%c%c%c%c",
+                byte & MASK(1000, 0000) ? '1' : '0',
+                byte & MASK(0100, 0000) ? '1' : '0',
+                byte & MASK(0010, 0000) ? '1' : '0',
+                byte & MASK(0001, 0000) ? '1' : '0',
+                byte & MASK(0000, 1000) ? '1' : '0',
+                byte & MASK(0000, 0100) ? '1' : '0',
+                byte & MASK(0000, 0010) ? '1' : '0',
+                byte & MASK(0000, 0001) ? '1' : '0'
+            );
+
+            free(byte_data_ptr);
+            send_string(bin_string);
+            return true;
+    }
     return true;
 }
 
 bool fn_type_byte_oct(uint16_t code, state_t *state) {
-    // TODO: Implement
+    switch (PHASE(state)) {
+        case 0:
+            PHASE(state) = 1;
+            return false;
+        case 1:
+            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            if (byte_data_ptr == NULL) {
+                return true;
+            }
+
+            char oct_string[4];
+            sprintf(oct_string, "%03o", byte_data_ptr->byte);
+
+            free(byte_data_ptr);
+            send_string(oct_string);
+            return true;
+    }
     return true;
 }
 
 bool fn_type_byte_dec(uint16_t code, state_t *state) {
-    // TODO: Implement
+    switch (PHASE(state)) {
+        case 0:
+            PHASE(state) = 1;
+            return false;
+        case 1:
+            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            if (byte_data_ptr == NULL) {
+                return true;
+            }
+
+            char dec_string[4];
+            sprintf(dec_string, byte_data_ptr->mod ? "%03u" : "%u", byte_data_ptr->byte);
+
+            free(byte_data_ptr);
+            send_string(dec_string);
+            return true;
+    }
     return true;
 }
 

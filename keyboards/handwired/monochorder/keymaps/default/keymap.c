@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdlib.h>
 #include "print.h"
 #include "action.h"
 #include QMK_KEYBOARD_H
@@ -243,29 +244,19 @@ const uint16_t PROGMEM control_codes_b[128] = {
     [CODE(00000,00)] = 0
 };
 
-void process_chord(uint16_t keycode, uint8_t layer) {
-    bool shift = (keycode & MASK(10000,00000)) != 0;
-    bool ctrl = (keycode & MASK(01000,00000)) != 0;
-    bool alt = (keycode & MASK(00100,00000)) != 0;
+const uint16_t cancel_code = CODE(00000,00001);
+const uint16_t noop_code = CODE(11111,11111);
+
+void process_chord(uint16_t code, uint8_t layer) {
+    bool shift = (code & MASK(10000,00000)) != 0;
+    bool ctrl = (code & MASK(01000,00000)) != 0;
+    bool alt = (code & MASK(00100,00000)) != 0;
     modifiers_t modifiers = (ctrl ? M_L_CTRL : 0) | (shift ? M_L_SHIFT : 0) | (alt ? M_L_ALT : 0);
 
-    if (keycode == CODE(00000,00001)) {
-        // ----- ----9
-        // CANCEL
-
-        print("Cancel");
-        send_control_code(CC_CANCEL);
-
-    } else if (keycode == CODE(11111,11111)) {
-        // 01234 56789
-        // NOOP OVERRIDE
-
-        print("Noop Override");
-
-    } else if (MATCH(keycode, CODE(00000,00000), MASK(00000,00001))) {
+    if (MATCH(code, CODE(00000,00000), MASK(00000,00001))) {
         // mmm^^ ^^^^-
         // Keys A (64 + shift, ctrl, alt)
-        uint16_t index = (keycode & MASK(00011,11110)) >> 1;
+        uint16_t index = (code & MASK(00011,11110)) >> 1;
 
         const uint16_t (*keymap)[64] = NULL;
         if (layer < ARRAY_SIZE(keys_a)) {
@@ -280,10 +271,10 @@ void process_chord(uint16_t keycode, uint8_t layer) {
         uprintf("Keys A: %d | %d", value, modifiers);
         send_key(value, modifiers);
 
-    } else if (MATCH(keycode, CODE(00000,00101), MASK(00000,00111))) {
+    } else if (MATCH(code, CODE(00000,00101), MASK(00000,00111))) {
         // mmm^^ ^^7-9
         // Keys B (16 + shift, ctrl, alt)
-        uint16_t index = (keycode & MASK(00011,11000)) >> 3;
+        uint16_t index = (code & MASK(00011,11000)) >> 3;
 
         const uint16_t (*keymap)[16] = NULL;
         if (layer < ARRAY_SIZE(keys_b)) {
@@ -298,19 +289,19 @@ void process_chord(uint16_t keycode, uint8_t layer) {
         uprintf("Keys B: %d | %d", value, modifiers);
         send_key(value, modifiers);
 
-    } else if (MATCH(keycode, CODE(00000,00011), MASK(00000,00011))) {
+    } else if (MATCH(code, CODE(00000,00011), MASK(00000,00011))) {
         // ^^^^^ ^^^89
         // Control Codes A (256)
-        uint16_t index = (keycode & MASK(11111,11100)) >> 2;
+        uint16_t index = (code & MASK(11111,11100)) >> 2;
         uint16_t value = pgm_read_word(&control_codes_a[index]);
 
         uprintf("Control Codes A: %d", value);
         send_control_code(value);
 
-    } else if (MATCH(keycode, CODE(00000,00001), MASK(00000,00111))) {
+    } else if (MATCH(code, CODE(00000,00001), MASK(00000,00111))) {
         // ^^^^^ ^^--9
         // Control Codes B (128)
-        uint16_t index = (keycode & MASK(11111,11100)) >> 2;
+        uint16_t index = (code & MASK(11111,11100)) >> 2;
         uint16_t value = pgm_read_word(&control_codes_b[index]);
 
         uprintf("Control Codes B: %d", value);
@@ -324,3 +315,45 @@ const uint16_t PROGMEM direct_key_keymap[][10] = {
 };
 
 const size_t direct_key_keymap_count = ARRAY_SIZE(direct_key_keymap);
+
+
+
+const uint16_t zero_code = CODE(00000,10001);
+
+read_byte_data_t* read_byte_data(uint16_t code) {
+    uint16_t mod_mask = MASK(10000,00000);
+    bool mod = (code & mod_mask) != 0;
+
+    if ((code & ~mod_mask) == zero_code) {
+        read_byte_data_t* data = (read_byte_data_t*) malloc(sizeof(read_byte_data_t));
+        data->byte = 0;
+        data->mod = mod;
+        return data;
+
+    } else if ((code & MASK(00000,00001)) != 0) {
+        return NULL;
+
+    } else {
+        read_byte_data_t* data = (read_byte_data_t*) malloc(sizeof(read_byte_data_t));
+        data->byte = (code & MASK(01111,11110)) >> 1;
+        data->mod = mod;
+        return data;
+
+    }
+}
+
+uint16_t* read_9bit_data(uint16_t code) {
+    if (code == zero_code) {
+        uint16_t* data = (uint16_t*) malloc(sizeof(uint16_t));
+        *data = 0;
+        return data;
+
+    } else if ((code & MASK(00000,00001)) != 0) {
+        return NULL;
+
+    } else {
+        uint16_t* data = (uint16_t*) malloc(sizeof(uint16_t));
+        *data = (code & MASK(11111,11110)) >> 1;
+        return data;
+    }
+}

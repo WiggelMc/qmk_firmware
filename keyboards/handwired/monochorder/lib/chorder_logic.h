@@ -32,6 +32,18 @@ extern void process_chord(uint16_t keycode, uint8_t layer);
 extern const uint16_t PROGMEM direct_key_keymap[][10];
 extern const size_t direct_key_keymap_count;
 
+extern const uint16_t cancel_code;
+extern const uint16_t noop_code;
+
+typedef struct {
+    uint8_t byte;
+    bool mod;
+} read_byte_data_t;
+
+extern read_byte_data_t* read_byte_data(uint16_t code);
+extern uint16_t* read_9bit_data(uint16_t code);
+
+
 enum custom_keycodes {
     MCH_0 = SAFE_RANGE,
     MCH_1,
@@ -140,6 +152,8 @@ typedef struct state_struct {
     flags_t flags;
     function_state_t function_state;
 } state_t;
+
+#define PHASE(state) state->function_state.data[0]
 
 typedef enum {
     PHASE_IDLE,
