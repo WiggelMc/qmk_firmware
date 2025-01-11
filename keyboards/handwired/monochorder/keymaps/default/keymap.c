@@ -20,6 +20,7 @@
 #include QMK_KEYBOARD_H
 #include "../../lib/chorder_logic.h"
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * ┌───┬───┬───┬───┐       ┌───┬───┬───┬───┐
@@ -33,8 +34,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(MCH_0, MCH_1, MCH_2, MCH_3,    MCH_6, MCH_7, MCH_8, MCH_9,
 		   	       MCH_R, MCH_4,    MCH_5, MCH_R
     )};
+// clang-format on
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_chorder_logic(keycode, record)) {
         return false;
     }
@@ -42,6 +44,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+// clang-format off
 const uint16_t PROGMEM keys_a[][64] = {
     // mmm^^ ^^^^-
 
@@ -243,22 +246,23 @@ const uint16_t PROGMEM control_codes_b[128] = {
 
     [CODE(00000,00)] = 0
 };
+// clang-format on
 
-const uint16_t cancel_code = CODE(00000,00001);
-const uint16_t noop_code = CODE(11111,11111);
+const uint16_t cancel_code = CODE(00000, 00001);
+const uint16_t noop_code   = CODE(11111, 11111);
 
 void process_chord(uint16_t code, uint8_t layer) {
-    bool shift = TEST_BITS(code, MASK(10000,00000));
-    bool ctrl = TEST_BITS(code, MASK(01000,00000));
-    bool alt = TEST_BITS(code, MASK(00100,00000));
+    bool        shift     = TEST_BITS(code, MASK(10000, 00000));
+    bool        ctrl      = TEST_BITS(code, MASK(01000, 00000));
+    bool        alt       = TEST_BITS(code, MASK(00100, 00000));
     modifiers_t modifiers = (ctrl ? M_L_CTRL : 0) | (shift ? M_L_SHIFT : 0) | (alt ? M_L_ALT : 0);
 
-    if (MATCH(code, CODE(00000,00000), MASK(00000,00001))) {
+    if (MATCH(code, CODE(00000, 00000), MASK(00000, 00001))) {
         // mmm^^ ^^^^-
         // Keys A (64 + shift, ctrl, alt)
-        uint16_t index = (code & MASK(00011,11110)) >> 1;
+        uint16_t index = (code & MASK(00011, 11110)) >> 1;
 
-        const uint16_t (*keymap)[64] = NULL;
+        const uint16_t(*keymap)[64] = NULL;
         if (layer < ARRAY_SIZE(keys_a)) {
             keymap = &keys_a[layer];
         }
@@ -271,12 +275,12 @@ void process_chord(uint16_t code, uint8_t layer) {
         uprintf("Keys A: %u | %02X", value, modifiers);
         send_key(value, modifiers);
 
-    } else if (MATCH(code, CODE(00000,00101), MASK(00000,00111))) {
+    } else if (MATCH(code, CODE(00000, 00101), MASK(00000, 00111))) {
         // mmm^^ ^^7-9
         // Keys B (16 + shift, ctrl, alt)
-        uint16_t index = (code & MASK(00011,11000)) >> 3;
+        uint16_t index = (code & MASK(00011, 11000)) >> 3;
 
-        const uint16_t (*keymap)[16] = NULL;
+        const uint16_t(*keymap)[16] = NULL;
         if (layer < ARRAY_SIZE(keys_b)) {
             keymap = &keys_b[layer];
         }
@@ -289,71 +293,69 @@ void process_chord(uint16_t code, uint8_t layer) {
         uprintf("Keys B: %u | %02X", value, modifiers);
         send_key(value, modifiers);
 
-    } else if (MATCH(code, CODE(00000,00011), MASK(00000,00011))) {
+    } else if (MATCH(code, CODE(00000, 00011), MASK(00000, 00011))) {
         // ^^^^^ ^^^89
         // Control Codes A (256)
-        uint16_t index = (code & MASK(11111,11100)) >> 2;
+        uint16_t index = (code & MASK(11111, 11100)) >> 2;
         uint16_t value = pgm_read_word(&control_codes_a[index]);
 
         uprintf("Control Codes A: %u", value);
         send_control_code(value);
 
-    } else if (MATCH(code, CODE(00000,00001), MASK(00000,00111))) {
+    } else if (MATCH(code, CODE(00000, 00001), MASK(00000, 00111))) {
         // ^^^^^ ^^--9
         // Control Codes B (128)
-        uint16_t index = (code & MASK(11111,11100)) >> 2;
+        uint16_t index = (code & MASK(11111, 11100)) >> 2;
         uint16_t value = pgm_read_word(&control_codes_b[index]);
 
         uprintf("Control Codes B: %u", value);
         send_control_code(value);
-
     }
 }
 
+// clang-format off
 const uint16_t PROGMEM direct_key_keymap[][10] = {
     [0] = {KC_0, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9}
 };
+// clang-format on
 
 const size_t direct_key_keymap_count = ARRAY_SIZE(direct_key_keymap);
 
-
-
-const uint16_t zero_code = CODE(00000,10001);
+const uint16_t zero_code = CODE(00000, 10001);
 
 read_byte_data_t* read_byte_data(uint16_t code) {
-    uint16_t mod_mask = MASK(10000,00000);
-    bool mod = TEST_BITS(code, mod_mask);
+    uint16_t mod_mask = MASK(10000, 00000);
+    bool     mod      = TEST_BITS(code, mod_mask);
 
     if ((code & ~mod_mask) == zero_code) {
-        read_byte_data_t* data = (read_byte_data_t*) malloc(sizeof(read_byte_data_t));
-        data->byte = 0;
-        data->mod = mod;
+        read_byte_data_t* data = (read_byte_data_t*)malloc(sizeof(read_byte_data_t));
+        data->byte             = 0;
+        data->mod              = mod;
         return data;
 
-    } else if (TEST_BITS(code, MASK(00000,00001))) {
+    } else if (TEST_BITS(code, MASK(00000, 00001))) {
         return NULL;
 
     } else {
-        read_byte_data_t* data = (read_byte_data_t*) malloc(sizeof(read_byte_data_t));
-        data->byte = (code & MASK(01111,11110)) >> 1;
-        data->mod = mod;
+        read_byte_data_t* data = (read_byte_data_t*)malloc(sizeof(read_byte_data_t));
+        data->byte             = (code & MASK(01111, 11110)) >> 1;
+        data->mod              = mod;
         return data;
-
     }
 }
 
 uint16_t* read_9bit_data(uint16_t code) {
     if (code == zero_code) {
-        uint16_t* data = (uint16_t*) malloc(sizeof(uint16_t));
-        *data = 0;
+        uint16_t* data = (uint16_t*)malloc(sizeof(uint16_t));
+        *data          = 0;
         return data;
 
-    } else if (TEST_BITS(code, MASK(00000,00001))) {
+    } else if (TEST_BITS(code, MASK(00000, 00001))) {
         return NULL;
 
     } else {
-        uint16_t* data = (uint16_t*) malloc(sizeof(uint16_t));
-        *data = (code & MASK(11111,11110)) >> 1;
+        uint16_t* data = (uint16_t*)malloc(sizeof(uint16_t));
+        *data          = (code & MASK(11111, 11110)) >> 1;
         return data;
     }
 }

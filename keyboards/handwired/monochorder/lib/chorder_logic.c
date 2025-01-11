@@ -1,18 +1,18 @@
- /* Copyright 2024 Kim Hollstein (WiggelMc)
-  *
-  * This program is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 2 of the License, or
-  * (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
+/* Copyright 2024 Kim Hollstein (WiggelMc)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "action.h"
 #include "chorder_logic.h"
@@ -20,7 +20,6 @@
 #include QMK_KEYBOARD_H
 
 const uint16_t MCH_SAFE_RANGE = MCH_R + 1;
-
 
 void reset_flags_flag(flags_flag_t *flags) {
     flags->flag_lock = false;
@@ -31,13 +30,13 @@ void try_reset_flags_flag(flags_flag_t *flags) {
 }
 
 void reset_flags_normal(flags_normal_t *flags) {
-    flags->hold_mode = HOLD_OFF;
+    flags->hold_mode        = HOLD_OFF;
     flags->locked_hold_mode = false;
 
-    flags->layer = 0;
+    flags->layer        = 0;
     flags->locked_layer = false;
 
-    flags->modifiers = 0;
+    flags->modifiers        = 0;
     flags->locked_modifiers = 0;
 
     flags->function_lock = false;
@@ -77,35 +76,20 @@ void reset_state(state_t *state_ptr) {
     reset_function_state(&state_ptr->function_state);
 }
 
-state_t state = {
-    .flags = {
-        .normal = {
-            .hold_mode = HOLD_OFF,
-            .locked_hold_mode = false,
+state_t state = {.flags          = {.normal = {.hold_mode        = HOLD_OFF,
+                                               .locked_hold_mode = false,
 
-            .layer = 0,
-            .locked_layer = false,
+                                               .layer        = 0,
+                                               .locked_layer = false,
 
-            .modifiers = 0,
-            .locked_modifiers = 0,
+                                               .modifiers        = 0,
+                                               .locked_modifiers = 0,
 
-            .function_lock = false
-        },
-        .flag = {
-            .flag_lock = false
-        }
-    },
-    .function_state = {
-        .running = NULL,
-        .data = { 0 }
-    }
-};
+                                               .function_lock = false},
+                                    .flag   = {.flag_lock = false}},
+                 .function_state = {.running = NULL, .data = {0}}};
 
-input_state_t input_state = {
-    .current_mode = MODE_CHORD,
-    .current_phase = PHASE_IDLE,
-    .active_codes = 0
-};
+input_state_t input_state = {.current_mode = MODE_CHORD, .current_phase = PHASE_IDLE, .active_codes = 0};
 
 void process_function_initial(bool (*function)(uint16_t code, state_t *state)) {
     bool done = function(0, &state);
@@ -145,7 +129,7 @@ void handle_chord_mode(uint16_t code, bool pressed) {
     } else {
         if (input_state.current_phase == PHASE_PRESS) {
             if (input_state.active_codes == noop_code) {
-                //Do Nothing
+                // Do Nothing
             } else if (input_state.active_codes == cancel_code) {
                 cancel();
             } else if (state.function_state.running == NULL) {
@@ -166,7 +150,7 @@ void handle_reset(void) {
 }
 
 void handle_direct_key_mode(uint16_t code, bool pressed) {
-    uint8_t direct_key_index = 0; //TODO: Read dynamically (maybe wrap the states of different modes into a struct??)
+    uint8_t direct_key_index = 0; // TODO: Read dynamically (maybe wrap the states of different modes into a struct??)
 
     if (direct_key_index < direct_key_keymap_count) {
         uint16_t key = pgm_read_word(&direct_key_keymap[direct_key_index][code]);
@@ -190,14 +174,11 @@ void handle_input(uint16_t code, bool pressed) {
 }
 
 bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
-
     if (keycode >= MCH_0 && keycode <= MCH_9) {
-
         handle_input(keycode - MCH_0, record->event.pressed);
         return false;
 
     } else if (keycode == MCH_R) {
-
         if (record->event.pressed) {
             handle_reset();
         }
@@ -226,8 +207,8 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
             case HOLD_ONCE:
                 // ADD CODE to HOLD_ONCE list
 
-                //TODO: Handle Hold
-                // Store held keys in arrays: HOLD, HOLD_ONCE of type uint16_t with length 32 each
+                // TODO: Handle Hold
+                //  Store held keys in arrays: HOLD, HOLD_ONCE of type uint16_t with length 32 each
                 break;
         }
     }
@@ -246,7 +227,7 @@ bool fn_set_option(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            uint16_t* option_ptr = read_9bit_data(code);
+            uint16_t *option_ptr = read_9bit_data(code);
             if (option_ptr == NULL) {
                 return true;
             }
@@ -256,16 +237,16 @@ bool fn_set_option(uint16_t code, state_t *state) {
             PHASE(state) = 2;
             return false;
         case 2:
-            uint16_t* value_ptr = read_9bit_data(code);
+            uint16_t *value_ptr = read_9bit_data(code);
             if (value_ptr == NULL) {
                 return true;
             }
 
             uint16_t option = state->function_state.data[1];
-            uint16_t value = *value_ptr;
+            uint16_t value  = *value_ptr;
             free(value_ptr);
 
-            //TODO: Set [option] to [value]
+            // TODO: Set [option] to [value]
             uprintf("Set Option: %03u to %03u", option, value);
 
             return true;
@@ -289,7 +270,7 @@ bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            uint16_t* index_ptr = read_9bit_data(code);
+            uint16_t *index_ptr = read_9bit_data(code);
             if (index_ptr == NULL) {
                 return true;
             }
@@ -300,7 +281,7 @@ bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
                 return true;
             }
 
-            //TODO: Enter mode with [index]
+            // TODO: Enter mode with [index]
             uprintf("Enter Direct Key Mode with Index %u", index);
 
             return true;
@@ -314,7 +295,7 @@ bool fn_enter_special_mode(uint16_t code, state_t *state) {
 }
 
 bool fn_hold_release_all(uint16_t code, state_t *state) {
-    //TODO: unregister all CODES from HOLD list, clear HOLD and HOLD_ONCE list
+    // TODO: unregister all CODES from HOLD list, clear HOLD and HOLD_ONCE list
     return true;
 }
 
@@ -324,7 +305,7 @@ bool fn_type_byte_hex(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            read_byte_data_t *byte_data_ptr = read_byte_data(code);
             if (byte_data_ptr == NULL) {
                 return true;
             }
@@ -345,23 +326,14 @@ bool fn_type_byte_bin(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            read_byte_data_t *byte_data_ptr = read_byte_data(code);
             if (byte_data_ptr == NULL) {
                 return true;
             }
 
             uint8_t byte = byte_data_ptr->byte;
-            char bin_string[9];
-            sprintf(bin_string, "%c%c%c%c%c%c%c%c",
-                byte & MASK(1000, 0000) ? '1' : '0',
-                byte & MASK(0100, 0000) ? '1' : '0',
-                byte & MASK(0010, 0000) ? '1' : '0',
-                byte & MASK(0001, 0000) ? '1' : '0',
-                byte & MASK(0000, 1000) ? '1' : '0',
-                byte & MASK(0000, 0100) ? '1' : '0',
-                byte & MASK(0000, 0010) ? '1' : '0',
-                byte & MASK(0000, 0001) ? '1' : '0'
-            );
+            char    bin_string[9];
+            sprintf(bin_string, "%c%c%c%c%c%c%c%c", byte & MASK(1000, 0000) ? '1' : '0', byte & MASK(0100, 0000) ? '1' : '0', byte & MASK(0010, 0000) ? '1' : '0', byte & MASK(0001, 0000) ? '1' : '0', byte & MASK(0000, 1000) ? '1' : '0', byte & MASK(0000, 0100) ? '1' : '0', byte & MASK(0000, 0010) ? '1' : '0', byte & MASK(0000, 0001) ? '1' : '0');
 
             free(byte_data_ptr);
             send_string(bin_string);
@@ -376,7 +348,7 @@ bool fn_type_byte_oct(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            read_byte_data_t *byte_data_ptr = read_byte_data(code);
             if (byte_data_ptr == NULL) {
                 return true;
             }
@@ -397,7 +369,7 @@ bool fn_type_byte_dec(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t* byte_data_ptr = read_byte_data(code);
+            read_byte_data_t *byte_data_ptr = read_byte_data(code);
             if (byte_data_ptr == NULL) {
                 return true;
             }
@@ -411,7 +383,6 @@ bool fn_type_byte_dec(uint16_t code, state_t *state) {
     }
     return true;
 }
-
 
 bool (*get_function(uint16_t control_code))(uint16_t code, state_t *state) {
     switch (control_code) {
@@ -528,7 +499,6 @@ void send_control_code(uint16_t control_code) {
     bool is_flag = handle_flag(control_code);
 
     if (!is_flag) {
-
         bool (*f)(uint16_t code, state_t *state) = get_function(control_code);
 
         if (f != NULL) {
@@ -538,4 +508,3 @@ void send_control_code(uint16_t control_code) {
         }
     }
 }
-
