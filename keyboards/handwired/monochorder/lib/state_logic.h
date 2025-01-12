@@ -69,7 +69,7 @@ typedef enum {
 
 typedef struct {
     uint16_t last_code;
-    uint16_t last_key_code;
+    uint16_t last_keycode;
 } repeat_state_t;
 
 typedef struct {

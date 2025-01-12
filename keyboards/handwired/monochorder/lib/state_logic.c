@@ -68,8 +68,8 @@ void init_function_state(function_state_t *function_state) {
 }
 
 void init_repeat_state(repeat_state_t *repeat_state) {
-    repeat_state->last_code     = 0;
-    repeat_state->last_key_code = 0;
+    repeat_state->last_code    = 0;
+    repeat_state->last_keycode = 0;
 }
 
 void init_hold_state(hold_state_t *hold_state) {

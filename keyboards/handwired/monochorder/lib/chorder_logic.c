@@ -18,6 +18,7 @@
 #include "chorder_logic.h"
 #include "state_logic.h"
 #include "keymap_logic.h"
+#include "function_logic.h"
 #include "quantum.h"
 #include QMK_KEYBOARD_H
 
@@ -54,21 +55,27 @@ void process_function(uint16_t code, bool (*function)(uint16_t code, state_t *st
     }
 }
 
+void process_code(uint16_t code) {
+    state.chord_state.repeat_state.last_code = code;
+
+    if (code == noop_code) {
+        // Do Nothing
+    } else if (code == cancel_code) {
+        cancel();
+    } else if (state.chord_state.function_state.running == NULL) {
+        process_chord(code, state.chord_state.flags.normal.layer);
+    } else {
+        process_function(code, state.chord_state.function_state.running);
+    }
+}
+
 void handle_chord_mode(uint16_t code, bool pressed) {
     if (pressed) {
         state.chord_state.current_phase = PHASE_PRESS;
         state.active_codes |= ((uint16_t)1 << code);
     } else {
         if (state.chord_state.current_phase == PHASE_PRESS) {
-            if (state.active_codes == noop_code) {
-                // Do Nothing
-            } else if (state.active_codes == cancel_code) {
-                cancel();
-            } else if (state.chord_state.function_state.running == NULL) {
-                process_chord(state.active_codes, state.chord_state.flags.normal.layer);
-            } else {
-                process_function(state.active_codes, state.chord_state.function_state.running);
-            }
+            process_code(state.active_codes);
         }
         state.chord_state.current_phase = PHASE_IDLE;
         state.active_codes &= ~((uint16_t)1 << code);
@@ -122,10 +129,12 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
 void send_key(uint16_t keycode, modifiers_t modifiers) {
     if (keycode != 0) {
         uint16_t modified_code = ((modifiers | state.chord_state.flags.normal.modifiers) << 8) | keycode;
+
         switch (state.chord_state.flags.normal.hold_mode) {
             case HOLD_OFF:
                 // tap CODE and all CODES from HOLD_ONCE list, clear HOLD_ONCE list
                 tap_code16(modified_code);
+                state.chord_state.repeat_state.last_keycode = modified_code;
                 break;
             case HOLD_PRESS:
                 // ADD CODE to HOLD list and register

@@ -15,6 +15,7 @@
  */
 
 #include "function_logic.h"
+#include "chorder_logic.h"
 #include "keymap_logic.h"
 
 bool fn_cancel(uint16_t code, state_t *state) {
@@ -56,12 +57,17 @@ bool fn_set_option(uint16_t code, state_t *state) {
 }
 
 bool fn_repeat_last_press(uint16_t code, state_t *state) {
-    // TODO: Implement
+    process_code(state->chord_state.repeat_state.last_code);
     return true;
 }
 
 bool fn_repeat_last_result(uint16_t code, state_t *state) {
-    // TODO: Implement
+    uint16_t last_keycode = state->chord_state.repeat_state.last_keycode;
+
+    if (last_keycode != 0) {
+        tap_code16(last_keycode);
+    }
+
     return true;
 }
 
