@@ -324,39 +324,37 @@ const size_t direct_key_keymap_count = ARRAY_SIZE(direct_key_keymap);
 
 const uint16_t zero_code = CODE(00000, 10001);
 
-read_byte_data_t* read_byte_data(uint16_t code) {
+bool read_byte_data(uint16_t code, read_byte_data_t* out_data) {
     uint16_t mod_mask = MASK(10000, 00000);
     bool     mod      = TEST_BITS(code, mod_mask);
 
     if ((code & ~mod_mask) == zero_code) {
-        read_byte_data_t* data = (read_byte_data_t*)malloc(sizeof(read_byte_data_t));
-        data->byte             = 0;
-        data->mod              = mod;
-        return data;
+        out_data->byte = 0;
+        out_data->mod  = mod;
+        return true;
 
     } else if (TEST_BITS(code, MASK(00000, 00001))) {
-        return NULL;
+        out_data = NULL;
+        return false;
 
     } else {
-        read_byte_data_t* data = (read_byte_data_t*)malloc(sizeof(read_byte_data_t));
-        data->byte             = (code & MASK(01111, 11110)) >> 1;
-        data->mod              = mod;
-        return data;
+        out_data->byte = (code & MASK(01111, 11110)) >> 1;
+        out_data->mod  = mod;
+        return true;
     }
 }
 
-uint16_t* read_9bit_data(uint16_t code) {
+bool read_9bit_data(uint16_t code, uint16_t* out_data) {
     if (code == zero_code) {
-        uint16_t* data = (uint16_t*)malloc(sizeof(uint16_t));
-        *data          = 0;
-        return data;
+        *out_data = 0;
+        return true;
 
     } else if (TEST_BITS(code, MASK(00000, 00001))) {
-        return NULL;
+        out_data = NULL;
+        return false;
 
     } else {
-        uint16_t* data = (uint16_t*)malloc(sizeof(uint16_t));
-        *data          = (code & MASK(11111, 11110)) >> 1;
-        return data;
+        *out_data = (code & MASK(11111, 11110)) >> 1;
+        return true;
     }
 }

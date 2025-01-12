@@ -33,8 +33,8 @@ typedef struct {
     bool    mod;
 } read_byte_data_t;
 
-extern read_byte_data_t *read_byte_data(uint16_t code);
-extern uint16_t         *read_9bit_data(uint16_t code);
+extern bool read_byte_data(uint16_t code, read_byte_data_t *out_data);
+extern bool read_9bit_data(uint16_t code, uint16_t *out_data);
 
 #define MATCH(value, pattern, mask) ((value & mask) == (pattern & mask))
 #define CODE(v1, v2) 0b##v1##v2

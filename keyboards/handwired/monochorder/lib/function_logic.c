@@ -24,29 +24,27 @@ bool fn_cancel(uint16_t code, state_t *state) {
 }
 
 bool fn_set_option(uint16_t code, state_t *state) {
+    uint16_t option;
+
     switch (PHASE(state)) {
         case 0:
             PHASE(state) = 1;
             return false;
         case 1:
-            uint16_t *option_ptr = read_9bit_data(code);
-            if (option_ptr == NULL) {
+            if (!read_9bit_data(code, &option)) {
                 return true;
             }
 
-            state->chord_state.function_state.data[1] = *option_ptr;
-            free(option_ptr);
-            PHASE(state) = 2;
+            state->chord_state.function_state.data[1] = option;
+            PHASE(state)                              = 2;
             return false;
         case 2:
-            uint16_t *value_ptr = read_9bit_data(code);
-            if (value_ptr == NULL) {
+            uint16_t value;
+            if (!read_9bit_data(code, &value)) {
                 return true;
             }
 
-            uint16_t option = state->chord_state.function_state.data[1];
-            uint16_t value  = *value_ptr;
-            free(value_ptr);
+            option = state->chord_state.function_state.data[1];
 
             // TODO: Set [option] to [value]
             uprintf("Set Option: %03u to %03u", option, value);
@@ -77,13 +75,11 @@ bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            uint16_t *index_ptr = read_9bit_data(code);
-            if (index_ptr == NULL) {
+            uint16_t index;
+            if (!read_9bit_data(code, &index)) {
                 return true;
             }
 
-            uint16_t index = *index_ptr;
-            free(index_ptr);
             if (index >= direct_key_keymap_count) {
                 return true;
             }
@@ -112,15 +108,14 @@ bool fn_type_byte_hex(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t *byte_data_ptr = read_byte_data(code);
-            if (byte_data_ptr == NULL) {
+            read_byte_data_t byte_data;
+            if (!read_byte_data(code, &byte_data)) {
                 return true;
             }
 
             char hex_string[3];
-            sprintf(hex_string, byte_data_ptr->mod ? "%02X" : "%02x", byte_data_ptr->byte);
+            sprintf(hex_string, byte_data.mod ? "%02X" : "%02x", byte_data.byte);
 
-            free(byte_data_ptr);
             send_string(hex_string);
             return true;
     }
@@ -133,16 +128,15 @@ bool fn_type_byte_bin(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t *byte_data_ptr = read_byte_data(code);
-            if (byte_data_ptr == NULL) {
+            read_byte_data_t byte_data;
+            if (!read_byte_data(code, &byte_data)) {
                 return true;
             }
 
-            uint8_t byte = byte_data_ptr->byte;
+            uint8_t byte = byte_data.byte;
             char    bin_string[9];
             sprintf(bin_string, "%c%c%c%c%c%c%c%c", byte & MASK(1000, 0000) ? '1' : '0', byte & MASK(0100, 0000) ? '1' : '0', byte & MASK(0010, 0000) ? '1' : '0', byte & MASK(0001, 0000) ? '1' : '0', byte & MASK(0000, 1000) ? '1' : '0', byte & MASK(0000, 0100) ? '1' : '0', byte & MASK(0000, 0010) ? '1' : '0', byte & MASK(0000, 0001) ? '1' : '0');
 
-            free(byte_data_ptr);
             send_string(bin_string);
             return true;
     }
@@ -155,15 +149,14 @@ bool fn_type_byte_oct(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t *byte_data_ptr = read_byte_data(code);
-            if (byte_data_ptr == NULL) {
+            read_byte_data_t byte_data;
+            if (!read_byte_data(code, &byte_data)) {
                 return true;
             }
 
             char oct_string[4];
-            sprintf(oct_string, "%03o", byte_data_ptr->byte);
+            sprintf(oct_string, "%03o", byte_data.byte);
 
-            free(byte_data_ptr);
             send_string(oct_string);
             return true;
     }
@@ -176,15 +169,14 @@ bool fn_type_byte_dec(uint16_t code, state_t *state) {
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t *byte_data_ptr = read_byte_data(code);
-            if (byte_data_ptr == NULL) {
+            read_byte_data_t byte_data;
+            if (!read_byte_data(code, &byte_data)) {
                 return true;
             }
 
             char dec_string[4];
-            sprintf(dec_string, byte_data_ptr->mod ? "%03u" : "%u", byte_data_ptr->byte);
+            sprintf(dec_string, byte_data.mod ? "%03u" : "%u", byte_data.byte);
 
-            free(byte_data_ptr);
             send_string(dec_string);
             return true;
     }
