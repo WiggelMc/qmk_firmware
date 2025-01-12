@@ -14,16 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHORDER_LOGIC_H
-#define CHORDER_LOGIC_H
+#ifndef FUNCTION_LOGIC_H
+#define FUNCTION_LOGIC_H
 
-#include QMK_KEYBOARD_H
-#include "action.h"
+#include <stdbool.h>
+#include <stdint.h>
 #include "state_logic.h"
 
-bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
+bool (*get_function(uint16_t control_code))(uint16_t code, state_t *state);
 
-void send_key(uint16_t keycode, modifiers_t modifiers);
-void send_control_code(uint16_t control_code);
+#define PHASE(state) state->chord_state.function_state.data[0]
 
 #endif

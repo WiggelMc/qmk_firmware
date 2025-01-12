@@ -19,6 +19,7 @@
 #include "action.h"
 #include QMK_KEYBOARD_H
 #include "../../lib/chorder_logic.h"
+#include "../../lib/keymap_logic.h"
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {

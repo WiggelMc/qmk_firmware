@@ -15,6 +15,7 @@
  */
 
 #include "state_logic.h"
+#include <string.h>
 
 void init_flags_normal(flags_normal_t *flags) {
     flags->hold_mode        = HOLD_OFF;
