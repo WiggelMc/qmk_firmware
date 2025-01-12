@@ -334,7 +334,6 @@ bool read_byte_data(uint16_t code, read_byte_data_t* out_data) {
         return true;
 
     } else if (TEST_BITS(code, MASK(00000, 00001))) {
-        out_data = NULL;
         return false;
 
     } else {
@@ -350,7 +349,6 @@ bool read_9bit_data(uint16_t code, uint16_t* out_data) {
         return true;
 
     } else if (TEST_BITS(code, MASK(00000, 00001))) {
-        out_data = NULL;
         return false;
 
     } else {
