@@ -16,141 +16,73 @@
 
 #include "action.h"
 #include "chorder_logic.h"
+#include "state_logic.h"
 #include "quantum.h"
 #include QMK_KEYBOARD_H
 
 const uint16_t MCH_SAFE_RANGE = MCH_R + 1;
 
-void reset_flags_flag(flags_flag_t *flags) {
-    flags->flag_lock = false;
-}
-
-void try_reset_flags_flag(flags_flag_t *flags) {
-    flags->flag_lock = false;
-}
-
-void reset_flags_normal(flags_normal_t *flags) {
-    flags->hold_mode        = HOLD_OFF;
-    flags->locked_hold_mode = false;
-
-    flags->layer        = 0;
-    flags->locked_layer = false;
-
-    flags->modifiers        = 0;
-    flags->locked_modifiers = 0;
-
-    flags->function_lock = false;
-}
-
-void try_reset_flags_normal(flags_normal_t *flags) {
-    if (!flags->locked_hold_mode) {
-        flags->hold_mode = HOLD_OFF;
-    }
-
-    if (!flags->locked_layer) {
-        flags->layer = 0;
-    }
-
-    flags->modifiers = flags->modifiers & flags->locked_modifiers;
-
-    flags->function_lock = false;
-}
-
-void reset_flags_all(flags_t *flags) {
-    reset_flags_normal(&flags->normal);
-    reset_flags_flag(&flags->flag);
-}
-
-void try_reset_flags_all(flags_t *flags) {
-    try_reset_flags_normal(&flags->normal);
-    try_reset_flags_flag(&flags->flag);
-}
-
-void reset_function_state(function_state_t *function_state_ptr) {
-    function_state_ptr->running = NULL;
-    memset(function_state_ptr->data, 0, sizeof(function_state_ptr->data));
-}
-
-void reset_state(state_t *state_ptr) {
-    reset_flags_all(&state_ptr->flags);
-    reset_function_state(&state_ptr->function_state);
-}
-
-state_t state = {.flags          = {.normal = {.hold_mode        = HOLD_OFF,
-                                               .locked_hold_mode = false,
-
-                                               .layer        = 0,
-                                               .locked_layer = false,
-
-                                               .modifiers        = 0,
-                                               .locked_modifiers = 0,
-
-                                               .function_lock = false},
-                                    .flag   = {.flag_lock = false}},
-                 .function_state = {.running = NULL, .data = {0}}};
-
-input_state_t input_state = {.current_mode = MODE_CHORD, .current_phase = PHASE_IDLE, .active_codes = 0};
+state_t state;
 
 void process_function_initial(bool (*function)(uint16_t code, state_t *state)) {
     bool done = function(0, &state);
 
     if (done) {
-        reset_function_state(&state.function_state);
-        try_reset_flags_all(&state.flags);
+        init_function_state(&state.chord_state.function_state);
+        reset_unlocked_flags(&state.chord_state.flags);
     } else {
-        state.function_state.running = function;
+        state.chord_state.function_state.running = function;
     }
 }
 
 void cancel(void) {
-    reset_flags_all(&state.flags);
-    reset_function_state(&state.function_state);
+    init_flags(&state.chord_state.flags);
+    init_function_state(&state.chord_state.function_state);
 }
 
 void process_function(uint16_t code, bool (*function)(uint16_t code, state_t *state)) {
-    bool done = state.function_state.running(input_state.active_codes, &state);
+    bool done = state.chord_state.function_state.running(state.active_codes, &state);
 
     if (done) {
-        bool (*f)(uint16_t code, state_t *state) = state.function_state.running;
-        reset_function_state(&state.function_state);
+        bool (*f)(uint16_t code, state_t *state) = state.chord_state.function_state.running;
+        init_function_state(&state.chord_state.function_state);
 
-        if (state.flags.normal.function_lock) {
+        if (state.chord_state.flags.normal.function_lock) {
             process_function_initial(f);
         } else {
-            try_reset_flags_all(&state.flags);
+            reset_unlocked_flags(&state.chord_state.flags);
         }
     }
 }
 
 void handle_chord_mode(uint16_t code, bool pressed) {
     if (pressed) {
-        input_state.current_phase = PHASE_PRESS;
-        input_state.active_codes |= ((uint16_t)1 << code);
+        state.chord_state.current_phase = PHASE_PRESS;
+        state.active_codes |= ((uint16_t)1 << code);
     } else {
-        if (input_state.current_phase == PHASE_PRESS) {
-            if (input_state.active_codes == noop_code) {
+        if (state.chord_state.current_phase == PHASE_PRESS) {
+            if (state.active_codes == noop_code) {
                 // Do Nothing
-            } else if (input_state.active_codes == cancel_code) {
+            } else if (state.active_codes == cancel_code) {
                 cancel();
-            } else if (state.function_state.running == NULL) {
-                process_chord(input_state.active_codes, state.flags.normal.layer);
+            } else if (state.chord_state.function_state.running == NULL) {
+                process_chord(state.active_codes, state.chord_state.flags.normal.layer);
             } else {
-                process_function(input_state.active_codes, state.function_state.running);
+                process_function(state.active_codes, state.chord_state.function_state.running);
             }
         }
-        input_state.current_phase = PHASE_IDLE;
-        input_state.active_codes &= ~((uint16_t)1 << code);
+        state.chord_state.current_phase = PHASE_IDLE;
+        state.active_codes &= ~((uint16_t)1 << code);
     }
 }
 
 void handle_reset(void) {
     // TODO: Release all HOLD keys
-    reset_state(&state);
-    input_state.current_mode = MODE_CHORD; // TODO: Reset input_state (wrap in function, eg. switch state)
+    init_state(&state);
 }
 
 void handle_direct_key_mode(uint16_t code, bool pressed) {
-    uint8_t direct_key_index = 0; // TODO: Read dynamically (maybe wrap the states of different modes into a struct??)
+    uint8_t direct_key_index = state.direct_key_state.active_index;
 
     if (direct_key_index < direct_key_keymap_count) {
         uint16_t key = pgm_read_word(&direct_key_keymap[direct_key_index][code]);
@@ -163,7 +95,7 @@ void handle_direct_key_mode(uint16_t code, bool pressed) {
 }
 
 void handle_input(uint16_t code, bool pressed) {
-    switch (input_state.current_mode) {
+    switch (state.current_mode) {
         case MODE_CHORD:
             handle_chord_mode(code, pressed);
             break;
@@ -190,8 +122,8 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
 
 void send_key(uint16_t keycode, modifiers_t modifiers) {
     if (keycode != 0) {
-        uint16_t modified_code = ((modifiers | state.flags.normal.modifiers) << 8) | keycode;
-        switch (state.flags.normal.hold_mode) {
+        uint16_t modified_code = ((modifiers | state.chord_state.flags.normal.modifiers) << 8) | keycode;
+        switch (state.chord_state.flags.normal.hold_mode) {
             case HOLD_OFF:
                 // tap CODE and all CODES from HOLD_ONCE list, clear HOLD_ONCE list
                 tap_code16(modified_code);
@@ -213,7 +145,7 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
         }
     }
 
-    try_reset_flags_all(&state.flags);
+    reset_unlocked_flags(&state.chord_state.flags);
 }
 
 bool fn_cancel(uint16_t code, state_t *state) {
@@ -232,7 +164,7 @@ bool fn_set_option(uint16_t code, state_t *state) {
                 return true;
             }
 
-            state->function_state.data[1] = *option_ptr;
+            state->chord_state.function_state.data[1] = *option_ptr;
             free(option_ptr);
             PHASE(state) = 2;
             return false;
@@ -242,7 +174,7 @@ bool fn_set_option(uint16_t code, state_t *state) {
                 return true;
             }
 
-            uint16_t option = state->function_state.data[1];
+            uint16_t option = state->chord_state.function_state.data[1];
             uint16_t value  = *value_ptr;
             free(value_ptr);
 
@@ -414,24 +346,24 @@ bool (*get_function(uint16_t control_code))(uint16_t code, state_t *state) {
 }
 
 void handle_flag_modifier(modifiers_t modifier) {
-    if (state.flags.flag.flag_lock) {
-        state.flags.normal.locked_modifiers |= modifier;
+    if (state.chord_state.flags.flag.flag_lock) {
+        state.chord_state.flags.normal.locked_modifiers |= modifier;
     }
-    state.flags.normal.modifiers |= modifier;
+    state.chord_state.flags.normal.modifiers |= modifier;
 }
 
 void handle_flag_layer(uint8_t layer) {
-    if (state.flags.flag.flag_lock) {
-        state.flags.normal.locked_layer = true;
+    if (state.chord_state.flags.flag.flag_lock) {
+        state.chord_state.flags.normal.locked_layer = true;
     }
-    state.flags.normal.layer = layer;
+    state.chord_state.flags.normal.layer = layer;
 }
 
 void handle_flag_hold(hold_mode_t hold_mode) {
-    if (state.flags.flag.flag_lock) {
-        state.flags.normal.locked_hold_mode = true;
+    if (state.chord_state.flags.flag.flag_lock) {
+        state.chord_state.flags.normal.locked_hold_mode = true;
     }
-    state.flags.normal.hold_mode = hold_mode;
+    state.chord_state.flags.normal.hold_mode = hold_mode;
 }
 
 bool handle_flag(uint16_t control_code) {
@@ -482,16 +414,16 @@ bool handle_flag(uint16_t control_code) {
             handle_flag_hold(HOLD_ONCE);
             break;
         case CC_FLAG_LOCK_FLAG:
-            state.flags.flag.flag_lock = true;
+            state.chord_state.flags.flag.flag_lock = true;
             return true; // RETURN EARLY (dont reset flags)
         case CC_FLAG_LOCK_FUNCTION:
-            state.flags.normal.function_lock = true;
+            state.chord_state.flags.normal.function_lock = true;
             break;
         default:
             return false;
     }
 
-    try_reset_flags_flag(&state.flags.flag);
+    reset_unlocked_flags_flag(&state.chord_state.flags.flag);
     return true;
 }
 
@@ -504,7 +436,7 @@ void send_control_code(uint16_t control_code) {
         if (f != NULL) {
             process_function_initial(f);
         } else {
-            try_reset_flags_all(&state.flags);
+            reset_unlocked_flags(&state.chord_state.flags);
         }
     }
 }

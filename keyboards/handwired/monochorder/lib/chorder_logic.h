@@ -19,6 +19,7 @@
 
 #include QMK_KEYBOARD_H
 #include "action.h"
+#include "state_logic.h"
 
 #define MATCH(value, pattern, mask) ((value & mask) == (pattern & mask))
 #define CODE(v1, v2) 0b##v1##v2
@@ -44,17 +45,6 @@ extern uint16_t         *read_9bit_data(uint16_t code);
 
 enum custom_keycodes { MCH_0 = SAFE_RANGE, MCH_1, MCH_2, MCH_3, MCH_4, MCH_5, MCH_6, MCH_7, MCH_8, MCH_9, MCH_R };
 const uint16_t MCH_SAFE_RANGE;
-
-typedef enum {
-    M_L_CTRL  = 1 << 0,
-    M_L_SHIFT = 1 << 1,
-    M_L_ALT   = 1 << 2,
-    M_L_META  = 1 << 3,
-    M_R_CTRL  = 1 << 4,
-    M_R_SHIFT = 1 << 5,
-    M_R_ALT   = 1 << 6,
-    M_R_META  = 1 << 7,
-} modifiers_t;
 
 bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
 
@@ -98,58 +88,6 @@ enum control_codes {
     CC_TYPE_BYTE_DEC,
 };
 
-typedef enum { HOLD_OFF, HOLD_PRESS, HOLD_RELEASE, HOLD_ONCE } hold_mode_t;
-
-typedef struct {
-    hold_mode_t hold_mode;
-    bool        locked_hold_mode;
-
-    uint8_t layer;
-    bool    locked_layer;
-
-    modifiers_t modifiers;
-    modifiers_t locked_modifiers;
-
-    bool function_lock;
-} flags_normal_t;
-
-typedef struct {
-    bool flag_lock;
-} flags_flag_t;
-
-typedef struct {
-    flags_normal_t normal;
-    flags_flag_t   flag;
-} flags_t;
-
-typedef struct state_struct state_t;
-
-typedef struct {
-    bool (*running)(uint16_t code, state_t *state);
-    uint16_t data[16];
-} function_state_t;
-
-typedef struct state_struct {
-    flags_t          flags;
-    function_state_t function_state;
-} state_t;
-
-#define PHASE(state) state->function_state.data[0]
-
-typedef enum {
-    PHASE_IDLE,
-    PHASE_PRESS,
-} chorder_phase_t;
-
-typedef enum {
-    MODE_CHORD,
-    MODE_DIRECT_INPUT,
-} chorder_mode_t;
-
-typedef struct {
-    uint16_t        active_codes;
-    chorder_phase_t current_phase;
-    chorder_mode_t  current_mode;
-} input_state_t;
+#define PHASE(state) state->chord_state.function_state.data[0]
 
 #endif
