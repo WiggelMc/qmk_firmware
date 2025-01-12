@@ -113,6 +113,8 @@ void init_repeat_state(repeat_state_t *repeat_state);
 void init_hold_state(hold_state_t *hold_state);
 void init_chord_state(chord_state_t *chord_state);
 void init_direct_key_state(direct_key_state_t *direct_key_state);
+
 void init_state(state_t *state);
+void reset_state(state_t *state);
 
 #endif

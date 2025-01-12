@@ -84,7 +84,7 @@ bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
                 return true;
             }
 
-            // TODO: Enter mode with [index]
+            enter_direct_key_mode(index);
             uprintf("Enter Direct Key Mode with Index %u", index);
 
             return true;

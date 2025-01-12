@@ -36,10 +36,10 @@ typedef struct {
 extern bool read_byte_data(uint16_t code, read_byte_data_t *out_data);
 extern bool read_9bit_data(uint16_t code, uint16_t *out_data);
 
-#define MATCH(value, pattern, mask) ((value & mask) == (pattern & mask))
+#define MATCH(value, pattern, mask) (((value) & (mask)) == ((pattern) & (mask)))
 #define CODE(v1, v2) 0b##v1##v2
 #define MASK(v1, v2) CODE(v1, v2)
-#define TEST_BITS(value, mask) ((value & mask) != 0)
+#define TEST_BITS(value, mask) (((value) & (mask)) != 0)
 
 #define KC_RESERVED 0
 

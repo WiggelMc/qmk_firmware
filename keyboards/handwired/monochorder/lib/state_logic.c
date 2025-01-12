@@ -89,9 +89,13 @@ void init_direct_key_state(direct_key_state_t *direct_key_state) {
     direct_key_state->active_index = 0;
 }
 
-void init_state(state_t *state) {
+void reset_state(state_t *state) {
     state->current_mode = MODE_CHORD;
-    state->active_codes = 0;
     init_chord_state(&state->chord_state);
     init_direct_key_state(&state->direct_key_state);
+}
+
+void init_state(state_t *state) {
+    state->active_codes = 0;
+    reset_state(state);
 }

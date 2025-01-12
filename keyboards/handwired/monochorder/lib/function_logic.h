@@ -23,6 +23,6 @@
 
 bool (*get_function(uint16_t control_code))(uint16_t code, state_t *state);
 
-#define PHASE(state) state->chord_state.function_state.data[0]
+#define PHASE(state) (state->chord_state.function_state.data[0])
 
 #endif

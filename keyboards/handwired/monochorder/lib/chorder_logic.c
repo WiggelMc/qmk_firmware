@@ -40,6 +40,11 @@ void cancel(void) {
     init_function_state(&state.chord_state.function_state);
 }
 
+void enter_direct_key_mode(uint16_t index) {
+    state.direct_key_state.active_index = index;
+    state.current_mode                  = MODE_DIRECT_INPUT;
+}
+
 void process_function(uint16_t code, bool (*function)(uint16_t code, state_t *state)) {
     bool done = state.chord_state.function_state.running(state.active_codes, &state);
 
@@ -72,19 +77,12 @@ void process_code(uint16_t code) {
 void handle_chord_mode(uint16_t code, bool pressed) {
     if (pressed) {
         state.chord_state.current_phase = PHASE_PRESS;
-        state.active_codes |= ((uint16_t)1 << code);
     } else {
         if (state.chord_state.current_phase == PHASE_PRESS) {
             process_code(state.active_codes);
         }
         state.chord_state.current_phase = PHASE_IDLE;
-        state.active_codes &= ~((uint16_t)1 << code);
     }
-}
-
-void handle_reset(void) {
-    // TODO: Release all HOLD keys
-    init_state(&state);
 }
 
 void handle_direct_key_mode(uint16_t code, bool pressed) {
@@ -100,6 +98,31 @@ void handle_direct_key_mode(uint16_t code, bool pressed) {
     }
 }
 
+void handle_reset(void) {
+    for (uint16_t i = 0; i < sizeof(state.chord_state.hold_state.hold_keys); i++) {
+        uint16_t key = state.chord_state.hold_state.hold_keys[i];
+        if (key != 0) {
+            unregister_code16(key);
+        }
+    }
+    for (uint16_t i = 0; i < sizeof(state.chord_state.hold_state.hold_once_keys); i++) {
+        uint16_t key = state.chord_state.hold_state.hold_once_keys[i];
+        if (key != 0) {
+            unregister_code16(key);
+        }
+    }
+
+    if (state.current_mode == MODE_DIRECT_INPUT) {
+        for (uint16_t i = 0; i < 16; i++) {
+            if (TEST_BITS(state.active_codes, 1 << i)) {
+                handle_direct_key_mode(i, false);
+            }
+        }
+    }
+
+    reset_state(&state);
+}
+
 void handle_input(uint16_t code, bool pressed) {
     switch (state.current_mode) {
         case MODE_CHORD:
@@ -108,6 +131,12 @@ void handle_input(uint16_t code, bool pressed) {
         case MODE_DIRECT_INPUT:
             handle_direct_key_mode(code, pressed);
             break;
+    }
+
+    if (pressed) {
+        state.active_codes |= ((uint16_t)1 << code);
+    } else {
+        state.active_codes &= ~((uint16_t)1 << code);
     }
 }
 

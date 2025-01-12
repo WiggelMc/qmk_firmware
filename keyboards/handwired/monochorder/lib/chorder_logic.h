@@ -28,5 +28,6 @@ void send_control_code(uint16_t control_code);
 
 void cancel(void);
 void process_code(uint16_t code);
+void enter_direct_key_mode(uint16_t index);
 
 #endif
