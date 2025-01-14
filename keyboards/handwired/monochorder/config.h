@@ -16,8 +16,11 @@
 
 #pragma once
 
-#define SPLIT_HAND_PIN F5
-#define USE_I2C
+#define SPLIT_HAND_PIN GP6
+
+#define SERIAL_USART_FULL_DUPLEX
+#define SERIAL_USART_TX_PIN GP7
+#define SERIAL_USART_RX_PIN GP8
 
 #define BOOTMAGIC_ROW 0
 #define BOOTMAGIC_COLUMN 1
