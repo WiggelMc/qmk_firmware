@@ -19,8 +19,8 @@
 #include "state_logic.h"
 #include "keymap_logic.h"
 #include "function_logic.h"
+#include "key_set.h"
 #include "quantum.h"
-#include QMK_KEYBOARD_H
 
 state_t state;
 
@@ -99,13 +99,16 @@ void handle_direct_key_mode(uint16_t code, bool pressed) {
 }
 
 void handle_reset(void) {
-    for (uint16_t i = 0; i < sizeof(state.chord_state.hold_state.hold_keys); i++) {
+    size_t hold_size = keyset_size(ARR(state.chord_state.hold_state.hold_keys));
+    for (uint16_t i = 0; i < hold_size; i++) {
         uint16_t key = state.chord_state.hold_state.hold_keys[i];
         if (key != 0) {
             unregister_code16(key);
         }
     }
-    for (uint16_t i = 0; i < sizeof(state.chord_state.hold_state.hold_once_keys); i++) {
+
+    size_t hold_once_size = keyset_size(ARR(state.chord_state.hold_state.hold_once_keys));
+    for (uint16_t i = 0; i < hold_once_size; i++) {
         uint16_t key = state.chord_state.hold_state.hold_once_keys[i];
         if (key != 0) {
             unregister_code16(key);
@@ -157,27 +160,59 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
 
 void send_key(uint16_t keycode, modifiers_t modifiers) {
     if (keycode != 0) {
-        uint16_t modified_code = ((modifiers | state.chord_state.flags.normal.modifiers) << 8) | keycode;
+        uint16_t code_modifiers = ((modifiers | state.chord_state.flags.normal.modifiers) << 8);
+        uint16_t modified_code  = code_modifiers | keycode;
+
+        bool removed_from_hold;
+        bool removed_from_hold_once;
 
         switch (state.chord_state.flags.normal.hold_mode) {
             case HOLD_OFF:
-                // tap CODE and all CODES from HOLD_ONCE list, clear HOLD_ONCE list
+                // tap CODE and release all CODES from HOLD_ONCE list, clear HOLD_ONCE list
+
+                size_t hold_once_size = keyset_size(ARR(state.chord_state.hold_state.hold_once_keys));
+
                 tap_code16(modified_code);
+                for (size_t i = 0; i < hold_once_size; i++) {
+                    unregister_code16(state.chord_state.hold_state.hold_once_keys[i]);
+                }
+                keyset_clear(ARR(state.chord_state.hold_state.hold_once_keys));
+
                 state.chord_state.repeat_state.last_keycode = modified_code;
                 break;
             case HOLD_PRESS:
-                // ADD CODE to HOLD list and register
-                register_code16(modified_code);
+                // ADD CODE to HOLD list and register (+ remove from hold once list)
+
+                removed_from_hold_once = keyset_remove(ARR(state.chord_state.hold_state.hold_once_keys), modified_code);
+                if (keyset_add(ARR(state.chord_state.hold_state.hold_keys), modified_code)) {
+                    if (!removed_from_hold_once) {
+                        register_code16(modified_code);
+                    }
+                } else if (removed_from_hold_once) {
+                    unregister_code16(modified_code);
+                }
                 break;
             case HOLD_RELEASE:
                 // REMOVE CODE from HOLD and HOLD_ONCE list and unregister
-                unregister_code16(modified_code);
+
+                removed_from_hold      = keyset_remove(ARR(state.chord_state.hold_state.hold_keys), modified_code);
+                removed_from_hold_once = keyset_remove(ARR(state.chord_state.hold_state.hold_once_keys), modified_code);
+
+                if (removed_from_hold || removed_from_hold_once) {
+                    unregister_code16(modified_code);
+                }
                 break;
             case HOLD_ONCE:
-                // ADD CODE to HOLD_ONCE list
+                // ADD CODE to HOLD_ONCE list and register (+ remove from hold list)
 
-                // TODO: Handle Hold
-                //  Store held keys in arrays: HOLD, HOLD_ONCE of type uint16_t with length 32 each
+                removed_from_hold = keyset_remove(ARR(state.chord_state.hold_state.hold_keys), modified_code);
+                if (keyset_add(ARR(state.chord_state.hold_state.hold_once_keys), modified_code)) {
+                    if (!removed_from_hold) {
+                        register_code16(modified_code);
+                    }
+                } else if (removed_from_hold) {
+                    unregister_code16(modified_code);
+                }
                 break;
         }
     }

@@ -14,19 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHORDER_LOGIC_H
-#define CHORDER_LOGIC_H
+#ifndef KEY_SET_H
+#define KEY_SET_H
 
-#include "action.h"
-#include "state_logic.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include "quantum.h"
 
-bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
+#define ARR(array) array, ARRAY_SIZE(array)
 
-void send_key(uint16_t keycode, modifiers_t modifiers);
-void send_control_code(uint16_t control_code);
-
-void cancel(void);
-void process_code(uint16_t code);
-void enter_direct_key_mode(uint16_t index);
+bool   keyset_add(uint16_t *set, size_t size, uint16_t value);
+bool   keyset_remove(uint16_t *set, size_t size, uint16_t value);
+bool   keyset_contains(uint16_t *set, size_t size, uint16_t value);
+void   keyset_clear(uint16_t *set, size_t size);
+size_t keyset_size(uint16_t *set, size_t size);
 
 #endif
