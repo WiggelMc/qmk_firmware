@@ -95,7 +95,7 @@ void handle_direct_key_mode(uint16_t code, bool pressed) {
 
 void hold_release_all(void) {
     size_t hold_size = keyset_size(ARR(state.chord_state.hold_state.hold_keys));
-    for (uint16_t i = 0; i < hold_size; i++) {
+    for (size_t i = 0; i < hold_size; i++) {
         uint16_t key = state.chord_state.hold_state.hold_keys[i];
         if (key != 0) {
             unregister_code16(key);
@@ -104,7 +104,7 @@ void hold_release_all(void) {
     keyset_clear(ARR(state.chord_state.hold_state.hold_keys));
 
     size_t hold_once_size = keyset_size(ARR(state.chord_state.hold_state.hold_once_keys));
-    for (uint16_t i = 0; i < hold_once_size; i++) {
+    for (size_t i = 0; i < hold_once_size; i++) {
         uint16_t key = state.chord_state.hold_state.hold_once_keys[i];
         if (key != 0) {
             unregister_code16(key);

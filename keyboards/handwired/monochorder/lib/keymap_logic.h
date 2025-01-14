@@ -40,7 +40,7 @@ typedef struct {
     uint16_t tap_code_delay;
 } option_mapping_t;
 
-extern option_mapping_t option_mapping;
+extern const option_mapping_t option_mapping;
 
 #define MATCH(value, pattern, mask) (((value) & (mask)) == ((pattern) & (mask)))
 #define CODE(v1, v2) 0b##v1##v2

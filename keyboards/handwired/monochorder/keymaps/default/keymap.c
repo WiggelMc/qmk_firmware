@@ -49,15 +49,7 @@ void keyboard_post_init_user(void) {
     init_chorder_logic();
 }
 
-void default_options_init(options_state_t* options_state) {
-    options_state->tap_code_delay = 0;
-}
-
 // clang-format off
-option_mapping_t option_mapping = {
-    .tap_code_delay = CODE(10001,0000)
-};
-
 const uint16_t PROGMEM keys_a[][64] = {
     // mmm^^ ^^^^-
 
@@ -261,56 +253,45 @@ const uint16_t PROGMEM control_codes_b[128] = {
 };
 // clang-format on
 
-const uint16_t cancel_code = CODE(00000, 00001);
-const uint16_t noop_code   = CODE(11111, 11111);
-
 void process_chord(uint16_t code, uint8_t layer) {
-    bool        shift     = TEST_BITS(code, MASK(10000, 00000));
-    bool        ctrl      = TEST_BITS(code, MASK(01000, 00000));
-    bool        alt       = TEST_BITS(code, MASK(00100, 00000));
-    modifiers_t modifiers = (ctrl ? M_L_CTRL : 0) | (shift ? M_L_SHIFT : 0) | (alt ? M_L_ALT : 0);
+    const bool        shift     = TEST_BITS(code, MASK(10000, 00000));
+    const bool        ctrl      = TEST_BITS(code, MASK(01000, 00000));
+    const bool        alt       = TEST_BITS(code, MASK(00100, 00000));
+    const modifiers_t modifiers = (ctrl ? M_L_CTRL : 0) | (shift ? M_L_SHIFT : 0) | (alt ? M_L_ALT : 0);
 
     if (MATCH(code, CODE(00000, 00000), MASK(00000, 00001))) {
         // mmm^^ ^^^^-
         // Keys A (64 + shift, ctrl, alt)
-        uint16_t index = (code & MASK(00011, 11110)) >> 1;
 
-        const uint16_t(*keymap)[64] = NULL;
         if (layer < ARRAY_SIZE(keys_a)) {
-            keymap = &keys_a[layer];
-        }
+            const uint16_t index = (code & MASK(00011, 11110)) >> 1;
 
-        uint16_t value = 0;
-        if (keymap != NULL) {
-            value = pgm_read_word(keymap[index]);
-        }
+            const uint16_t(*keymap)[64] = &keys_a[layer];
+            const uint16_t value        = pgm_read_word(keymap[index]);
 
-        uprintf("Keys A: %u | %02X", value, modifiers);
-        send_key(value, modifiers);
+            uprintf("Keys A: %u | %02X", value, modifiers);
+            send_key(value, modifiers);
+        }
 
     } else if (MATCH(code, CODE(00000, 00101), MASK(00000, 00111))) {
         // mmm^^ ^^7-9
         // Keys B (16 + shift, ctrl, alt)
-        uint16_t index = (code & MASK(00011, 11000)) >> 3;
 
-        const uint16_t(*keymap)[16] = NULL;
         if (layer < ARRAY_SIZE(keys_b)) {
-            keymap = &keys_b[layer];
-        }
+            const uint16_t index = (code & MASK(00011, 11000)) >> 3;
 
-        uint16_t value = 0;
-        if (keymap != NULL) {
-            value = pgm_read_word(keymap[index]);
-        }
+            const uint16_t(*keymap)[16] = &keys_b[layer];
+            const uint16_t value        = pgm_read_word(keymap[index]);
 
-        uprintf("Keys B: %u | %02X", value, modifiers);
-        send_key(value, modifiers);
+            uprintf("Keys B: %u | %02X", value, modifiers);
+            send_key(value, modifiers);
+        }
 
     } else if (MATCH(code, CODE(00000, 00011), MASK(00000, 00011))) {
         // ^^^^^ ^^^89
         // Control Codes A (256)
-        uint16_t index = (code & MASK(11111, 11100)) >> 2;
-        uint16_t value = pgm_read_word(&control_codes_a[index]);
+        const uint16_t index = (code & MASK(11111, 11100)) >> 2;
+        const uint16_t value = pgm_read_word(&control_codes_a[index]);
 
         uprintf("Control Codes A: %u", value);
         send_control_code(value);
@@ -318,8 +299,8 @@ void process_chord(uint16_t code, uint8_t layer) {
     } else if (MATCH(code, CODE(00000, 00001), MASK(00000, 00111))) {
         // ^^^^^ ^^--9
         // Control Codes B (128)
-        uint16_t index = (code & MASK(11111, 11100)) >> 2;
-        uint16_t value = pgm_read_word(&control_codes_b[index]);
+        const uint16_t index = (code & MASK(11111, 11100)) >> 2;
+        const uint16_t value = pgm_read_word(&control_codes_b[index]);
 
         uprintf("Control Codes B: %u", value);
         send_control_code(value);
@@ -334,11 +315,24 @@ const uint16_t PROGMEM direct_key_keymap[][10] = {
 
 const size_t direct_key_keymap_count = ARRAY_SIZE(direct_key_keymap);
 
+const uint16_t cancel_code = CODE(00000, 00001);
+const uint16_t noop_code   = CODE(11111, 11111);
+
+void default_options_init(options_state_t* options_state) {
+    options_state->tap_code_delay = 0;
+}
+
+// clang-format off
+const option_mapping_t option_mapping = {
+    .tap_code_delay = CODE(10001,0000)
+};
+// clang-format on
+
 const uint16_t zero_code = CODE(00000, 10001);
 
 bool read_byte_data(uint16_t code, read_byte_data_t* out_data) {
-    uint16_t mod_mask = MASK(10000, 00000);
-    bool     mod      = TEST_BITS(code, mod_mask);
+    const uint16_t mod_mask = MASK(10000, 00000);
+    const bool     mod      = TEST_BITS(code, mod_mask);
 
     if ((code & ~mod_mask) == zero_code) {
         out_data->byte = 0;
