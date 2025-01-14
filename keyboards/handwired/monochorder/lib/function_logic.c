@@ -25,6 +25,7 @@ bool fn_cancel(uint16_t code, state_t *state) {
 
 bool fn_set_option(uint16_t code, state_t *state) {
     uint16_t option;
+    uint16_t value;
 
     switch (PHASE(state)) {
         case 0:
@@ -39,7 +40,6 @@ bool fn_set_option(uint16_t code, state_t *state) {
             PHASE(state)                              = 2;
             return false;
         case 2:
-            uint16_t value;
             if (!read_9bit_data(code, &value)) {
                 return true;
             }
@@ -70,12 +70,13 @@ bool fn_repeat_last_result(uint16_t code, state_t *state) {
 }
 
 bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
+    uint16_t index;
+
     switch (PHASE(state)) {
         case 0:
             PHASE(state) = 1;
             return false;
         case 1:
-            uint16_t index;
             if (!read_9bit_data(code, &index)) {
                 return true;
             }
@@ -103,12 +104,13 @@ bool fn_hold_release_all(uint16_t code, state_t *state) {
 }
 
 bool fn_type_byte_hex(uint16_t code, state_t *state) {
+    read_byte_data_t byte_data;
+
     switch (PHASE(state)) {
         case 0:
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t byte_data;
             if (!read_byte_data(code, &byte_data)) {
                 return true;
             }
@@ -123,12 +125,13 @@ bool fn_type_byte_hex(uint16_t code, state_t *state) {
 }
 
 bool fn_type_byte_bin(uint16_t code, state_t *state) {
+    read_byte_data_t byte_data;
+
     switch (PHASE(state)) {
         case 0:
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t byte_data;
             if (!read_byte_data(code, &byte_data)) {
                 return true;
             }
@@ -144,12 +147,13 @@ bool fn_type_byte_bin(uint16_t code, state_t *state) {
 }
 
 bool fn_type_byte_oct(uint16_t code, state_t *state) {
+    read_byte_data_t byte_data;
+
     switch (PHASE(state)) {
         case 0:
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t byte_data;
             if (!read_byte_data(code, &byte_data)) {
                 return true;
             }
@@ -164,12 +168,13 @@ bool fn_type_byte_oct(uint16_t code, state_t *state) {
 }
 
 bool fn_type_byte_dec(uint16_t code, state_t *state) {
+    read_byte_data_t byte_data;
+
     switch (PHASE(state)) {
         case 0:
             PHASE(state) = 1;
             return false;
         case 1:
-            read_byte_data_t byte_data;
             if (!read_byte_data(code, &byte_data)) {
                 return true;
             }

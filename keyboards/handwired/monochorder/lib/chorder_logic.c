@@ -40,11 +40,6 @@ void cancel(void) {
     init_function_state(&state.chord_state.function_state);
 }
 
-void enter_direct_key_mode(uint16_t index) {
-    state.direct_key_state.active_index = index;
-    state.current_mode                  = MODE_DIRECT_INPUT;
-}
-
 void process_function(uint16_t code, bool (*function)(uint16_t code, state_t *state)) {
     bool done = state.chord_state.function_state.running(state.active_codes, &state);
 
@@ -126,6 +121,12 @@ void handle_reset(void) {
     reset_state(&state);
 }
 
+void enter_direct_key_mode(uint16_t index) {
+    handle_reset();
+    state.direct_key_state.active_index = index;
+    state.current_mode                  = MODE_DIRECT_INPUT;
+}
+
 void handle_input(uint16_t code, bool pressed) {
     switch (state.current_mode) {
         case MODE_CHORD:
@@ -163,6 +164,7 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
         uint16_t code_modifiers = ((modifiers | state.chord_state.flags.normal.modifiers) << 8);
         uint16_t modified_code  = code_modifiers | keycode;
 
+        size_t hold_once_size;
         bool removed_from_hold;
         bool removed_from_hold_once;
 
@@ -170,7 +172,7 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
             case HOLD_OFF:
                 // tap CODE and release all CODES from HOLD_ONCE list, clear HOLD_ONCE list
 
-                size_t hold_once_size = keyset_size(ARR(state.chord_state.hold_state.hold_once_keys));
+                hold_once_size = keyset_size(ARR(state.chord_state.hold_state.hold_once_keys));
 
                 tap_code16(modified_code);
                 for (size_t i = 0; i < hold_once_size; i++) {
