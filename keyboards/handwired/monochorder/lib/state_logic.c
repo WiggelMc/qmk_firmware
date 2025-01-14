@@ -89,10 +89,16 @@ void init_direct_key_state(direct_key_state_t *direct_key_state) {
     direct_key_state->active_index = 0;
 }
 
+void init_options_state(options_state_t *options_state) {
+    options_state->tap_code_delay = 0;
+    default_options_init(options_state);
+}
+
 void reset_state(state_t *state) {
     state->current_mode = MODE_CHORD;
     init_chord_state(&state->chord_state);
     init_direct_key_state(&state->direct_key_state);
+    init_options_state(&state->options_state);
 }
 
 void init_state(state_t *state) {

@@ -45,7 +45,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     return true;
 }
 
+void keyboard_post_init_user(void) {
+    init_chorder_logic();
+}
+
+void default_options_init(options_state_t* options_state) {
+    options_state->tap_code_delay = 0;
+}
+
 // clang-format off
+option_mapping_t option_mapping = {
+    .tap_code_delay = CODE(10001,0000)
+};
+
 const uint16_t PROGMEM keys_a[][64] = {
     // mmm^^ ^^^^-
 

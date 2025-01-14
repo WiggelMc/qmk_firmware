@@ -29,5 +29,8 @@ void hold_release_all(void);
 void cancel(void);
 void process_code(uint16_t code);
 void enter_direct_key_mode(uint16_t index);
+void init_chorder_logic(void);
+void set_option(uint16_t option, uint16_t value);
+void send_string_with_tap_delay(char *string);
 
 #endif

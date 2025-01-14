@@ -36,6 +36,12 @@ typedef struct {
 extern bool read_byte_data(uint16_t code, read_byte_data_t *out_data);
 extern bool read_9bit_data(uint16_t code, uint16_t *out_data);
 
+typedef struct {
+    uint16_t tap_code_delay;
+} option_mapping_t;
+
+extern option_mapping_t option_mapping;
+
 #define MATCH(value, pattern, mask) (((value) & (mask)) == ((pattern) & (mask)))
 #define CODE(v1, v2) 0b##v1##v2
 #define MASK(v1, v2) CODE(v1, v2)

@@ -89,6 +89,10 @@ typedef struct {
     uint16_t active_index;
 } direct_key_state_t;
 
+typedef struct {
+    uint16_t tap_code_delay;
+} options_state_t;
+
 typedef enum {
     MODE_CHORD,
     MODE_DIRECT_INPUT,
@@ -99,6 +103,7 @@ typedef struct state_struct {
     uint16_t           active_codes;
     chord_state_t      chord_state;
     direct_key_state_t direct_key_state;
+    options_state_t    options_state;
 } state_t;
 
 void init_flags_normal(flags_normal_t *flags);
@@ -113,8 +118,11 @@ void init_repeat_state(repeat_state_t *repeat_state);
 void init_hold_state(hold_state_t *hold_state);
 void init_chord_state(chord_state_t *chord_state);
 void init_direct_key_state(direct_key_state_t *direct_key_state);
+void init_options_state(options_state_t *options_state);
 
 void init_state(state_t *state);
 void reset_state(state_t *state);
+
+extern void default_options_init(options_state_t *options_state);
 
 #endif

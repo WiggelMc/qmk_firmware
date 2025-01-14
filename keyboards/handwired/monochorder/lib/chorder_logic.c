@@ -165,6 +165,10 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+void init_chorder_logic(void) {
+    init_state(&state);
+}
+
 void send_key(uint16_t keycode, modifiers_t modifiers) {
     if (keycode != 0) {
         uint16_t code_modifiers = ((modifiers | state.chord_state.flags.normal.modifiers) << 8);
@@ -180,7 +184,7 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
 
                 hold_once_size = keyset_size(ARR(state.chord_state.hold_state.hold_once_keys));
 
-                tap_code16(modified_code);
+                tap_code16_delay(modified_code, state.options_state.tap_code_delay);
                 for (size_t i = 0; i < hold_once_size; i++) {
                     unregister_code16(state.chord_state.hold_state.hold_once_keys[i]);
                 }
@@ -322,4 +326,14 @@ void send_control_code(uint16_t control_code) {
             reset_unlocked_flags(&state.chord_state.flags);
         }
     }
+}
+
+void set_option(uint16_t option, uint16_t value) {
+    if (option == option_mapping.tap_code_delay) {
+        state.options_state.tap_code_delay = value;
+    }
+}
+
+void send_string_with_tap_delay(char *string) {
+    send_string_with_delay(string, state.options_state.tap_code_delay);
 }

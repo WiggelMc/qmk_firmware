@@ -33,7 +33,7 @@ bool fn_set_option(uint16_t code, state_t *state) {
             return false;
         case 1:
             if (!read_9bit_data(code, &option)) {
-                return true;
+                option = 0;
             }
 
             state->chord_state.function_state.data[1] = option;
@@ -46,7 +46,11 @@ bool fn_set_option(uint16_t code, state_t *state) {
 
             option = state->chord_state.function_state.data[1];
 
-            // TODO: Set [option] to [value]
+            if (option == 0) {
+                return true;
+            }
+
+            set_option(option, value);
             uprintf("Set Option: %03u to %03u", option, value);
 
             return true;
@@ -113,7 +117,7 @@ bool fn_type_byte_hex(uint16_t code, state_t *state) {
             char hex_string[3];
             sprintf(hex_string, byte_data.mod ? "%02X" : "%02x", byte_data.byte);
 
-            send_string(hex_string);
+            send_string_with_tap_delay(hex_string);
             return true;
     }
     return true;
@@ -135,7 +139,7 @@ bool fn_type_byte_bin(uint16_t code, state_t *state) {
             char    bin_string[9];
             sprintf(bin_string, "%c%c%c%c%c%c%c%c", byte & MASK(1000, 0000) ? '1' : '0', byte & MASK(0100, 0000) ? '1' : '0', byte & MASK(0010, 0000) ? '1' : '0', byte & MASK(0001, 0000) ? '1' : '0', byte & MASK(0000, 1000) ? '1' : '0', byte & MASK(0000, 0100) ? '1' : '0', byte & MASK(0000, 0010) ? '1' : '0', byte & MASK(0000, 0001) ? '1' : '0');
 
-            send_string(bin_string);
+            send_string_with_tap_delay(bin_string);
             return true;
     }
     return true;
@@ -156,7 +160,7 @@ bool fn_type_byte_oct(uint16_t code, state_t *state) {
             char oct_string[4];
             sprintf(oct_string, "%03o", byte_data.byte);
 
-            send_string(oct_string);
+            send_string_with_tap_delay(oct_string);
             return true;
     }
     return true;
@@ -177,7 +181,7 @@ bool fn_type_byte_dec(uint16_t code, state_t *state) {
             char dec_string[4];
             sprintf(dec_string, byte_data.mod ? "%03u" : "%u", byte_data.byte);
 
-            send_string(dec_string);
+            send_string_with_tap_delay(dec_string);
             return true;
     }
     return true;
