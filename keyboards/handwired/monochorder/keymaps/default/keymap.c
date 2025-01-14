@@ -309,18 +309,24 @@ void process_chord(uint16_t code, uint8_t layer) {
 
 // clang-format off
 const uint16_t PROGMEM direct_key_keymap[][10] = {
+    // Codes
     [0] = {KC_0, KC_1, KC_2, KC_3, KC_4,                KC_5, KC_6, KC_7, KC_8, KC_9},
 
+    // QWERTY Rows
     [1] = {KC_1, KC_2, KC_3, KC_4, KC_5,                KC_6, KC_7, KC_8, KC_9, KC_0},
     [2] = {KC_Q, KC_W, KC_E, KC_R, KC_T,                KC_Y, KC_U, KC_I, KC_O, KC_P},
     [3] = {KC_A, KC_S, KC_D, KC_F, KC_G,                KC_H, KC_J, KC_K, KC_L, KC_SEMICOLON},
     [4] = {KC_Z, KC_X, KC_C, KC_V, KC_B,                KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH},
 
+    // Sokoban Controls
     [8] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,            KC_ENTER, KC_Z, KC_ESCAPE, KC_R, KC_Y},
     [9] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,            KC_ENTER, KC_Z, KC_ESCAPE, KC_R, KC_X},
 
+    // WASD + Arrow Keys
     [12] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,           KC_LEFT_SHIFT, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT},
-    [13] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,           KC_LEFT_SHIFT, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT},
+    // WASD + Mouse
+    [13] = {KC_A, KC_S, KC_W, KC_D, QK_MOUSE_BUTTON_1,  QK_MOUSE_BUTTON_2, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT},
+    // Modifiers + Mouse
     [14] = {KC_LEFT_SHIFT, KC_LEFT_CTRL, KC_LEFT_ALT, KC_LEFT_GUI, QK_MOUSE_BUTTON_1,
                                                                             QK_MOUSE_BUTTON_2, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT},
 };
