@@ -93,7 +93,7 @@ void handle_direct_key_mode(uint16_t code, bool pressed) {
     }
 }
 
-void handle_reset(void) {
+void hold_release_all(void) {
     size_t hold_size = keyset_size(ARR(state.chord_state.hold_state.hold_keys));
     for (uint16_t i = 0; i < hold_size; i++) {
         uint16_t key = state.chord_state.hold_state.hold_keys[i];
@@ -101,6 +101,7 @@ void handle_reset(void) {
             unregister_code16(key);
         }
     }
+    keyset_clear(ARR(state.chord_state.hold_state.hold_keys));
 
     size_t hold_once_size = keyset_size(ARR(state.chord_state.hold_state.hold_once_keys));
     for (uint16_t i = 0; i < hold_once_size; i++) {
@@ -109,6 +110,11 @@ void handle_reset(void) {
             unregister_code16(key);
         }
     }
+    keyset_clear(ARR(state.chord_state.hold_state.hold_once_keys));
+}
+
+void handle_reset(void) {
+    hold_release_all();
 
     if (state.current_mode == MODE_DIRECT_INPUT) {
         for (uint16_t i = 0; i < 16; i++) {
@@ -165,8 +171,8 @@ void send_key(uint16_t keycode, modifiers_t modifiers) {
         uint16_t modified_code  = code_modifiers | keycode;
 
         size_t hold_once_size;
-        bool removed_from_hold;
-        bool removed_from_hold_once;
+        bool   removed_from_hold;
+        bool   removed_from_hold_once;
 
         switch (state.chord_state.flags.normal.hold_mode) {
             case HOLD_OFF:

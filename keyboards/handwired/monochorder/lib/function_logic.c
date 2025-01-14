@@ -93,13 +93,8 @@ bool fn_enter_direct_key_mode(uint16_t code, state_t *state) {
     return true;
 }
 
-bool fn_enter_special_mode(uint16_t code, state_t *state) {
-    // TODO: Implement
-    return true;
-}
-
 bool fn_hold_release_all(uint16_t code, state_t *state) {
-    // TODO: unregister all CODES from HOLD list, clear HOLD and HOLD_ONCE list
+    hold_release_all();
     return true;
 }
 
@@ -200,8 +195,6 @@ bool (*get_function(uint16_t control_code))(uint16_t code, state_t *state) {
             return &fn_repeat_last_result;
         case CC_ENTER_DIRECT_KEY_MODE:
             return &fn_enter_direct_key_mode;
-        case CC_ENTER_SPECIAL_MODE:
-            return &fn_enter_special_mode;
         case CC_HOLD_RELEASE_ALL:
             return &fn_hold_release_all;
         case CC_TYPE_BYTE_HEX:

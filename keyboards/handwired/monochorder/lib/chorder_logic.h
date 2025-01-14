@@ -25,6 +25,7 @@ bool process_chorder_logic(uint16_t keycode, keyrecord_t *record);
 void send_key(uint16_t keycode, modifiers_t modifiers);
 void send_control_code(uint16_t control_code);
 
+void hold_release_all(void);
 void cancel(void);
 void process_code(uint16_t code);
 void enter_direct_key_mode(uint16_t index);
