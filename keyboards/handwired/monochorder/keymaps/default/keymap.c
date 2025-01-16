@@ -49,6 +49,12 @@ void keyboard_post_init_user(void) {
     init_chorder_logic();
 }
 
+// ########################################################
+// #                                                      #
+// #                    KEYMAP                            #
+// #                                                      #
+// ########################################################
+
 // clang-format off
 const uint16_t PROGMEM keys_a[][64] = {
     // mmm^^ ^^^^-
@@ -337,6 +343,12 @@ const size_t direct_key_keymap_count = ARRAY_SIZE(direct_key_keymap);
 const uint16_t cancel_code = CODE(00000, 00001);
 const uint16_t noop_code   = CODE(11111, 11111);
 
+// ########################################################
+// #                                                      #
+// #                    OPTIONS                           #
+// #                                                      #
+// ########################################################
+
 void default_options_init(options_state_t* options_state) {
     options_state->tap_code_delay = 0;
 }
@@ -346,6 +358,12 @@ const option_mapping_t option_mapping = {
     .tap_code_delay = CODE(10001,0000)
 };
 // clang-format on
+
+// ########################################################
+// #                                                      #
+// #                    PARSING                           #
+// #                                                      #
+// ########################################################
 
 const uint16_t zero_code = CODE(00000, 10001);
 
