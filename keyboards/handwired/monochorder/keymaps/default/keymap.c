@@ -20,6 +20,8 @@
 #include QMK_KEYBOARD_H
 #include "../../lib/chorder_logic.h"
 #include "../../lib/keymap_logic.h"
+#include "keymap_german.h"
+#include "keymap_us_international.h"
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -48,6 +50,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 void keyboard_post_init_user(void) {
     init_chorder_logic();
 }
+
+// ########################################################
+// #                                                      #
+// #                    OS LAYOUT                         #
+// #                                                      #
+// ########################################################
+
+#define OSL_KC 0
+#define OSL_US 1
+#define OSL_DE 2
+
+// #define OS_LAYOUT OSL_KC
+// #define OS_LAYOUT OSL_US
+#define OS_LAYOUT OSL_DE
+
+#if OS_LAYOUT == OSL_US
+#    define KEY(key) US_##key
+#elif OS_LAYOUT == OSL_DE
+#    define KEY(key) DE_##key
+#else
+#    define KEY(key) KC_##key
+#endif
 
 // ########################################################
 // #                                                      #
@@ -89,7 +113,7 @@ const uint16_t PROGMEM keys_a[][64] = {
         [CODE(01,1001)] = 0,
         [CODE(01,1010)] = 0,
         [CODE(01,1011)] = 0,
-        [CODE(01,1100)] = KC_I,
+        [CODE(01,1100)] = KEY(I),
         [CODE(01,1101)] = 0,
         [CODE(01,1110)] = 0,
         [CODE(01,1111)] = 0,
@@ -106,24 +130,24 @@ const uint16_t PROGMEM keys_a[][64] = {
         [CODE(10,1001)] = 0,
         [CODE(10,1010)] = 0,
         [CODE(10,1011)] = 0,
-        [CODE(10,1100)] = KC_O,
+        [CODE(10,1100)] = KEY(O),
         [CODE(10,1101)] = 0,
         [CODE(10,1110)] = 0,
         [CODE(10,1111)] = 0,
 
         [CODE(11,0000)] = 0,
         [CODE(11,0001)] = 0,
-        [CODE(11,0010)] = KC_U,
+        [CODE(11,0010)] = KEY(U),
         [CODE(11,0011)] = 0,
-        [CODE(11,0100)] = KC_E,
+        [CODE(11,0100)] = KEY(E),
         [CODE(11,0101)] = 0,
         [CODE(11,0110)] = 0,
         [CODE(11,0111)] = 0,
-        [CODE(11,1000)] = KC_A,
+        [CODE(11,1000)] = KEY(A),
         [CODE(11,1001)] = 0,
         [CODE(11,1010)] = 0,
         [CODE(11,1011)] = 0,
-        [CODE(11,1100)] = KC_S,
+        [CODE(11,1100)] = KEY(S),
         [CODE(11,1101)] = 0,
         [CODE(11,1110)] = 0,
         [CODE(11,1111)] = 0,
