@@ -53,31 +53,11 @@ void keyboard_post_init_user(void) {
 
 // ########################################################
 // #                                                      #
-// #                    OS LAYOUT                         #
-// #                                                      #
-// ########################################################
-
-#define OSL_KC 0
-#define OSL_US 1
-#define OSL_DE 2
-
-// #define OS_LAYOUT OSL_KC
-// #define OS_LAYOUT OSL_US
-#define OS_LAYOUT OSL_DE
-
-#if OS_LAYOUT == OSL_US
-#    define KEY(key) US_##key
-#elif OS_LAYOUT == OSL_DE
-#    define KEY(key) DE_##key
-#else
-#    define KEY(key) KC_##key
-#endif
-
-// ########################################################
-// #                                                      #
 // #                    KEYMAP                            #
 // #                                                      #
 // ########################################################
+
+#define KEY(key) DE_##key
 
 // clang-format off
 const uint16_t PROGMEM keys_a[][64] = {
@@ -85,78 +65,78 @@ const uint16_t PROGMEM keys_a[][64] = {
 
     [0] = {
         [CODE(00,0000)] = KC_RESERVED,
-        [CODE(00,0001)] = 0,
-        [CODE(00,0010)] = 0,
-        [CODE(00,0011)] = 0,
-        [CODE(00,0100)] = 0,
-        [CODE(00,0101)] = 0,
-        [CODE(00,0110)] = 0,
-        [CODE(00,0111)] = 0,
-        [CODE(00,1000)] = 0,
-        [CODE(00,1001)] = 0,
-        [CODE(00,1010)] = 0,
-        [CODE(00,1011)] = 0,
-        [CODE(00,1100)] = 0,
-        [CODE(00,1101)] = 0,
-        [CODE(00,1110)] = 0,
-        [CODE(00,1111)] = 0,
+        [CODE(00,0001)] = KC_MEDIA_NEXT_TRACK,
+        [CODE(00,0010)] = KC_AUDIO_VOL_UP,
+        [CODE(00,0011)] = KC_BRIGHTNESS_UP,
+        [CODE(00,0100)] = KC_AUDIO_VOL_DOWN,
+        [CODE(00,0101)] = KC_MEDIA_PREV_TRACK,
+        [CODE(00,0110)] = KC_AUDIO_MUTE,
+        [CODE(00,0111)] = KEY(V),
+        [CODE(00,1000)] = KC_MEDIA_PLAY_PAUSE,
+        [CODE(00,1001)] = KC_PRINT_SCREEN,
+        [CODE(00,1010)] = KEY(M),
+        [CODE(00,1011)] = KEY(N),
+        [CODE(00,1100)] = KC_BRIGHTNESS_DOWN,
+        [CODE(00,1101)] = KEY(P),
+        [CODE(00,1110)] = KEY(Y),
+        [CODE(00,1111)] = KC_MEDIA_STOP,
 
-        [CODE(01,0000)] = 0,
-        [CODE(01,0001)] = 0,
-        [CODE(01,0010)] = 0,
-        [CODE(01,0011)] = 0,
-        [CODE(01,0100)] = 0,
-        [CODE(01,0101)] = 0,
-        [CODE(01,0110)] = 0,
-        [CODE(01,0111)] = 0,
-        [CODE(01,1000)] = 0,
-        [CODE(01,1001)] = 0,
-        [CODE(01,1010)] = 0,
-        [CODE(01,1011)] = 0,
+        [CODE(01,0000)] = KEY(0),
+        [CODE(01,0001)] = KEY(1),
+        [CODE(01,0010)] = KEY(2),
+        [CODE(01,0011)] = KEY(3),
+        [CODE(01,0100)] = KEY(4),
+        [CODE(01,0101)] = KEY(5),
+        [CODE(01,0110)] = KEY(6),
+        [CODE(01,0111)] = KEY(7),
+        [CODE(01,1000)] = KEY(8),
+        [CODE(01,1001)] = KEY(9),
+        [CODE(01,1010)] = KEY(K),
+        [CODE(01,1011)] = DE_ODIA,
         [CODE(01,1100)] = KEY(I),
-        [CODE(01,1101)] = 0,
-        [CODE(01,1110)] = 0,
-        [CODE(01,1111)] = 0,
+        [CODE(01,1101)] = KEY(J),
+        [CODE(01,1110)] = DE_UDIA,
+        [CODE(01,1111)] = KC_SPACE,
 
         [CODE(10,0000)] = 0,
         [CODE(10,0001)] = 0,
-        [CODE(10,0010)] = 0,
-        [CODE(10,0011)] = 0,
+        [CODE(10,0010)] = KEY(B),
+        [CODE(10,0011)] = DE_ADIA,
         [CODE(10,0100)] = 0,
-        [CODE(10,0101)] = 0,
-        [CODE(10,0110)] = 0,
-        [CODE(10,0111)] = 0,
+        [CODE(10,0101)] = KEY(L),
+        [CODE(10,0110)] = KEY(T),
+        [CODE(10,0111)] = KEY(H),
         [CODE(10,1000)] = 0,
-        [CODE(10,1001)] = 0,
-        [CODE(10,1010)] = 0,
-        [CODE(10,1011)] = 0,
+        [CODE(10,1001)] = KEY(R),
+        [CODE(10,1010)] = KEY(C),
+        [CODE(10,1011)] = DE_SS,
         [CODE(10,1100)] = KEY(O),
-        [CODE(10,1101)] = 0,
-        [CODE(10,1110)] = 0,
-        [CODE(10,1111)] = 0,
+        [CODE(10,1101)] = KEY(W),
+        [CODE(10,1110)] = KEY(D),
+        [CODE(10,1111)] = KC_PAUSE,
 
         [CODE(11,0000)] = 0,
-        [CODE(11,0001)] = 0,
+        [CODE(11,0001)] = KEY(G),
         [CODE(11,0010)] = KEY(U),
-        [CODE(11,0011)] = 0,
+        [CODE(11,0011)] = KEY(Z),
         [CODE(11,0100)] = KEY(E),
-        [CODE(11,0101)] = 0,
-        [CODE(11,0110)] = 0,
-        [CODE(11,0111)] = 0,
+        [CODE(11,0101)] = KC_SCROLL_LOCK,
+        [CODE(11,0110)] = KEY(X),
+        [CODE(11,0111)] = KEY(Q),
         [CODE(11,1000)] = KEY(A),
-        [CODE(11,1001)] = 0,
-        [CODE(11,1010)] = 0,
-        [CODE(11,1011)] = 0,
+        [CODE(11,1001)] = KC_DOWN,
+        [CODE(11,1010)] = KEY(F),
+        [CODE(11,1011)] = KC_LEFT,
         [CODE(11,1100)] = KEY(S),
-        [CODE(11,1101)] = 0,
-        [CODE(11,1110)] = 0,
+        [CODE(11,1101)] = KC_UP,
+        [CODE(11,1110)] = KC_RIGHT,
         [CODE(11,1111)] = 0,
     },
     [1] = {
         [CODE(00,0000)] = KC_RESERVED,
         [CODE(00,0001)] = 0,
         [CODE(00,0010)] = 0,
-        [CODE(00,0011)] = 0,
+        [CODE(00,0011)] = KC_APPLICATION,
         [CODE(00,0100)] = 0,
         [CODE(00,0101)] = 0,
         [CODE(00,0110)] = 0,
@@ -170,49 +150,49 @@ const uint16_t PROGMEM keys_a[][64] = {
         [CODE(00,1110)] = 0,
         [CODE(00,1111)] = 0,
 
-        [CODE(01,0000)] = 0,
-        [CODE(01,0001)] = 0,
-        [CODE(01,0010)] = 0,
-        [CODE(01,0011)] = 0,
-        [CODE(01,0100)] = 0,
-        [CODE(01,0101)] = 0,
-        [CODE(01,0110)] = 0,
-        [CODE(01,0111)] = 0,
-        [CODE(01,1000)] = 0,
-        [CODE(01,1001)] = 0,
+        [CODE(01,0000)] = KC_KP_0,
+        [CODE(01,0001)] = KC_KP_1,
+        [CODE(01,0010)] = KC_KP_2,
+        [CODE(01,0011)] = KC_KP_3,
+        [CODE(01,0100)] = KC_KP_4,
+        [CODE(01,0101)] = KC_KP_5,
+        [CODE(01,0110)] = KC_KP_6,
+        [CODE(01,0111)] = KC_KP_7,
+        [CODE(01,1000)] = KC_KP_8,
+        [CODE(01,1001)] = KC_KP_9,
         [CODE(01,1010)] = 0,
         [CODE(01,1011)] = 0,
         [CODE(01,1100)] = 0,
         [CODE(01,1101)] = 0,
         [CODE(01,1110)] = 0,
-        [CODE(01,1111)] = 0,
+        [CODE(01,1111)] = KC_NUM_LOCK,
 
         [CODE(10,0000)] = 0,
-        [CODE(10,0001)] = 0,
-        [CODE(10,0010)] = 0,
-        [CODE(10,0011)] = 0,
-        [CODE(10,0100)] = 0,
-        [CODE(10,0101)] = 0,
-        [CODE(10,0110)] = 0,
-        [CODE(10,0111)] = 0,
-        [CODE(10,1000)] = 0,
-        [CODE(10,1001)] = 0,
-        [CODE(10,1010)] = 0,
-        [CODE(10,1011)] = 0,
-        [CODE(10,1100)] = 0,
-        [CODE(10,1101)] = 0,
-        [CODE(10,1110)] = 0,
-        [CODE(10,1111)] = 0,
+        [CODE(10,0001)] = KC_F1,
+        [CODE(10,0010)] = KC_F2,
+        [CODE(10,0011)] = KC_F3,
+        [CODE(10,0100)] = KC_F4,
+        [CODE(10,0101)] = KC_F5,
+        [CODE(10,0110)] = KC_F6,
+        [CODE(10,0111)] = KC_F7,
+        [CODE(10,1000)] = KC_F8,
+        [CODE(10,1001)] = KC_F9,
+        [CODE(10,1010)] = KC_F10,
+        [CODE(10,1011)] = KC_F11,
+        [CODE(10,1100)] = KC_F12,
+        [CODE(10,1101)] = KC_F13,
+        [CODE(10,1110)] = KC_F14,
+        [CODE(10,1111)] = KC_F15,
 
-        [CODE(11,0000)] = 0,
-        [CODE(11,0001)] = 0,
-        [CODE(11,0010)] = 0,
-        [CODE(11,0011)] = 0,
-        [CODE(11,0100)] = 0,
-        [CODE(11,0101)] = 0,
-        [CODE(11,0110)] = 0,
-        [CODE(11,0111)] = 0,
-        [CODE(11,1000)] = 0,
+        [CODE(11,0000)] = KC_F16,
+        [CODE(11,0001)] = KC_F17,
+        [CODE(11,0010)] = KC_F18,
+        [CODE(11,0011)] = KC_F19,
+        [CODE(11,0100)] = KC_F20,
+        [CODE(11,0101)] = KC_F21,
+        [CODE(11,0110)] = KC_F22,
+        [CODE(11,0111)] = KC_F23,
+        [CODE(11,1000)] = KC_F24,
         [CODE(11,1001)] = 0,
         [CODE(11,1010)] = 0,
         [CODE(11,1011)] = 0,
@@ -223,63 +203,95 @@ const uint16_t PROGMEM keys_a[][64] = {
     },
 };
 
-const uint16_t PROGMEM keys_b[][16] = {
-    // mmm^^ ^^7-9
+const uint16_t PROGMEM keys_b[][32] = {
+    // mmm^^ ^^^89
 
     [0] = {
-        [CODE(00,00)] = 0,
-        [CODE(00,01)] = 0,
-        [CODE(00,10)] = 0,
-        [CODE(00,11)] = 0,
+        [CODE(00,000)] = 0,
+        [CODE(00,001)] = KC_RIGHT_ALT,
+        [CODE(00,010)] = KC_LEFT_GUI,
+        [CODE(00,011)] = KEY(DOT),
+        [CODE(00,100)] = KC_LEFT_ALT,
+        [CODE(00,101)] = KEY(MINS),
+        [CODE(00,110)] = KEY(COMM),
+        [CODE(00,111)] = 0,
 
-        [CODE(01,00)] = 0,
-        [CODE(01,01)] = 0,
-        [CODE(01,10)] = 0,
-        [CODE(01,11)] = 0,
+        [CODE(01,000)] = KC_LEFT_CTRL,
+        [CODE(01,001)] = DE_CIRC,
+        [CODE(01,010)] = 0,
+        [CODE(01,011)] = KC_PAGE_DOWN,
+        [CODE(01,100)] = DE_ACUT,
+        [CODE(01,101)] = KC_RIGHT_SHIFT,
+        [CODE(01,110)] = KC_RIGHT_CTRL,
+        [CODE(01,111)] = KC_PAGE_UP,
 
-        [CODE(10,00)] = 0,
-        [CODE(10,01)] = 0,
-        [CODE(10,10)] = 0,
-        [CODE(10,11)] = 0,
+        [CODE(10,000)] = KC_LEFT_SHIFT,
+        [CODE(10,001)] = KEY(PLUS),
+        [CODE(10,010)] = KEY(HASH),
+        [CODE(10,011)] = KC_RIGHT_GUI,
+        [CODE(10,100)] = KEY(LABK),
+        [CODE(10,101)] = 0,
+        [CODE(10,110)] = 0,
+        [CODE(10,111)] = KC_INSERT,
 
-        [CODE(11,00)] = 0,
-        [CODE(11,01)] = 0,
-        [CODE(11,10)] = 0,
-        [CODE(11,11)] = 0,
+        [CODE(11,000)] = KC_ENTER,
+        [CODE(11,001)] = KC_TAB,
+        [CODE(11,010)] = KC_ESCAPE,
+        [CODE(11,011)] = KC_END,
+        [CODE(11,100)] = KC_BACKSPACE,
+        [CODE(11,101)] = KC_HOME,
+        [CODE(11,110)] = KC_DELETE,
+        [CODE(11,111)] = KC_RESERVED,
     },
     [1] = {
-        [CODE(00,00)] = 0,
-        [CODE(00,01)] = 0,
-        [CODE(00,10)] = 0,
-        [CODE(00,11)] = 0,
+        [CODE(00,000)] = 0,
+        [CODE(00,001)] = 0,
+        [CODE(00,010)] = 0,
+        [CODE(00,011)] = KC_KP_DOT,
+        [CODE(00,100)] = 0,
+        [CODE(00,101)] = KC_KP_MINUS,
+        [CODE(00,110)] = KC_KP_DOT,
+        [CODE(00,111)] = 0,
 
-        [CODE(01,00)] = 0,
-        [CODE(01,01)] = 0,
-        [CODE(01,10)] = 0,
-        [CODE(01,11)] = 0,
+        [CODE(01,000)] = 0,
+        [CODE(01,001)] = KC_KP_SLASH,
+        [CODE(01,010)] = 0,
+        [CODE(01,011)] = 0,
+        [CODE(01,100)] = KC_KP_ASTERISK,
+        [CODE(01,101)] = 0,
+        [CODE(01,110)] = 0,
+        [CODE(01,111)] = 0,
 
-        [CODE(10,00)] = 0,
-        [CODE(10,01)] = 0,
-        [CODE(10,10)] = 0,
-        [CODE(10,11)] = 0,
+        [CODE(10,000)] = 0,
+        [CODE(10,001)] = KC_KP_PLUS,
+        [CODE(10,010)] = 0,
+        [CODE(10,011)] = 0,
+        [CODE(10,100)] = 0,
+        [CODE(10,101)] = 0,
+        [CODE(10,110)] = 0,
+        [CODE(10,111)] = 0,
 
-        [CODE(11,00)] = 0,
-        [CODE(11,01)] = 0,
-        [CODE(11,10)] = 0,
-        [CODE(11,11)] = 0,
+        [CODE(11,000)] = KC_KP_ENTER,
+        [CODE(11,001)] = 0,
+        [CODE(11,010)] = 0,
+        [CODE(11,011)] = 0,
+        [CODE(11,100)] = 0,
+        [CODE(11,101)] = 0,
+        [CODE(11,110)] = 0,
+        [CODE(11,111)] = KC_RESERVED,
     },
 };
 
-const uint16_t PROGMEM control_codes_a[256] = {
-    // ^^^^^ ^^^89
+const uint16_t PROGMEM control_codes_a[128] = {
+    // ^^^^^ ^^--9
 
-    [CODE(00000,000)] = 0
+    [CODE(00000,00)] = 0,
 };
 
 const uint16_t PROGMEM control_codes_b[128] = {
-    // ^^^^^ ^^--9
+    // ^^^^^ ^^7-9
 
-    [CODE(00000,00)] = 0
+    [CODE(00000,00)] = 0,
 };
 // clang-format on
 
@@ -303,34 +315,38 @@ void process_chord(uint16_t code, uint8_t layer) {
             send_key(value, modifiers);
         }
 
-    } else if (MATCH(code, CODE(00000, 00101), MASK(00000, 00111))) {
-        // mmm^^ ^^7-9
-        // Keys B (16 + shift, ctrl, alt)
+    } else if (MATCH(code, CODE(00000, 00011), MASK(00000, 00011))) {
+        // mmm^^ ^^^89
+        // Keys B (32 + shift, ctrl, alt)
 
         if (layer < ARRAY_SIZE(keys_b)) {
-            const uint16_t index = (code & MASK(00011, 11000)) >> 3;
+            const uint16_t index = (code & MASK(00011, 11100)) >> 2;
 
-            const uint16_t(*keymap)[16] = &keys_b[layer];
+            const uint16_t(*keymap)[32] = &keys_b[layer];
             const uint16_t value        = pgm_read_word(keymap[index]);
 
             uprintf("Keys B: %u | %02X", value, modifiers);
             send_key(value, modifiers);
         }
 
-    } else if (MATCH(code, CODE(00000, 00011), MASK(00000, 00011))) {
-        // ^^^^^ ^^^89
-        // Control Codes A (256)
-        const uint16_t index = (code & MASK(11111, 11100)) >> 2;
-        const uint16_t value = pgm_read_word(&control_codes_a[index]);
+    } else if (MATCH(code, CODE(00000, 00001), MASK(00000, 00111))) {
+        // ^^^^^ ^^--9
+        // Control Codes A (128)
+        const uint16_t index = (code & MASK(11111, 11000)) >> 3;
+
+        const uint16_t(*keymap)[128] = &control_codes_a;
+        const uint16_t value         = pgm_read_word(keymap[index]);
 
         uprintf("Control Codes A: %u", value);
         send_control_code(value);
 
-    } else if (MATCH(code, CODE(00000, 00001), MASK(00000, 00111))) {
-        // ^^^^^ ^^--9
+    } else if (MATCH(code, CODE(00000, 00101), MASK(00000, 00111))) {
+        // ^^^^^ ^^7-9
         // Control Codes B (128)
-        const uint16_t index = (code & MASK(11111, 11100)) >> 2;
-        const uint16_t value = pgm_read_word(&control_codes_b[index]);
+        const uint16_t index = (code & MASK(11111, 11000)) >> 3;
+
+        const uint16_t(*keymap)[128] = &control_codes_b;
+        const uint16_t value         = pgm_read_word(keymap[index]);
 
         uprintf("Control Codes B: %u", value);
         send_control_code(value);
