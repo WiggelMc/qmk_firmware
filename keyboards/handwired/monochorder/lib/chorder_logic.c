@@ -83,6 +83,26 @@ void handle_chord_mode(uint16_t code, bool pressed) {
 void handle_direct_key_mode(uint16_t code, bool pressed) {
     uint8_t direct_key_index = state.direct_key_state.active_index;
 
+    // TODO: Special Case: Zero Map  =>  dont switch mode
+    // TODO: Special Case: Map containing MCH_DK_SHIFT_LAYER  =>  dont switch mode
+
+    // TODO: Handle Transparent (dont unpress keys with transparent, handle press and release like previous layer)
+    // TODO: Handle MCH_DK_SHIFT_LAYER (on release: pop layer stack)
+    // TODO: Store Pressed Keys in Bitset (uint16_t)
+    // TODO: Store Layer Stack as key index of layer key (eg. [9, 8, ...] for MCH_DK_SHIFT_1 at 9 > MCH_DK_SHIFT_1 at 8 > ...)
+    // TODO: Create Class file for Stack (uint8_t * 10) {size(), pop(), push(), contains()}
+
+    // on release:
+    // if stack.contains(code)
+    //      pop all layers until (and including) code (handle release in those layers)
+    // else
+    //      normal release key logic
+
+    // TODO: On Layer Switch, release all non transparent Keys
+
+    // TODO: Only Release Key, if no other pressed key (in bitset) has the same code
+    // TODO: Only Press Key if no other pressed key (in bitset) has the same code
+
     if (direct_key_index < direct_key_keymap_count) {
         uint16_t key = pgm_read_word(&direct_key_keymap[direct_key_index][code]);
         if (pressed) {

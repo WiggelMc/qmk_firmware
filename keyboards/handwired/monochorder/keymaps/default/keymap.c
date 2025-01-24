@@ -401,6 +401,19 @@ const uint16_t PROGMEM direct_key_keymap[][10] = {
     // Modifiers + Mouse
     [14] = {KC_LEFT_SHIFT, KC_LEFT_CTRL, KC_LEFT_ALT, KC_LEFT_GUI, QK_MOUSE_BUTTON_1,
                                                                             QK_MOUSE_BUTTON_2, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT},
+
+    // Hollow Knight Controls
+    [16] = {KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_Z,    KC_A, KC_X, KC_C, KC_F, MCH_DK_SHIFT_1},
+    [17] = {_______, _______, _______, _______, _______,KC_TAB, KC_D, KC_S, MCH_DK_SHIFT_1, MCH_DK_SHIFT_LAYER},
+    [18] = {_______, _______, _______, _______, _______,KC_I, KC_ESCAPE, 0, MCH_DK_SHIFT_LAYER, MCH_DK_SHIFT_LAYER},
+
+    // Generic Layered Game Controls
+    [20] = {KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_SPACE,KC_A, KC_B, KC_C, KC_D, MCH_DK_SHIFT_1},
+    [21] = {_______, _______, _______, _______, _______,MCH_DK_SHIFT_4, MCH_DK_SHIFT_3, MCH_DK_SHIFT_2, MCH_DK_SHIFT_1, MCH_DK_SHIFT_LAYER},
+    [22] = {_______, _______, _______, _______, _______,KC_E, KC_F, KC_G, MCH_DK_SHIFT_LAYER, MCH_DK_SHIFT_LAYER},
+    [23] = {_______, _______, _______, _______, _______,KC_H, KC_I, MCH_DK_SHIFT_LAYER, KC_J, MCH_DK_SHIFT_LAYER},
+    [24] = {_______, _______, _______, _______, _______,KC_K, MCH_DK_SHIFT_LAYER, KC_L, KC_M, MCH_DK_SHIFT_LAYER},
+    [25] = {KC_0, KC_1, KC_2, KC_3, KC_4,               MCH_DK_SHIFT_LAYER, KC_6, KC_7, KC_8, MCH_DK_SHIFT_LAYER},
 };
 // clang-format on
 

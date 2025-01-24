@@ -2,7 +2,7 @@
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation,\n    either version 2 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -49,8 +49,29 @@ extern const option_mapping_t option_mapping;
 
 #define KC_RESERVED 0
 
-enum custom_keycodes { MCH_0 = SAFE_RANGE, MCH_1, MCH_2, MCH_3, MCH_4, MCH_5, MCH_6, MCH_7, MCH_8, MCH_9, MCH_R };
-const uint16_t MCH_SAFE_RANGE;
+enum custom_keycodes {
+    MCH_0 = SAFE_RANGE,
+    MCH_1,
+    MCH_2,
+    MCH_3,
+    MCH_4,
+    MCH_5,
+    MCH_6,
+    MCH_7,
+    MCH_8,
+    MCH_9,
+
+    MCH_R,
+
+    MCH_DK_SHIFT_1,
+    MCH_DK_SHIFT_2,
+    MCH_DK_SHIFT_3,
+    MCH_DK_SHIFT_4,
+
+    MCH_DK_SHIFT_LAYER,
+
+    MCH_SAFE_RANGE,
+};
 
 enum control_codes {
     CC_CANCEL = (uint16_t)1,
