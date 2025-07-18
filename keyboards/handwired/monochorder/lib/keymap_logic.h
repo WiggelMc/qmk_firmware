@@ -22,7 +22,7 @@
 #include "quantum.h"
 
 extern void                   process_chord(uint16_t code, uint8_t layer);
-extern const uint16_t PROGMEM direct_key_keymap[][10];
+extern const uint16_t PROGMEM direct_key_keymap[][16][10];
 extern const size_t           direct_key_keymap_count;
 
 extern const uint16_t cancel_code;
@@ -49,6 +49,8 @@ extern const option_mapping_t option_mapping;
 
 #define KC_RESERVED 0
 
+#define FINGER_COUNT 10
+
 enum custom_keycodes {
     MCH_0 = SAFE_RANGE,
     MCH_1,
@@ -63,12 +65,21 @@ enum custom_keycodes {
 
     MCH_R,
 
-    MCH_DK_SHIFT_1,
-    MCH_DK_SHIFT_2,
-    MCH_DK_SHIFT_3,
-    MCH_DK_SHIFT_4,
-
-    MCH_DK_SHIFT_LAYER,
+    MCH_DK_LAYER_1,
+    MCH_DK_LAYER_2,
+    MCH_DK_LAYER_3,
+    MCH_DK_LAYER_4,
+    MCH_DK_LAYER_5,
+    MCH_DK_LAYER_6,
+    MCH_DK_LAYER_7,
+    MCH_DK_LAYER_8,
+    MCH_DK_LAYER_9,
+    MCH_DK_LAYER_10,
+    MCH_DK_LAYER_11,
+    MCH_DK_LAYER_12,
+    MCH_DK_LAYER_13,
+    MCH_DK_LAYER_14,
+    MCH_DK_LAYER_15,
 
     MCH_SAFE_RANGE,
 };

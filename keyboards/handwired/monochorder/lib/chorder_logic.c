@@ -163,10 +163,12 @@ void handle_input(uint16_t code, bool pressed) {
             break;
     }
 
+    uint16_t code_mask = ((uint16_t)1 << (FINGER_COUNT - 1 - code));
+
     if (pressed) {
-        state.active_codes |= ((uint16_t)1 << code);
+        state.active_codes |= code_mask;
     } else {
-        state.active_codes &= ~((uint16_t)1 << code);
+        state.active_codes &= ~code_mask;
     }
 }
 

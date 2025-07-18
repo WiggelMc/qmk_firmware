@@ -334,8 +334,8 @@ void process_chord(uint16_t code, uint8_t layer) {
         if (layer < ARRAY_SIZE(keys_a)) {
             const uint16_t index = (code & MASK(00011, 11110)) >> 1;
 
-            const uint16_t(*keymap)[64] = &keys_a[layer];
-            const uint16_t value        = pgm_read_word(keymap[index]);
+            const uint16_t (*keymap)[64] = &keys_a[layer];
+            const uint16_t value         = pgm_read_word(keymap[index]);
 
             uprintf("Keys A: %u | %02X", value, modifiers);
             send_key(value, modifiers);
@@ -348,8 +348,8 @@ void process_chord(uint16_t code, uint8_t layer) {
         if (layer < ARRAY_SIZE(keys_b)) {
             const uint16_t index = (code & MASK(00011, 11100)) >> 2;
 
-            const uint16_t(*keymap)[32] = &keys_b[layer];
-            const uint16_t value        = pgm_read_word(keymap[index]);
+            const uint16_t (*keymap)[32] = &keys_b[layer];
+            const uint16_t value         = pgm_read_word(keymap[index]);
 
             uprintf("Keys B: %u | %02X", value, modifiers);
             send_key(value, modifiers);
@@ -360,8 +360,8 @@ void process_chord(uint16_t code, uint8_t layer) {
         // Control Codes A (128)
         const uint16_t index = (code & MASK(11111, 11000)) >> 3;
 
-        const uint16_t(*keymap)[128] = &control_codes_a;
-        const uint16_t value         = pgm_read_word(keymap[index]);
+        const uint16_t (*keymap)[128] = &control_codes_a;
+        const uint16_t value          = pgm_read_word(keymap[index]);
 
         uprintf("Control Codes A: %u", value);
         send_control_code(value);
@@ -371,8 +371,8 @@ void process_chord(uint16_t code, uint8_t layer) {
         // Control Codes B (128)
         const uint16_t index = (code & MASK(11111, 11000)) >> 3;
 
-        const uint16_t(*keymap)[128] = &control_codes_b;
-        const uint16_t value         = pgm_read_word(keymap[index]);
+        const uint16_t (*keymap)[128] = &control_codes_b;
+        const uint16_t value          = pgm_read_word(keymap[index]);
 
         uprintf("Control Codes B: %u", value);
         send_control_code(value);
@@ -380,40 +380,75 @@ void process_chord(uint16_t code, uint8_t layer) {
 }
 
 // clang-format off
-const uint16_t PROGMEM direct_key_keymap[][10] = {
+const uint16_t PROGMEM direct_key_keymap[][16][10] = {
     // Codes
-    [0] = {KC_0, KC_1, KC_2, KC_3, KC_4,                KC_5, KC_6, KC_7, KC_8, KC_9},
+    [0] = {
+        [0] = {KC_0, KC_1, KC_2, KC_3, KC_4,                KC_5, KC_6, KC_7, KC_8, KC_9}
+    },
 
     // QWERTY Rows
-    [1] = {KC_1, KC_2, KC_3, KC_4, KC_5,                KC_6, KC_7, KC_8, KC_9, KC_0},
-    [2] = {KC_Q, KC_W, KC_E, KC_R, KC_T,                KC_Y, KC_U, KC_I, KC_O, KC_P},
-    [3] = {KC_A, KC_S, KC_D, KC_F, KC_G,                KC_H, KC_J, KC_K, KC_L, KC_SEMICOLON},
-    [4] = {KC_Z, KC_X, KC_C, KC_V, KC_B,                KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH},
+    [1] = {
+        [0] = {KC_1, KC_2, KC_3, KC_4, KC_5,                KC_6, KC_7, KC_8, KC_9, KC_0}
+    },
+    [2] = {
+        [0] = {KC_Q, KC_W, KC_E, KC_R, KC_T,                KC_Y, KC_U, KC_I, KC_O, KC_P}
+    },
+    [3] = {
+        [0] = {KC_A, KC_S, KC_D, KC_F, KC_G,                KC_H, KC_J, KC_K, KC_L, KC_SEMICOLON}
+    },
+    [4] = {
+        [0] = {KC_Z, KC_X, KC_C, KC_V, KC_B,                KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH}
+    },
 
     // Sokoban Controls
-    [8] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,            KC_ENTER, KC_Z, KC_ESCAPE, KC_R, KC_Y},
-    [9] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,            KC_ENTER, KC_Z, KC_ESCAPE, KC_R, KC_X},
+    [8] = {
+        [0] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,            KC_ENTER, KC_Z, KC_ESCAPE, KC_R, KC_Y}
+    },
+    [9] = {
+        [0] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,            KC_ENTER, KC_Z, KC_ESCAPE, KC_R, KC_X}
+    },
 
     // WASD + Arrow Keys
-    [12] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,           KC_LEFT_SHIFT, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT},
+    [12] = {
+        [0] = {KC_A, KC_S, KC_W, KC_D, KC_SPACE,           KC_LEFT_SHIFT, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT}
+    },
     // WASD + Mouse
-    [13] = {KC_A, KC_S, KC_W, KC_D, QK_MOUSE_BUTTON_1,  QK_MOUSE_BUTTON_2, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT},
+    [13] = {
+        [0] = {KC_A, KC_S, KC_W, KC_D, QK_MOUSE_BUTTON_1,  QK_MOUSE_BUTTON_2, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT}
+    },
     // Modifiers + Mouse
-    [14] = {KC_LEFT_SHIFT, KC_LEFT_CTRL, KC_LEFT_ALT, KC_LEFT_GUI, QK_MOUSE_BUTTON_1,
-                                                                            QK_MOUSE_BUTTON_2, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT},
+    [14] = {
+        [0] = {KC_LEFT_SHIFT, KC_LEFT_CTRL, KC_LEFT_ALT, KC_LEFT_GUI, QK_MOUSE_BUTTON_1,
+                        QK_MOUSE_BUTTON_2, QK_MOUSE_CURSOR_LEFT, QK_MOUSE_CURSOR_DOWN, QK_MOUSE_CURSOR_UP, QK_MOUSE_CURSOR_RIGHT}
+    },
 
     // Hollow Knight Controls
-    [16] = {KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_Z,    KC_A, KC_X, KC_C, KC_F, MCH_DK_SHIFT_1},
-    [17] = {_______, _______, _______, _______, _______,KC_TAB, KC_D, KC_S, MCH_DK_SHIFT_1, MCH_DK_SHIFT_LAYER},
-    [18] = {_______, _______, _______, _______, _______,KC_I, KC_ESCAPE, 0, MCH_DK_SHIFT_LAYER, MCH_DK_SHIFT_LAYER},
+    [16] = {
+        [0] = {KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_Z,     KC_A, KC_X, KC_C, KC_F, MCH_DK_LAYER_1},
+        [1] = {_______, _______, _______, _______, _______, KC_TAB, KC_D, KC_S, MCH_DK_LAYER_2, _______},
+        [2] = {_______, _______, _______, _______, _______, KC_I, KC_ESCAPE, 0, _______, _______},
+    },
 
     // Generic Layered Game Controls
-    [20] = {KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_SPACE,KC_A, KC_B, KC_C, KC_D, MCH_DK_SHIFT_1},
-    [21] = {_______, _______, _______, _______, _______,MCH_DK_SHIFT_4, MCH_DK_SHIFT_3, MCH_DK_SHIFT_2, MCH_DK_SHIFT_1, MCH_DK_SHIFT_LAYER},
-    [22] = {_______, _______, _______, _______, _______,KC_E, KC_F, KC_G, MCH_DK_SHIFT_LAYER, MCH_DK_SHIFT_LAYER},
-    [23] = {_______, _______, _______, _______, _______,KC_H, KC_I, MCH_DK_SHIFT_LAYER, KC_J, MCH_DK_SHIFT_LAYER},
-    [24] = {_______, _______, _______, _______, _______,KC_K, MCH_DK_SHIFT_LAYER, KC_L, KC_M, MCH_DK_SHIFT_LAYER},
-    [25] = {KC_0, KC_1, KC_2, KC_3, KC_4,               MCH_DK_SHIFT_LAYER, KC_6, KC_7, KC_8, MCH_DK_SHIFT_LAYER},
+    [18] = {
+        [0] = {KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_SPACE,
+                    KC_A, KC_B, KC_C, KC_D, MCH_DK_LAYER_1},
+
+        [1] = {_______, _______, _______, _______, _______,
+                    MCH_DK_LAYER_5, MCH_DK_LAYER_4, MCH_DK_LAYER_3, MCH_DK_LAYER_2, _______},
+
+        [2] = {_______, _______, _______, _______, _______,
+                    KC_E, KC_F, KC_G, _______, _______},
+
+        [3] = {_______, _______, _______, _______, _______,
+                    KC_H, KC_I, _______, KC_J, _______},
+
+        [4] = {_______, _______, _______, _______, _______,
+                    KC_K, _______, KC_L, KC_M, _______},
+
+        [5] = {KC_0, KC_1, KC_2, KC_3, KC_4,
+                    _______, KC_6, KC_7, KC_8, _______},
+    }
 };
 // clang-format on
 
