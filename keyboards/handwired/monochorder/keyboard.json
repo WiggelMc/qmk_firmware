@@ -20,26 +20,26 @@
         "vid": "0xFEED"
     },
     "matrix_pins": {
-        "cols": ["GP14", "GP15", "GP26"],
-        "rows": ["GP27", "GP28"]
+        "cols": ["GP14", "GP15", "GP26", "GP27", "GP28", "GP29"],
+        "rows": ["GP4"]
     },
     "layouts": {
         "LAYOUT": {
             "layout": [
-                {"matrix": [0, 0], "x": 0, "y": 0, "label": "MCH_0"},
-                {"matrix": [1, 0], "x": 1, "y": 0, "label": "MCH_1"},
-                {"matrix": [1, 1], "x": 2, "y": 0, "label": "MCH_2"},
-                {"matrix": [1, 2], "x": 3, "y": 0, "label": "MCH_3"},
+                {"matrix": [0, 0], "x": 0, "y": 0, "label": "MCH_9"},
+                {"matrix": [0, 1], "x": 1, "y": 0, "label": "MCH_8"},
+                {"matrix": [0, 2], "x": 2, "y": 0, "label": "MCH_7"},
+                {"matrix": [0, 3], "x": 3, "y": 0, "label": "MCH_6"},
 
-                {"matrix": [3, 2], "x": 6, "y": 0, "label": "MCH_6"},
-                {"matrix": [3, 1], "x": 7, "y": 0, "label": "MCH_7"},
-                {"matrix": [3, 0], "x": 8, "y": 0, "label": "MCH_8"},
-                {"matrix": [2, 0], "x": 9, "y": 0, "label": "MCH_9"},
+                {"matrix": [1, 3], "x": 6, "y": 0, "label": "MCH_3"},
+                {"matrix": [1, 2], "x": 7, "y": 0, "label": "MCH_2"},
+                {"matrix": [1, 1], "x": 8, "y": 0, "label": "MCH_1"},
+                {"matrix": [1, 0], "x": 9, "y": 0, "label": "MCH_0"},
 
-                {"matrix": [0, 1], "x": 2, "y": 2, "label": "MCH_R1"},
-                {"matrix": [0, 2], "x": 3, "y": 2, "label": "MCH_4"},
-                {"matrix": [2, 2], "x": 6, "y": 2, "label": "MCH_5"},
-                {"matrix": [2, 1], "x": 7, "y": 2, "label": "MCH_R2"}
+                {"matrix": [0, 5], "x": 2, "y": 2, "label": "MCH_R1"},
+                {"matrix": [0, 4], "x": 3, "y": 2, "label": "MCH_5"},
+                {"matrix": [1, 4], "x": 6, "y": 2, "label": "MCH_4"},
+                {"matrix": [1, 5], "x": 7, "y": 2, "label": "MCH_R2"}
             ]
         }
     }

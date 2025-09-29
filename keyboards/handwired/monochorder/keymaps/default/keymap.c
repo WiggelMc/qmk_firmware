@@ -27,15 +27,15 @@
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * ┌───┬───┬───┬───┐       ┌───┬───┬───┬───┐
-     * │ 0 │ 1 │ 2 │ 3 │       │ 6 │ 7 │ 8 │ 9 │
+     * │ 9 │ 8 │ 7 │ 6 │       │ 3 │ 2 │ 1 │ 0 │
      * └───┴───┴───┴───┘       └───┴───┴───┴───┘
      *
      *         ┌───┬───┐       ┌───┬───┐
-     *         │ R │ 4 │       │ 5 │ R |
+     *         │ R │ 5 │       │ 4 │ R |
      *         └───┴───┘       └───┴───┘
      */
-    [0] = LAYOUT(MCH_0, MCH_1, MCH_2, MCH_3,    MCH_6, MCH_7, MCH_8, MCH_9,
-		   	                   MCH_R, MCH_4,    MCH_5, MCH_R
+    [0] = LAYOUT(MCH_9, MCH_8, MCH_7, MCH_6,    MCH_3, MCH_2, MCH_1, MCH_0,
+		   	                   MCH_R, MCH_5,    MCH_4, MCH_R
     )};
 // clang-format on
 
