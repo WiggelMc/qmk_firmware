@@ -1,0 +1,182 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "author": {
+            "type": "string"
+        },
+        "keyAmount": {
+            "type": "number",
+            "minimum": 2,
+            "maximum": 16
+        },
+        "keyPrefix": {
+            "type": "string"
+        },
+        "generation": {
+            "type": "object",
+            "properties": {
+                "headerLines": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": ["headerLines"],
+            "additionalProperties": false
+        },
+        "input": {
+            "type": "object",
+            "properties": {
+                "uint8": {
+                    "type": "string",
+                    "pattern": "^[\\s0-9A-Fm\\-]+$"
+                },
+                "uint9": {
+                    "type": "string",
+                    "pattern": "^[\\s0-9A-F\\-]+$"
+                },
+                "chord": {
+                    "type": "string",
+                    "pattern": "^[\\s\\^\\-]+$"
+                }
+            },
+            "required": ["uint8", "uint9", "chord"],
+            "additionalProperties": false
+        },
+        "options": {
+            "type": "object",
+            "properties": {
+                "tapCodeDelay": {
+                    "$ref": "#/$defs/option"
+                }
+            },
+            "required": ["tapCodeDelay"],
+            "additionalProperties": false
+        },
+        "specialChords": {
+            "type": "object",
+            "properties": {
+                "noop": {
+                    "$ref": "#/$defs/chordArray"
+                },
+                "cancel": {
+                    "$ref": "#/$defs/chordArray"
+                },
+                "zero": {
+                    "$ref": "#/$defs/chordArray"
+                }
+            },
+            "required": ["noop", "cancel", "zero"],
+            "additionalProperties": false
+        },
+        "chords": {
+            "$ref": "#/$defs/anyNode"
+        },
+        "directKeys": {
+            "type": "object",
+            "patternProperties": {
+                "^[\\s01-]+$": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "keys": {
+                            "type": "object",
+                            "patternProperties": {
+                                "^Layer [0-7]$": {
+                                    "type": "object",
+                                    "patternProperties": {
+                                        "^[0-9A-F]$": {
+                                            "$ref": "#/$defs/keyNode"
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                }
+                            },
+                            "required": ["Layer 0"],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": ["name", "keys"],
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "name",
+        "author",
+        "keyAmount",
+        "keyPrefix",
+        "generation",
+        "input",
+        "specialChords",
+        "chords",
+        "directKeys",
+        "options"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+        "option": {
+            "type": "object",
+            "properties": {
+                "default": {
+                    "type": "number"
+                },
+                "chords": {
+                    "$ref": "#/$defs/chordArray"
+                }
+            },
+            "required": ["default", "chords"],
+            "additionalProperties": false
+        },
+        "chord": {
+            "type": "string",
+            "pattern": "^[\\s01-]+$"
+        },
+        "chordArray": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/chord"
+            }
+        },
+        "layerNode": {
+            "type": "object",
+            "patternProperties": {
+                "^Layer [0-4]$": {
+                    "$ref": "#/$defs/anyNode"
+                }
+            },
+            "additionalProperties": false
+        },
+        "chordNode": {
+            "type": "object",
+            "patternProperties": {
+                "^[\\s01scamMACS\\^\\-]+$": {
+                    "$ref": "#/$defs/anyNode"
+                }
+            },
+            "additionalProperties": false
+        },
+        "keyNode": {
+            "type": "string"
+        },
+        "anyNode": {
+            "anyOf": [
+                { "$ref": "#/$defs/layerNode" },
+                { "$ref": "#/$defs/chordNode" },
+                { "$ref": "#/$defs/keyNode" }
+            ]
+        }
+    }
+}
