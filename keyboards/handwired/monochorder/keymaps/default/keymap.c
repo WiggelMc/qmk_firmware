@@ -1,4 +1,4 @@
-/* Copyright 2024 Kim Hollstein (WiggelMc)
+/* Copyright 2025 Kim Hollstein (WiggelMc)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 #include "print.h"
 #include "action.h"
 #include "../../lib/chordmap.h"
+#include "../../lib/mch_keymap.h"
 
 #include QMK_KEYBOARD_H
 

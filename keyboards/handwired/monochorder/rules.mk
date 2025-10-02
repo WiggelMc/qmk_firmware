@@ -7,7 +7,7 @@ $(KEYBOARD_DIR)/keymaps/%/chordmap.c: $(KEYBOARD_DIR)/keymaps/%/chordmap.json $(
 
 SRC += $(KEYBOARD_DIR)/keymaps/$(KEYMAP)/chordmap.c
 
-SRC += lib/chordmap.h
+SRC += lib/mch_keyboard.c lib/mch_keymap.c
 
 SPLIT_KEYBOARD = yes
 SERIAL_DRIVER = vendor
