@@ -1,3 +1,6 @@
+#ifndef CHORDMAP_H
+#define CHORDMAP_H
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -37,3 +40,5 @@ extern direct_key_index_t get_direct_key_index(chord_t chord);
 extern keycode_t          get_mapped_direct_key(direct_key_index_t dk_index, chord_bit_index_t bit_index);
 
 extern const direct_key_index_t trainer_mode_dk_index;
+
+#endif
