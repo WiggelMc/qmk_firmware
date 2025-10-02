@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MCH_TYPES_H
-#define MCH_TYPES_H
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -35,5 +34,3 @@ typedef uint16_t chord_t;
 typedef struct {
     uint9_t tap_code_delay;
 } options_state_t;
-
-#endif

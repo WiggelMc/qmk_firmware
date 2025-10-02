@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MCH_KEYMAP_H
-#define MCH_KEYMAP_H
+#pragma once
 
 #include "mch_types.h"
 
@@ -35,5 +34,3 @@ extern keycode_t get_mapped_chord_key(chord_t chord, layer_t layer);
 
 extern direct_key_index_t get_direct_key_index(chord_t chord);
 extern keycode_t          get_mapped_direct_key(direct_key_index_t dk_index, chord_bit_index_t bit_index);
-
-#endif

@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHORDMAP_H
-#define CHORDMAP_H
+#pragma once
 
 #include "mch_types.h"
 
@@ -37,5 +36,3 @@ extern keycode_t          get_mapped_direct_key_gen(direct_key_index_t dk_index,
 
 extern const chord_bit_index_t  key_amount;
 extern const direct_key_index_t trainer_mode_dk_index;
-
-#endif
