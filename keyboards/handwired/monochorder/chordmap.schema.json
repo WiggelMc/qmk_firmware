@@ -35,7 +35,7 @@
         "input": {
             "type": "object",
             "properties": {
-                "uint8": {
+                "uint8m": {
                     "type": "string",
                     "pattern": "^[\\s0-9A-Fm\\-]+$"
                 },
@@ -48,7 +48,7 @@
                     "pattern": "^[\\s\\^\\-]+$"
                 }
             },
-            "required": ["uint8", "uint9", "chord"],
+            "required": ["uint8m", "uint9", "chord"],
             "additionalProperties": false
         },
         "options": {
