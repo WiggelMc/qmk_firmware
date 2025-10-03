@@ -1,0 +1,26 @@
+key press logic
+
+
+
+lists
+
+- hold (keys currently held via function)
+- attach (keys that will be pressed with the next actual press)
+- schedule (keys that will be pressed or released at a certain time)
+
+somehow keep all keys around that were released in the last gap Interval
+
+tap_key(keycode_t)
+
+hold_press_key(keycode_t)
+hold_release_key(keycode_t)
+hold_release_all(void)
+
+attach_key(keycode_t)
+detach_key(keycode_t)
+detach_all(void)
+
+clear_all(void)
+
+
+* All functions need multi key versions, each having submitting and non submitting versions

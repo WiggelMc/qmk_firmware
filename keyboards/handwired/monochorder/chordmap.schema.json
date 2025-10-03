@@ -56,9 +56,12 @@
             "properties": {
                 "tapCodeDelay": {
                     "$ref": "#/$defs/option"
+                },
+                "tapCodeGap": {
+                    "$ref": "#/$defs/option"
                 }
             },
-            "required": ["tapCodeDelay"],
+            "required": ["tapCodeDelay", "tapCodeGap"],
             "additionalProperties": false
         },
         "specialChords": {

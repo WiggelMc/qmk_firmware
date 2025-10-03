@@ -36,3 +36,7 @@ void keyboard_post_init_kb(void) {
     // init_chorder_logic(); TODO
     keyboard_post_init_user();
 }
+
+void housekeeping_task_kb(void) {
+    // process scheduled keys; TODO
+}

@@ -17,14 +17,18 @@
     },
     "options": {
         "tapCodeDelay": {
-            "default": 10,
+            "default": 0,
             "chords": ["10001 0000"]
+        },
+        "tapCodeGap": {
+            "default": 0,
+            "chords": ["10011 0000"]
         }
     },
     "specialChords": {
         "noop": ["11111 11111", "11111 00000", "00000 11111"],
         "cancel": ["00000 00001"],
-        "zero": ["00000 10001"]
+        "zero": ["----- 10001"]
     },
     "chords": {
         "sca^^ ^^^^0": {

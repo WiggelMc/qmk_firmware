@@ -14,13 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdlib.h>
-#include "print.h"
-#include "action.h"
-#include "../../lib/chordmap.h"
-#include "../../lib/mch_keymap.h"
-
 #include QMK_KEYBOARD_H
+
+#include <stdint.h>
+#include "../../lib/mch_types.h"
+
+// #include "../../lib/chordmap.h"
+// #include "../../lib/mch_keymap.h"
 
 // clang-format off
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -33,8 +33,8 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *         │ R │ 5 │       │ 4 │ R |
      *         └───┴───┘       └───┴───┘
      */
-    [0] = {}};
-    // [0] = LAYOUT(0, 0, 0, 0,    0, 0, 0, 0,
-	// 	   	           0, 0,    0, 0
-    // )};
+    // [0] = {}};
+    [0] = LAYOUT(MCH_9, MCH_8, MCH_7, MCH_6,    MCH_3, MCH_2, MCH_1, MCH_0,
+		   	                   MCH_R, MCH_5,    MCH_4, MCH_R
+    )};
 // clang-format on
