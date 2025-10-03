@@ -23,16 +23,10 @@ def nl(indent):
 
 def main():
     input_file = sys.argv[1]
-    try:
-        output_file = sys.argv[2]
-    except IndexError:
-        output_file = None
+    output_file = sys.argv[2]
 
     with open(input_file) as f:
         input_map = json.load(f)
-        print(input_map)
-
-    print(sys.argv)
 
     file = textwrap.dedent(
         f'''\
@@ -49,9 +43,6 @@ def main():
     if output_file:
         with open(output_file, "w") as f:
             f.write(file)
-
-    with open("C://mch_out.txt", "w") as f:
-        f.write(file)
 
 
 if __name__ == '__main__':
