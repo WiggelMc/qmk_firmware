@@ -44,7 +44,7 @@ __attribute__((weak)) bool is_chord_cancel(chord_t chord) {
     return is_chord_cancel_gen(chord);
 }
 
-__attribute__((weak)) keycode_t get_mapped_chord_key(chord_t chord, layer_t layer) {
+__attribute__((weak)) key_value_t get_mapped_chord_key(chord_t chord, layer_t layer) {
     return get_mapped_chord_key_gen(chord, layer);
 }
 
@@ -53,4 +53,8 @@ __attribute__((weak)) direct_key_index_t get_direct_key_index(chord_t chord) {
 }
 __attribute__((weak)) keycode_t get_mapped_direct_key(direct_key_index_t dk_index, chord_bit_index_t bit_index) {
     return get_mapped_direct_key_gen(dk_index, bit_index);
+}
+
+__attribute__((weak)) bool process_mch_record_user(key_value_t key, mch_keyrecord_t *record) {
+    return true;
 }

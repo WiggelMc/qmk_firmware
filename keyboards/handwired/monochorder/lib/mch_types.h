@@ -37,6 +37,35 @@ typedef struct {
     uint9_t tap_code_gap;
 } options_state_t;
 
+typedef enum {
+    M_L_CTRL  = 1 << 0,
+    M_L_SHIFT = 1 << 1,
+    M_L_ALT   = 1 << 2,
+    M_L_META  = 1 << 3,
+    M_R_CTRL  = 1 << 4,
+    M_R_SHIFT = 1 << 5,
+    M_R_ALT   = 1 << 6,
+    M_R_META  = 1 << 7,
+} modifiers_t;
+
+typedef struct {
+    keycode_t   keycode;
+    modifiers_t modifiers;
+} key_value_t;
+
+typedef enum {
+    TAP,
+    HOLD_PRESS,
+    HOLD_RELEASE,
+    DK_PRESS,
+    DK_RELEASE,
+} mch_keyevent_t;
+
+typedef struct {
+    mch_keyevent_t event;
+    bool           pressed;
+} mch_keyrecord_t;
+
 #define KC_RESERVED 0
 
 enum custom_keycodes {

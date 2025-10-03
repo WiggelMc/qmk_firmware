@@ -24,3 +24,12 @@ clear_all(void)
 
 
 * All functions need multi key versions, each having submitting and non submitting versions
+
+
+
+
+TODO:
+
+Add custom way for users to intercept their own custom codes.
+Modifiers should probably be split before this.
+Users should be able to add custom codes into the chordmap

@@ -28,9 +28,10 @@ extern bool set_option_value(chord_t chord, uint9_t value, options_state_t *opti
 
 extern bool is_chord_noop(chord_t chord);
 extern bool is_chord_cancel(chord_t chord);
-extern bool is_chord_zero(chord_t chord);
 
-extern keycode_t get_mapped_chord_key(chord_t chord, layer_t layer);
+extern key_value_t get_mapped_chord_key(chord_t chord, layer_t layer);
 
 extern direct_key_index_t get_direct_key_index(chord_t chord);
 extern keycode_t          get_mapped_direct_key(direct_key_index_t dk_index, chord_bit_index_t bit_index);
+
+extern bool process_mch_record_user(key_value_t key, mch_keyrecord_t *record);
