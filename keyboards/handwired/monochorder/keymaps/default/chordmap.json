@@ -248,35 +248,40 @@
             }
         },
         "^^^^^ ^^^01": {
-            "00101 110": "CC_REPEAT_LAST_PRESS",
-            "00011 110": "CC_REPEAT_LAST_RESULT",
+            "00010 010": "CC_REPEAT_LAST_PRESS",
+            "00010 100": "CC_REPEAT_LAST_RESULT",
 
-            "10000 100": "CC_FLAG_MOD_SHIFT",
-            "01000 100": "CC_FLAG_MOD_CTRL",
-            "00100 100": "CC_FLAG_MOD_ALT",
-            "00010 100": "CC_FLAG_MOD_META",
-            "10000 010": "CC_FLAG_MOD_R_SHIFT",
-            "01000 010": "CC_FLAG_MOD_R_CTRL",
-            "00100 010": "CC_FLAG_MOD_R_ALT",
-            "00010 010": "CC_FLAG_MOD_R_META",
+            "01101 110": "CC_TYPE_BYTE_HEX",
+            "01101 000": "CC_TYPE_BYTE_BIN",
+            "01101 010": "CC_TYPE_BYTE_OCT",
+            "01101 100": "CC_TYPE_BYTE_DEC",
 
-            "00011 100": "CC_FLAG_LAYER_1",
+            "11101 100": "CC_SET_OPTION",
+            "11101 111": "CC_RESET_OPTION",
 
-            "00100 110": "CC_FLAG_HOLD_PRESS",
-            "00110 110": "CC_FLAG_HOLD_RELEASE",
-            "00001 110": "CC_FLAG_HOLD_ONCE",
-            "00111 110": "CC_HOLD_RELEASE_ALL",
+            "11001 100": "CC_ENTER_DIRECT_KEY_MODE",
+            "11001 101": "CC_ENTER_TRAINER_MODE",
 
-            "11100 100": "CC_FLAG_LOCK_FLAG",
-            "11100 010": "CC_FLAG_LOCK_FUNCTION",
+            "00110 100": "CC_FLAG_MOD_SHIFT",
+            "00110 010": "CC_FLAG_MOD_CTRL",
+            "00110 001": "CC_FLAG_MOD_ALT",
+            "00110 000": "CC_FLAG_MOD_META",
+            "10110 100": "CC_FLAG_MOD_R_SHIFT",
+            "10110 010": "CC_FLAG_MOD_R_CTRL",
+            "10110 001": "CC_FLAG_MOD_R_ALT",
+            "10110 000": "CC_FLAG_MOD_R_META",
 
-            "00111 000": "CC_TYPE_BYTE_HEX",
-            "00011 000": "CC_TYPE_BYTE_BIN",
-            "00101 000": "CC_TYPE_BYTE_OCT",
-            "00110 000": "CC_TYPE_BYTE_DEC",
+            "00011 000": "CC_FLAG_LAYER_1",
 
-            "11100 011": "CC_SET_OPTION",
-            "00111 011": "CC_ENTER_DIRECT_KEY_MODE"
+            "01110 100": "CC_FLAG_HOLD_PRESS",
+            "01110 110": "CC_FLAG_HOLD_RELEASE",
+            "01110 111": "CC_HOLD_RELEASE_ALL",
+            "01110 000": "CC_FLAG_ATTACH",
+            "01110 010": "CC_FLAG_DETACH",
+            "01110 011": "CC_DETACH_ALL",
+
+            "11000 100": "CC_FLAG_LOCK_FLAG",
+            "11000 010": "CC_FLAG_LOCK_FUNCTION"
         }
     },
     "directKeys": {
