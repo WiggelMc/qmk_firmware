@@ -16,7 +16,8 @@
 
 #include <stdbool.h>
 #include "action.h"
-#include "mch_types.h"
+#include "../mch_types.h"
+#include "../mch_keyboard.h"
 #include "quantum.h"
 
 bool process_record_kb(keycode_t keycode, keyrecord_t* record) {
