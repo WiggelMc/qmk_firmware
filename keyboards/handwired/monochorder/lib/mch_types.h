@@ -69,7 +69,9 @@ typedef struct {
 #define KC_RESERVED 0
 
 enum custom_keycodes {
-    MCH_0 = SAFE_RANGE + 3,
+    // Keyboard
+    SECTION_MCH_KEYBOARD = SAFE_RANGE + 3,
+    MCH_0                = SECTION_MCH_KEYBOARD,
     MCH_1,
     MCH_2,
     MCH_3,
@@ -88,7 +90,11 @@ enum custom_keycodes {
 
     MCH_R,
 
-    MCH_DK_LAYER_1,
+
+    // Direct Key
+    SECTION_MCH_DK,
+
+    MCH_DK_LAYER_1 = SECTION_MCH_DK,
     MCH_DK_LAYER_2,
     MCH_DK_LAYER_3,
     MCH_DK_LAYER_4,
@@ -104,7 +110,11 @@ enum custom_keycodes {
     MCH_DK_LAYER_14,
     MCH_DK_LAYER_15,
 
-    CC_CANCEL,
+
+    // Control Codes
+    SECTION_MCH_CC,
+
+    CC_CANCEL = SECTION_MCH_CC,
     CC_RESET,
 
     CC_SET_OPTION,
@@ -147,3 +157,8 @@ enum custom_keycodes {
 
     MCH_SAFE_RANGE,
 };
+
+extern bool is_any_mch_code(keycode_t code);
+extern bool is_mch_keyboard_code(keycode_t code);
+extern bool is_mch_direct_key_code(keycode_t code);
+extern bool is_mch_control_code(keycode_t code);

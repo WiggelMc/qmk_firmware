@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mch_keymap.h"
-#include "chordmap.h"
+#include "../mch_keymap.h"
+#include "../chordmap.h"
 
 __attribute__((weak)) bool read_input_uint8m(chord_t chord, uint8m_t *out_data) {
     return read_input_uint8m_gen(chord, out_data);
