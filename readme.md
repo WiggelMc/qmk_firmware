@@ -1,3 +1,9 @@
+# Monochorder Keyboard
+
+This fork adds support for a 10+2 key chording keyboard using one key per finger.
+
+* [Monochorder](/keyboards/handwired/monochorder/)
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
