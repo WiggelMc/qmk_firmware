@@ -37,11 +37,11 @@
             "properties": {
                 "uint8m": {
                     "type": "string",
-                    "pattern": "^[\\s0-9A-Fm\\-]+$"
+                    "pattern": "^[\\s0-7m\\-]+$"
                 },
                 "uint9": {
                     "type": "string",
-                    "pattern": "^[\\s0-9A-F\\-]+$"
+                    "pattern": "^[\\s0-8\\-]+$"
                 },
                 "chord": {
                     "type": "string",
