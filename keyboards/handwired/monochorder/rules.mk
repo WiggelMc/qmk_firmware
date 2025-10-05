@@ -26,7 +26,15 @@
 PYTHON ?= python3
 KEYBOARD_DIR = keyboards/$(KEYBOARD)
 
-$(KEYBOARD_DIR)/keymaps/%/chordmap.c: $(KEYBOARD_DIR)/keymaps/%/chordmap.json $(KEYBOARD_DIR)/gen_chordmap.py
+MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*.py )
+MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*.py )
+MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*.py )
+MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*.py )
+MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*.py )
+MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*/*.py )
+
+
+$(KEYBOARD_DIR)/keymaps/%/chordmap.c: $(KEYBOARD_DIR)/keymaps/%/chordmap.json $(KEYBOARD_DIR)/gen_chordmap.py $(MCH_PYTHON_SRC)
 	@echo "generate chordmap for $(KEYBOARD):$*..."
 	$(PYTHON) $(KEYBOARD_DIR)/gen_chordmap.py $(KEYBOARD_DIR)/keymaps/$*/chordmap.json $(KEYBOARD_DIR)/keymaps/$*/chordmap.c
 
@@ -42,29 +50,12 @@ SRC += $(KEYBOARD_DIR)/keymaps/$(KEYMAP)/chordmap.c
 #                                                                     #
 #######################################################################
 
-## chording
-SRC += lib/chording/chording.c
-
-## direct_key
-SRC += lib/direct_key/direct_key.c
-
-## function
-SRC += lib/function/function.c
-
-## keypress
-SRC += lib/keypress/keypress.c
-
-## mch_keyboard
-SRC += lib/mch_keyboard/mch_keyboard.c
-
-## mch_keymap
-SRC += lib/mch_keymap/mch_keymap.c
-
-## mch_types
-SRC += lib/mch_types/mch_types.c
-
-## options
-SRC += lib/options/options.c
+SRC += $(wildcard $(KEYBOARD_DIR)/lib/*.c )
+SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*.c )
+SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*.c )
+SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*.c )
+SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*.c )
+SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*/*.c )
 
 
 
