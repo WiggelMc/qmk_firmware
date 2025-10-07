@@ -83,7 +83,8 @@
                         "type": "array",
                         "prefixItems": [
                             { "$ref": "#/$defs/advancedChord" },
-                            { "$ref": "#/$defs/keyExpression" }
+                            { "$ref": "#/$defs/keyExpression" },
+                            { "$ref": "#/$defs/modifiers" }
                         ],
                         "minItems": 2,
                         "items": false
@@ -122,7 +123,7 @@
                                 "additionalProperties": false
                             }
                         },
-                        "required": ["name", "keys"],
+                        "required": ["name", "chords", "keys"],
                         "additionalProperties": false
                     },
                     { "$ref": "#/$defs/comment" }
@@ -168,6 +169,10 @@
         "advancedChord": {
             "type": "string",
             "pattern": "^[\\s01scamMACS\\-]+\\sL[0-4\\-]$"
+        },
+        "modifiers": {
+            "type": "string",
+            "pattern": "^([\\+i][\\sscamMACS]+)+$"
         },
         "chordArray": {
             "type": "array",

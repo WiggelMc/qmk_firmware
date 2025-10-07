@@ -20,7 +20,6 @@
 
 extern bool read_input_uint8m_gen(chord_t chord, uint8m_t *out_data);
 extern bool read_input_uint9_gen(chord_t chord, uint9_t *out_data);
-extern bool read_input_chord_gen(chord_t chord, chord_t *out_data);
 
 extern bool reset_option_values_gen(options_state_t *options);
 extern bool reset_option_value_gen(chord_t chord, options_state_t *options);
