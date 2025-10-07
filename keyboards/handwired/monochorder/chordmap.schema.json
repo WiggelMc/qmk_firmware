@@ -109,7 +109,7 @@
                             "keys": {
                                 "type": "object",
                                 "patternProperties": {
-                                    "^Layer [0-7]$": {
+                                    "^Layer [0-9A-F]$": {
                                         "type": "object",
                                         "patternProperties": {
                                             "^[0-9A-F]$": {
@@ -168,7 +168,7 @@
         },
         "advancedChord": {
             "type": "string",
-            "pattern": "^[\\s01scamMACS\\-]+\\sL[0-4\\-]$"
+            "pattern": "^[\\s01scamMACS\\-]+\\sL[0-9A-F\\-]$"
         },
         "modifiers": {
             "type": "string",

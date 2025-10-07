@@ -94,7 +94,8 @@ enum custom_keycodes {
     // Direct Key
     SECTION_MCH_DK,
 
-    MCH_DK_LAYER_1 = SECTION_MCH_DK,
+    MCH_DK_LAYER_0 = SECTION_MCH_DK,
+    MCH_DK_LAYER_1,
     MCH_DK_LAYER_2,
     MCH_DK_LAYER_3,
     MCH_DK_LAYER_4,
@@ -103,12 +104,12 @@ enum custom_keycodes {
     MCH_DK_LAYER_7,
     MCH_DK_LAYER_8,
     MCH_DK_LAYER_9,
-    MCH_DK_LAYER_10,
-    MCH_DK_LAYER_11,
-    MCH_DK_LAYER_12,
-    MCH_DK_LAYER_13,
-    MCH_DK_LAYER_14,
-    MCH_DK_LAYER_15,
+    MCH_DK_LAYER_A,
+    MCH_DK_LAYER_B,
+    MCH_DK_LAYER_C,
+    MCH_DK_LAYER_D,
+    MCH_DK_LAYER_E,
+    MCH_DK_LAYER_F,
 
 
     // Control Codes
@@ -142,10 +143,22 @@ enum custom_keycodes {
     CC_FLAG_MOD_R_SHIFT,
     CC_FLAG_MOD_R_ALT,
 
+    CC_FLAG_LAYER_0,
     CC_FLAG_LAYER_1,
     CC_FLAG_LAYER_2,
     CC_FLAG_LAYER_3,
     CC_FLAG_LAYER_4,
+    CC_FLAG_LAYER_5,
+    CC_FLAG_LAYER_6,
+    CC_FLAG_LAYER_7,
+    CC_FLAG_LAYER_8,
+    CC_FLAG_LAYER_9,
+    CC_FLAG_LAYER_A,
+    CC_FLAG_LAYER_B,
+    CC_FLAG_LAYER_C,
+    CC_FLAG_LAYER_D,
+    CC_FLAG_LAYER_E,
+    CC_FLAG_LAYER_F,
 
     CC_FLAG_HOLD_PRESS,
     CC_FLAG_HOLD_RELEASE,
