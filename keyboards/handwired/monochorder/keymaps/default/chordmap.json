@@ -12,17 +12,16 @@
     },
     "input": {
         "uint8m": "m7654 3210-",
-        "uint9": "87654 3210-",
-        "chord": "^^^^^ ^^^^-"
+        "uint9": "87654 3210-"
     },
     "options": {
         "tapCodeDelay": {
             "default": 0,
-            "chords": ["10001 0000"]
+            "chords": ["10001 0000-"]
         },
         "tapCodeGap": {
             "default": 0,
-            "chords": ["10011 0000"]
+            "chords": ["10011 0000-"]
         }
     },
     "specialChords": {
@@ -30,263 +29,253 @@
         "cancel": ["00000 00001"],
         "zero": ["----- 10001"]
     },
-    "chords": {
-        "sca^^ ^^^^0": {
-            "Layer 0": {
-                "00 0000": "KC_RESERVED",
-                "00 0001": "KC_MEDIA_NEXT_TRACK",
-                "00 0010": "KC_AUDIO_VOL_UP",
-                "00 0011": "KC_BRIGHTNESS_UP",
-                "00 0100": "KC_AUDIO_VOL_DOWN",
-                "00 0101": "KC_MEDIA_PREV_TRACK",
-                "00 0110": "KC_AUDIO_MUTE",
-                "00 0111": "KEY(V)",
-                "00 1000": "KC_MEDIA_PLAY_PAUSE",
-                "00 1001": "KC_PRINT_SCREEN",
-                "00 1010": "KEY(M)",
-                "00 1011": "KEY(N)",
-                "00 1100": "KC_BRIGHTNESS_DOWN",
-                "00 1101": "KEY(P)",
-                "00 1110": "KEY(Y)",
-                "00 1111": "KC_MEDIA_STOP",
+    "chords": [
+        "/sca^^ ^^^^0 L^/ Keys",
 
-                "01 0000": "KEY(0)",
-                "01 0001": "KEY(1)",
-                "01 0010": "KEY(2)",
-                "01 0011": "KEY(3)",
-                "01 0100": "KEY(4)",
-                "01 0101": "KEY(5)",
-                "01 0110": "KEY(6)",
-                "01 0111": "KEY(7)",
-                "01 1000": "KEY(8)",
-                "01 1001": "KEY(9)",
-                "01 1010": "KEY(K)",
-                "01 1011": "DE_ODIA",
-                "01 1100": "KEY(I)",
-                "01 1101": "KEY(J)",
-                "01 1110": "DE_UDIA",
-                "01 1111": "KC_SPACE",
+        ["sca00 00000 L0", "KC_RESERVED"],
+        ["sca00 00010 L0", "KC_MEDIA_NEXT_TRACK"],
+        ["sca00 00100 L0", "KC_AUDIO_VOL_UP"],
+        ["sca00 00110 L0", "KC_BRIGHTNESS_UP"],
+        ["sca00 01000 L0", "KC_AUDIO_VOL_DOWN"],
+        ["sca00 01010 L0", "KC_MEDIA_PREV_TRACK"],
+        ["sca00 01100 L0", "KC_AUDIO_MUTE"],
+        ["sca00 01110 L0", "KEY(V)"],
+        ["sca00 10000 L0", "KC_MEDIA_PLAY_PAUSE"],
+        ["sca00 10010 L0", "KC_PRINT_SCREEN"],
+        ["sca00 10100 L0", "KEY(M)"],
+        ["sca00 10110 L0", "KEY(N)"],
+        ["sca00 11000 L0", "KC_BRIGHTNESS_DOWN"],
+        ["sca00 11010 L0", "KEY(P)"],
+        ["sca00 11100 L0", "KEY(Y)"],
+        ["sca00 11110 L0", "KC_MEDIA_STOP"],
 
-                "10 0000": "0",
-                "10 0001": "0",
-                "10 0010": "KEY(B)",
-                "10 0011": "DE_ADIA",
-                "10 0100": "0",
-                "10 0101": "KEY(L)",
-                "10 0110": "KEY(T)",
-                "10 0111": "KEY(H)",
-                "10 1000": "0",
-                "10 1001": "KEY(R)",
-                "10 1010": "KEY(C)",
-                "10 1011": "DE_SS",
-                "10 1100": "KEY(O)",
-                "10 1101": "KEY(W)",
-                "10 1110": "KEY(D)",
-                "10 1111": "KC_PAUSE",
+        ["sca01 00000 L0", "KEY(0)"],
+        ["sca01 00010 L0", "KEY(1)"],
+        ["sca01 00100 L0", "KEY(2)"],
+        ["sca01 00110 L0", "KEY(3)"],
+        ["sca01 01000 L0", "KEY(4)"],
+        ["sca01 01010 L0", "KEY(5)"],
+        ["sca01 01100 L0", "KEY(6)"],
+        ["sca01 01110 L0", "KEY(7)"],
+        ["sca01 10000 L0", "KEY(8)"],
+        ["sca01 10010 L0", "KEY(9)"],
+        ["sca01 10100 L0", "KEY(K)"],
+        ["sca01 10110 L0", "DE_ODIA"],
+        ["sca01 11000 L0", "KEY(I)"],
+        ["sca01 11010 L0", "KEY(J)"],
+        ["sca01 11100 L0", "DE_UDIA"],
+        ["sca01 11110 L0", "KC_SPACE"],
 
-                "11 0000": "KC_RESERVED",
-                "11 0001": "KEY(G)",
-                "11 0010": "KEY(U)",
-                "11 0011": "KEY(Z)",
-                "11 0100": "KEY(E)",
-                "11 0101": "KC_SCROLL_LOCK",
-                "11 0110": "KEY(X)",
-                "11 0111": "KEY(Q)",
-                "11 1000": "KEY(A)",
-                "11 1001": "KC_DOWN",
-                "11 1010": "KEY(F)",
-                "11 1011": "KC_LEFT",
-                "11 1100": "KEY(S)",
-                "11 1101": "KC_UP",
-                "11 1110": "KC_RIGHT",
-                "11 1111": "0"
-            },
-            "Layer 1": {
-                "00 0000": "KC_RESERVED",
-                "00 0001": "0",
-                "00 0010": "0",
-                "00 0011": "KC_APPLICATION",
-                "00 0100": "0",
-                "00 0101": "0",
-                "00 0110": "0",
-                "00 0111": "0",
-                "00 1000": "0",
-                "00 1001": "0",
-                "00 1010": "0",
-                "00 1011": "0",
-                "00 1100": "0",
-                "00 1101": "0",
-                "00 1110": "0",
-                "00 1111": "0",
+        ["sca10 00000 L0", "0"],
+        ["sca10 00010 L0", "0"],
+        ["sca10 00100 L0", "KEY(B)"],
+        ["sca10 00110 L0", "DE_ADIA"],
+        ["sca10 01000 L0", "0"],
+        ["sca10 01010 L0", "KEY(L)"],
+        ["sca10 01100 L0", "KEY(T)"],
+        ["sca10 01110 L0", "KEY(H)"],
+        ["sca10 10000 L0", "0"],
+        ["sca10 10010 L0", "KEY(R)"],
+        ["sca10 10100 L0", "KEY(C)"],
+        ["sca10 10110 L0", "DE_SS"],
+        ["sca10 11000 L0", "KEY(O)"],
+        ["sca10 11010 L0", "KEY(W)"],
+        ["sca10 11100 L0", "KEY(D)"],
+        ["sca10 11110 L0", "KC_PAUSE"],
 
-                "01 0000": "KC_KP_0",
-                "01 0001": "KC_KP_1",
-                "01 0010": "KC_KP_2",
-                "01 0011": "KC_KP_3",
-                "01 0100": "KC_KP_4",
-                "01 0101": "KC_KP_5",
-                "01 0110": "KC_KP_6",
-                "01 0111": "KC_KP_7",
-                "01 1000": "KC_KP_8",
-                "01 1001": "KC_KP_9",
-                "01 1010": "0",
-                "01 1011": "0",
-                "01 1100": "0",
-                "01 1101": "0",
-                "01 1110": "0",
-                "01 1111": "KC_NUM_LOCK",
+        ["sca11 00000 L0", "KC_RESERVED"],
+        ["sca11 00010 L0", "KEY(G)"],
+        ["sca11 00100 L0", "KEY(U)"],
+        ["sca11 00110 L0", "KEY(Z)"],
+        ["sca11 01000 L0", "KEY(E)"],
+        ["sca11 01010 L0", "KC_SCROLL_LOCK"],
+        ["sca11 01100 L0", "KEY(X)"],
+        ["sca11 01110 L0", "KEY(Q)"],
+        ["sca11 10000 L0", "KEY(A)"],
+        ["sca11 10010 L0", "KC_DOWN"],
+        ["sca11 10100 L0", "KEY(F)"],
+        ["sca11 10110 L0", "KC_LEFT"],
+        ["sca11 11000 L0", "KEY(S)"],
+        ["sca11 11010 L0", "KC_UP"],
+        ["sca11 11100 L0", "KC_RIGHT"],
+        ["sca11 11110 L0", "0"],
 
-                "10 0000": "KC_F16",
-                "10 0001": "KC_F1",
-                "10 0010": "KC_F2",
-                "10 0011": "KC_F3",
-                "10 0100": "KC_F4",
-                "10 0101": "KC_F5",
-                "10 0110": "KC_F6",
-                "10 0111": "KC_F7",
-                "10 1000": "KC_F8",
-                "10 1001": "KC_F9",
-                "10 1010": "KC_F10",
-                "10 1011": "KC_F11",
-                "10 1100": "KC_F12",
-                "10 1101": "KC_F13",
-                "10 1110": "KC_F14",
-                "10 1111": "KC_F15",
+        ["sca00 00000 L1", "KC_RESERVED"],
+        ["sca00 00010 L1", "0"],
+        ["sca00 00100 L1", "0"],
+        ["sca00 00110 L1", "KC_APPLICATION"],
+        ["sca00 01000 L1", "0"],
+        ["sca00 01010 L1", "0"],
+        ["sca00 01100 L1", "0"],
+        ["sca00 01110 L1", "0"],
+        ["sca00 10000 L1", "0"],
+        ["sca00 10010 L1", "0"],
+        ["sca00 10100 L1", "0"],
+        ["sca00 10110 L1", "0"],
+        ["sca00 11000 L1", "0"],
+        ["sca00 11010 L1", "0"],
+        ["sca00 11100 L1", "0"],
+        ["sca00 11110 L1", "0"],
 
-                "11 0000": "KC_RESERVED",
-                "11 0001": "KC_F17",
-                "11 0010": "KC_F18",
-                "11 0011": "KC_F19",
-                "11 0100": "KC_F20",
-                "11 0101": "KC_F21",
-                "11 0110": "KC_F22",
-                "11 0111": "KC_F23",
-                "11 1000": "KC_F24",
-                "11 1001": "0",
-                "11 1010": "0",
-                "11 1011": "0",
-                "11 1100": "0",
-                "11 1101": "0",
-                "11 1110": "0",
-                "11 1111": "0"
-            }
-        },
-        "sca^^ ^^^11": {
-            "Layer 0": {
-                "00 000": "0",
-                "00 001": "KC_RIGHT_ALT",
-                "00 010": "KC_LEFT_GUI",
-                "00 011": "KEY(DOT)",
-                "00 100": "KC_LEFT_ALT",
-                "00 101": "KEY(MINS)",
-                "00 110": "KEY(COMM)",
-                "00 111": "KC_RESERVED",
+        ["sca01 00000 L1", "KC_KP_0"],
+        ["sca01 00010 L1", "KC_KP_1"],
+        ["sca01 00100 L1", "KC_KP_2"],
+        ["sca01 00110 L1", "KC_KP_3"],
+        ["sca01 01000 L1", "KC_KP_4"],
+        ["sca01 01010 L1", "KC_KP_5"],
+        ["sca01 01100 L1", "KC_KP_6"],
+        ["sca01 01110 L1", "KC_KP_7"],
+        ["sca01 10000 L1", "KC_KP_8"],
+        ["sca01 10010 L1", "KC_KP_9"],
+        ["sca01 10100 L1", "0"],
+        ["sca01 10110 L1", "0"],
+        ["sca01 11000 L1", "0"],
+        ["sca01 11010 L1", "0"],
+        ["sca01 11100 L1", "0"],
+        ["sca01 11110 L1", "KC_NUM_LOCK"],
 
-                "01 000": "KC_LEFT_CTRL",
-                "01 001": "DE_CIRC",
-                "01 010": "0",
-                "01 011": "KC_PAGE_DOWN",
-                "01 100": "DE_ACUT",
-                "01 101": "KC_RIGHT_SHIFT",
-                "01 110": "KC_RIGHT_CTRL",
-                "01 111": "KC_PAGE_UP",
+        ["sca10 00000 L1", "KC_F16"],
+        ["sca10 00010 L1", "KC_F1"],
+        ["sca10 00100 L1", "KC_F2"],
+        ["sca10 00110 L1", "KC_F3"],
+        ["sca10 01000 L1", "KC_F4"],
+        ["sca10 01010 L1", "KC_F5"],
+        ["sca10 01100 L1", "KC_F6"],
+        ["sca10 01110 L1", "KC_F7"],
+        ["sca10 10000 L1", "KC_F8"],
+        ["sca10 10010 L1", "KC_F9"],
+        ["sca10 10100 L1", "KC_F10"],
+        ["sca10 10110 L1", "KC_F11"],
+        ["sca10 11000 L1", "KC_F12"],
+        ["sca10 11010 L1", "KC_F13"],
+        ["sca10 11100 L1", "KC_F14"],
+        ["sca10 11110 L1", "KC_F15"],
 
-                "10 000": "KC_LEFT_SHIFT",
-                "10 001": "KEY(PLUS)",
-                "10 010": "KEY(HASH)",
-                "10 011": "KC_RIGHT_GUI",
-                "10 100": "KEY(LABK)",
-                "10 101": "0",
-                "10 110": "0",
-                "10 111": "KC_INSERT",
+        ["sca11 00000 L1", "KC_RESERVED"],
+        ["sca11 00010 L1", "KC_F17"],
+        ["sca11 00100 L1", "KC_F18"],
+        ["sca11 00110 L1", "KC_F19"],
+        ["sca11 01000 L1", "KC_F20"],
+        ["sca11 01010 L1", "KC_F21"],
+        ["sca11 01100 L1", "KC_F22"],
+        ["sca11 01110 L1", "KC_F23"],
+        ["sca11 10000 L1", "KC_F24"],
+        ["sca11 10010 L1", "0"],
+        ["sca11 10100 L1", "0"],
+        ["sca11 10110 L1", "0"],
+        ["sca11 11000 L1", "0"],
+        ["sca11 11010 L1", "0"],
+        ["sca11 11100 L1", "0"],
+        ["sca11 11110 L1", "0"],
 
-                "11 000": "KC_ENTER",
-                "11 001": "KC_TAB",
-                "11 010": "KC_ESCAPE",
-                "11 011": "KC_END",
-                "11 100": "KC_BACKSPACE",
-                "11 101": "KC_HOME",
-                "11 110": "KC_DELETE",
-                "11 111": "KC_RESERVED"
-            },
-            "Layer 1": {
-                "00 000": "0",
-                "00 001": "0",
-                "00 010": "0",
-                "00 011": "KC_KP_DOT",
-                "00 100": "0",
-                "00 101": "KC_KP_MINUS",
-                "00 110": "KC_KP_DOT",
-                "00 111": "KC_RESERVED",
+        "/sca^^ ^^^11 L^/ Keys",
 
-                "01 000": "0",
-                "01 001": "KC_KP_SLASH",
-                "01 010": "0",
-                "01 011": "0",
-                "01 100": "KC_KP_ASTERISK",
-                "01 101": "0",
-                "01 110": "0",
-                "01 111": "0",
+        ["sca00 00011 L0", "0"],
+        ["sca00 00111 L0", "KC_RIGHT_ALT"],
+        ["sca00 01011 L0", "KC_LEFT_GUI"],
+        ["sca00 01111 L0", "KEY(DOT)"],
+        ["sca00 10011 L0", "KC_LEFT_ALT"],
+        ["sca00 10111 L0", "KEY(MINS)"],
+        ["sca00 11011 L0", "KEY(COMM)"],
+        ["sca00 11111 L0", "KC_RESERVED"],
 
-                "10 000": "0",
-                "10 001": "KC_KP_PLUS",
-                "10 010": "0",
-                "10 011": "0",
-                "10 100": "0",
-                "10 101": "0",
-                "10 110": "0",
-                "10 111": "0",
+        ["sca01 00011 L0", "KC_LEFT_CTRL"],
+        ["sca01 00111 L0", "DE_CIRC"],
+        ["sca01 01011 L0", "0"],
+        ["sca01 01111 L0", "KC_PAGE_DOWN"],
+        ["sca01 10011 L0", "DE_ACUT"],
+        ["sca01 10111 L0", "KC_RIGHT_SHIFT"],
+        ["sca01 11011 L0", "KC_RIGHT_CTRL"],
+        ["sca01 11111 L0", "KC_PAGE_UP"],
 
-                "11 000": "KC_KP_ENTER",
-                "11 001": "0",
-                "11 010": "0",
-                "11 011": "0",
-                "11 100": "0",
-                "11 101": "0",
-                "11 110": "0",
-                "11 111": "KC_RESERVED"
-            }
-        },
-        "^^^^^ ^^^01": {
-            "00010 010": "CC_REPEAT_LAST_PRESS",
-            "00010 100": "CC_REPEAT_LAST_RESULT",
+        ["sca10 00011 L0", "KC_LEFT_SHIFT"],
+        ["sca10 00111 L0", "KEY(PLUS)"],
+        ["sca10 01011 L0", "KEY(HASH)"],
+        ["sca10 01111 L0", "KC_RIGHT_GUI"],
+        ["sca10 10011 L0", "KEY(LABK)"],
+        ["sca10 10111 L0", "0"],
+        ["sca10 11011 L0", "0"],
+        ["sca10 11111 L0", "KC_INSERT"],
 
-            "01101 110": "CC_TYPE_BYTE_HEX",
-            "01101 000": "CC_TYPE_BYTE_BIN",
-            "01101 010": "CC_TYPE_BYTE_OCT",
-            "01101 100": "CC_TYPE_BYTE_DEC",
+        ["sca11 00011 L0", "KC_ENTER"],
+        ["sca11 00111 L0", "KC_TAB"],
+        ["sca11 01011 L0", "KC_ESCAPE"],
+        ["sca11 01111 L0", "KC_END"],
+        ["sca11 10011 L0", "KC_BACKSPACE"],
+        ["sca11 10111 L0", "KC_HOME"],
+        ["sca11 11011 L0", "KC_DELETE"],
+        ["sca11 11111 L0", "KC_RESERVED"],
 
-            "11101 100": "CC_SET_OPTION",
-            "11101 111": "CC_RESET_OPTION",
+        ["sca00 00011 L1", "0"],
+        ["sca00 00111 L1", "0"],
+        ["sca00 01011 L1", "0"],
+        ["sca00 01111 L1", "KC_KP_DOT"],
+        ["sca00 10011 L1", "0"],
+        ["sca00 10111 L1", "KC_KP_MINUS"],
+        ["sca00 11011 L1", "KC_KP_DOT"],
+        ["sca00 11111 L1", "KC_RESERVED"],
 
-            "11001 100": "CC_ENTER_DIRECT_KEY_MODE",
-            "11001 101": "CC_ENTER_TRAINER_MODE",
+        ["sca01 00011 L1", "0"],
+        ["sca01 00111 L1", "KC_KP_SLASH"],
+        ["sca01 01011 L1", "0"],
+        ["sca01 01111 L1", "0"],
+        ["sca01 10011 L1", "KC_KP_ASTERISK"],
+        ["sca01 10111 L1", "0"],
+        ["sca01 11011 L1", "0"],
+        ["sca01 11111 L1", "0"],
 
-            "00110 100": "CC_FLAG_MOD_SHIFT",
-            "00110 010": "CC_FLAG_MOD_CTRL",
-            "00110 001": "CC_FLAG_MOD_ALT",
-            "00110 000": "CC_FLAG_MOD_META",
-            "10110 100": "CC_FLAG_MOD_R_SHIFT",
-            "10110 010": "CC_FLAG_MOD_R_CTRL",
-            "10110 001": "CC_FLAG_MOD_R_ALT",
-            "10110 000": "CC_FLAG_MOD_R_META",
+        ["sca10 00011 L1", "0"],
+        ["sca10 00111 L1", "KC_KP_PLUS"],
+        ["sca10 01011 L1", "0"],
+        ["sca10 01111 L1", "0"],
+        ["sca10 10011 L1", "0"],
+        ["sca10 10111 L1", "0"],
+        ["sca10 11011 L1", "0"],
+        ["sca10 11111 L1", "0"],
 
-            "00011 000": "CC_FLAG_LAYER_1",
+        ["sca11 00011 L1", "KC_KP_ENTER"],
+        ["sca11 00111 L1", "0"],
+        ["sca11 01011 L1", "0"],
+        ["sca11 01111 L1", "0"],
+        ["sca11 10011 L1", "0"],
+        ["sca11 10111 L1", "0"],
+        ["sca11 11011 L1", "0"],
+        ["sca11 11111 L1", "KC_RESERVED"],
 
-            "01110 100": "CC_FLAG_HOLD_PRESS",
-            "01110 110": "CC_FLAG_HOLD_RELEASE",
-            "01110 111": "CC_HOLD_RELEASE_ALL",
-            "01110 000": "CC_FLAG_ATTACH",
-            "01110 010": "CC_FLAG_DETACH",
-            "01110 011": "CC_DETACH_ALL",
+        "/^^^^^ ^^^01 L-/ Keys",
 
-            "11000 100": "CC_FLAG_LOCK_FLAG",
-            "11000 010": "CC_FLAG_LOCK_FUNCTION"
-        }
-    },
-    "directKeys": {
-        "00000 0001": {
+        ["00010 01001 L-", "CC_REPEAT_LAST_PRESS"],
+        ["00010 10001 L-", "CC_REPEAT_LAST_RESULT"],
+        ["01101 11001 L-", "CC_TYPE_BYTE_HEX"],
+        ["01101 00001 L-", "CC_TYPE_BYTE_BIN"],
+        ["01101 01001 L-", "CC_TYPE_BYTE_OCT"],
+        ["01101 10001 L-", "CC_TYPE_BYTE_DEC"],
+        ["11101 10001 L-", "CC_SET_OPTION"],
+        ["11101 11101 L-", "CC_RESET_OPTION"],
+        ["11001 10001 L-", "CC_ENTER_DIRECT_KEY_MODE"],
+        ["11001 10101 L-", "CC_ENTER_TRAINER_MODE"],
+        ["00110 10001 L-", "CC_FLAG_MOD_SHIFT"],
+        ["00110 01001 L-", "CC_FLAG_MOD_CTRL"],
+        ["00110 00101 L-", "CC_FLAG_MOD_ALT"],
+        ["00110 00001 L-", "CC_FLAG_MOD_META"],
+        ["10110 10001 L-", "CC_FLAG_MOD_R_SHIFT"],
+        ["10110 01001 L-", "CC_FLAG_MOD_R_CTRL"],
+        ["10110 00101 L-", "CC_FLAG_MOD_R_ALT"],
+        ["10110 00001 L-", "CC_FLAG_MOD_R_META"],
+        ["00011 00001 L-", "CC_FLAG_LAYER_1"],
+        ["01110 10001 L-", "CC_FLAG_HOLD_PRESS"],
+        ["01110 11001 L-", "CC_FLAG_HOLD_RELEASE"],
+        ["01110 11101 L-", "CC_HOLD_RELEASE_ALL"],
+        ["01110 00001 L-", "CC_FLAG_ATTACH"],
+        ["01110 01001 L-", "CC_FLAG_DETACH"],
+        ["01110 01101 L-", "CC_DETACH_ALL"],
+        ["11000 10001 L-", "CC_FLAG_LOCK_FLAG"],
+        ["11000 01001 L-", "CC_FLAG_LOCK_FUNCTION"]
+    ],
+    "directKeys": [
+        {
             "name": "Number Codes",
+            "chords": ["00000 0001-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_9",
@@ -304,8 +293,11 @@
             }
         },
 
-        "00000 1001": {
+        "/QWERTY Rows",
+
+        {
             "name": "QWERTY Row 1",
+            "chords": ["00000 1001-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_1",
@@ -322,8 +314,9 @@
                 }
             }
         },
-        "00000 1010": {
+        {
             "name": "QWERTY Row 2",
+            "chords": ["00000 1010-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_Q",
@@ -340,8 +333,9 @@
                 }
             }
         },
-        "00000 1011": {
+        {
             "name": "QWERTY Row 3",
+            "chords": ["00000 1011-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_A",
@@ -358,8 +352,9 @@
                 }
             }
         },
-        "00000 1100": {
+        {
             "name": "QWERTY Row 4",
+            "chords": ["00000 1100-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_Z",
@@ -377,8 +372,11 @@
             }
         },
 
-        "00001 0001": {
+        "/Sokoban Controls",
+
+        {
             "name": "Sokoban Controls A",
+            "chords": ["00001 0001-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_A",
@@ -395,8 +393,9 @@
                 }
             }
         },
-        "00001 0010": {
+        {
             "name": "Sokoban Controls B",
+            "chords": ["00001 0010-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_A",
@@ -414,8 +413,11 @@
             }
         },
 
-        "00100 0001": {
+        "/Software Controls",
+
+        {
             "name": "WASD + Arrow Keys",
+            "chords": ["00100 0001-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_A",
@@ -432,8 +434,9 @@
                 }
             }
         },
-        "00100 0010": {
+        {
             "name": "WASD + Mouse",
+            "chords": ["00100 0010-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_A",
@@ -450,8 +453,9 @@
                 }
             }
         },
-        "00100 0011": {
+        {
             "name": "Modifiers + Mouse",
+            "chords": ["00100 0011-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_LEFT_SHIFT",
@@ -469,8 +473,11 @@
             }
         },
 
-        "10001 0001": {
+        "/Game Controls",
+
+        {
             "name": "Hollow Knight Controls",
+            "chords": ["10001 0001-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_LEFT",
@@ -513,8 +520,9 @@
                 }
             }
         },
-        "10010 0001": {
+        {
             "name": "Generic Layered Game Controls",
+            "chords": ["10010 0001-"],
             "keys": {
                 "Layer 0": {
                     "9": "KC_LEFT",
@@ -596,5 +604,5 @@
                 }
             }
         }
-    }
+    ]
 }

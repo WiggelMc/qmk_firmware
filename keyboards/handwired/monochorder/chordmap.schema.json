@@ -1,5 +1,4 @@
 {
-    "$schema": "https://json-schema.org/draft-07/schema#",
     "type": "object",
     "properties": {
         "$schema": {
@@ -42,13 +41,9 @@
                 "uint9": {
                     "type": "string",
                     "pattern": "^[\\s0-8\\-]+$"
-                },
-                "chord": {
-                    "type": "string",
-                    "pattern": "^[\\s\\^\\-]+$"
                 }
             },
-            "required": ["uint8m", "uint9", "chord"],
+            "required": ["uint8m", "uint9"],
             "additionalProperties": false
         },
         "options": {
@@ -81,39 +76,58 @@
             "additionalProperties": false
         },
         "chords": {
-            "$ref": "#/$defs/anyNode"
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "array",
+                        "prefixItems": [
+                            { "$ref": "#/$defs/advancedChord" },
+                            { "$ref": "#/$defs/keyExpression" }
+                        ],
+                        "minItems": 2,
+                        "items": false
+                    },
+                    { "$ref": "#/$defs/comment" }
+                ]
+            }
         },
         "directKeys": {
-            "type": "object",
-            "patternProperties": {
-                "^[\\s01-]+$": {
-                    "type": "object",
-                    "properties": {
-                        "name": {
-                            "type": "string"
-                        },
-                        "keys": {
-                            "type": "object",
-                            "patternProperties": {
-                                "^Layer [0-7]$": {
-                                    "type": "object",
-                                    "patternProperties": {
-                                        "^[0-9A-F]$": {
-                                            "$ref": "#/$defs/keyNode"
-                                        }
-                                    },
-                                    "additionalProperties": false
-                                }
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
                             },
-                            "required": ["Layer 0"],
-                            "additionalProperties": false
-                        }
+                            "chords": {
+                                "$ref": "#/$defs/chordArray"
+                            },
+                            "keys": {
+                                "type": "object",
+                                "patternProperties": {
+                                    "^Layer [0-7]$": {
+                                        "type": "object",
+                                        "patternProperties": {
+                                            "^[0-9A-F]$": {
+                                                "$ref": "#/$defs/keyExpression"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": ["Layer 0"],
+                                "additionalProperties": false
+                            }
+                        },
+                        "required": ["name", "keys"],
+                        "additionalProperties": false
                     },
-                    "required": ["name", "keys"],
-                    "additionalProperties": false
-                }
-            },
-            "additionalProperties": false
+                    { "$ref": "#/$defs/comment" }
+                ]
+            }
         }
     },
     "required": [
@@ -143,43 +157,29 @@
             "required": ["default", "chords"],
             "additionalProperties": false
         },
+        "comment": {
+            "type": "string",
+            "pattern": "^\\/.*$"
+        },
         "chord": {
             "type": "string",
             "pattern": "^[\\s01-]+$"
         },
+        "advancedChord": {
+            "type": "string",
+            "pattern": "^[\\s01scamMACS\\-]+\\sL[0-4\\-]$"
+        },
         "chordArray": {
             "type": "array",
             "items": {
-                "$ref": "#/$defs/chord"
+                "anyOf": [
+                    { "$ref": "#/$defs/chord" },
+                    { "$ref": "#/$defs/comment" }
+                ]
             }
         },
-        "layerNode": {
-            "type": "object",
-            "patternProperties": {
-                "^Layer [0-4]$": {
-                    "$ref": "#/$defs/anyNode"
-                }
-            },
-            "additionalProperties": false
-        },
-        "chordNode": {
-            "type": "object",
-            "patternProperties": {
-                "^[\\s01scamMACS\\^\\-]+$": {
-                    "$ref": "#/$defs/anyNode"
-                }
-            },
-            "additionalProperties": false
-        },
-        "keyNode": {
+        "keyExpression": {
             "type": "string"
-        },
-        "anyNode": {
-            "anyOf": [
-                { "$ref": "#/$defs/layerNode" },
-                { "$ref": "#/$defs/chordNode" },
-                { "$ref": "#/$defs/keyNode" }
-            ]
         }
     }
 }
