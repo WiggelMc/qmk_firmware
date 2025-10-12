@@ -23,9 +23,6 @@ __attribute__((weak)) bool read_input_uint8m(chord_t chord, uint8m_t *out_data) 
 __attribute__((weak)) bool read_input_uint9(chord_t chord, uint9_t *out_data) {
     return read_input_uint9_gen(chord, out_data);
 }
-__attribute__((weak)) bool read_input_chord(chord_t chord, chord_t *out_data) {
-    return read_input_chord_gen(chord, out_data);
-}
 
 __attribute__((weak)) bool reset_option_values(options_state_t *options) {
     return reset_option_values_gen(options);
@@ -43,6 +40,9 @@ __attribute__((weak)) bool is_chord_noop(chord_t chord) {
 __attribute__((weak)) bool is_chord_cancel(chord_t chord) {
     return is_chord_cancel_gen(chord);
 }
+__attribute__((weak)) bool is_chord_zero(chord_t chord) {
+    return is_chord_zero_gen(chord);
+}
 
 __attribute__((weak)) key_value_t get_mapped_chord_key(chord_t chord, layer_t layer) {
     return get_mapped_chord_key_gen(chord, layer);
@@ -53,6 +53,13 @@ __attribute__((weak)) direct_key_index_t get_direct_key_index(chord_t chord) {
 }
 __attribute__((weak)) keycode_t get_mapped_direct_key(direct_key_index_t dk_index, chord_bit_index_t bit_index) {
     return get_mapped_direct_key_gen(dk_index, bit_index);
+}
+
+__attribute__((weak)) chord_bit_index_t get_key_amount() {
+    return key_amount_gen;
+}
+__attribute__((weak)) direct_key_index_t get_trainer_mode_dk_index() {
+    return trainer_mode_dk_index_gen;
 }
 
 __attribute__((weak)) bool process_mch_record_user(key_value_t key, mch_keyrecord_t *record) {

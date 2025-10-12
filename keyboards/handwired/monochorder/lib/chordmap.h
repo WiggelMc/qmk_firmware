@@ -27,11 +27,12 @@ extern bool set_option_value_gen(chord_t chord, uint9_t value, options_state_t *
 
 extern bool is_chord_noop_gen(chord_t chord);
 extern bool is_chord_cancel_gen(chord_t chord);
+extern bool is_chord_zero_gen(chord_t chord);
 
 extern key_value_t get_mapped_chord_key_gen(chord_t chord, layer_t layer);
 
 extern direct_key_index_t get_direct_key_index_gen(chord_t chord);
 extern keycode_t          get_mapped_direct_key_gen(direct_key_index_t dk_index, chord_bit_index_t bit_index);
 
-extern const chord_bit_index_t  key_amount;
-extern const direct_key_index_t trainer_mode_dk_index;
+extern const chord_bit_index_t  key_amount_gen;
+extern const direct_key_index_t trainer_mode_dk_index_gen;

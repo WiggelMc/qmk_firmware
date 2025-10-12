@@ -34,13 +34,12 @@ MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*.py )
 MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*/*.py )
 
 
-$(KEYBOARD_DIR)/keymaps/%/chordmap.c: $(KEYBOARD_DIR)/keymaps/%/chordmap.json $(KEYBOARD_DIR)/gen_chordmap.py $(MCH_PYTHON_SRC)
+$(KEYBOARD_DIR)/keymaps/%/chordmap.c $(KEYBOARD_DIR)/keymaps/%/chordmap_data.h: $(KEYBOARD_DIR)/keymaps/%/chordmap.json $(KEYBOARD_DIR)/gen_chordmap.py $(MCH_PYTHON_SRC)
 	@echo "generate chordmap for $(KEYBOARD):$*..."
-	$(PYTHON) $(KEYBOARD_DIR)/gen_chordmap.py $(KEYBOARD_DIR)/keymaps/$*/chordmap.json $(KEYBOARD_DIR)/keymaps/$*/chordmap.c
+	$(PYTHON) $(KEYBOARD_DIR)/gen_chordmap.py $(KEYBOARD_DIR)/keymaps/$*/chordmap.json $(KEYBOARD_DIR)/keymaps/$*/chordmap.c $(KEYBOARD_DIR)/keymaps/$*/chordmap_data.h
 
 SRC += $(KEYBOARD_DIR)/keymaps/$(KEYMAP)/chordmap.c
-
-
+SRC += $(KEYBOARD_DIR)/keymaps/$(KEYMAP)/chordmap_data.h
 
 #######################################################################
 #                                                                     #

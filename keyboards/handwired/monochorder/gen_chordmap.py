@@ -23,7 +23,8 @@ def nl(indent):
 
 def main():
     input_file = sys.argv[1]
-    output_file = sys.argv[2]
+    output_c_file = sys.argv[2]
+    output_h_file = sys.argv[3]
 
     with open(input_file) as f:
         input_map = json.load(f)
@@ -40,8 +41,8 @@ def main():
         '''
     )
 
-    if output_file:
-        with open(output_file, "w") as f:
+    if output_c_file:
+        with open(output_c_file, "w") as f:
             f.write(file)
 
 
