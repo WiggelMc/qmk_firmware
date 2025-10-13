@@ -9,7 +9,7 @@
 #include <util.h>
 #include "../mch_types.h"
 #include "../mch_keymap.h"
-#include "testout_data.h"
+#include "chordmap_data.h.template"
 
 // TODO: Template
 #define KEY(key) DE_##key

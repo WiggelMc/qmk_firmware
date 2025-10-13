@@ -13,6 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+KEYBOARD_DIR = keyboards/$(KEYBOARD)
+LIB_INCLUDE = \
+	$(wildcard $(KEYBOARD_DIR)/lib/$(1) ) \
+	$(wildcard $(KEYBOARD_DIR)/lib/*/$(1) ) \
+	$(wildcard $(KEYBOARD_DIR)/lib/*/*/$(1) ) \
+	$(wildcard $(KEYBOARD_DIR)/lib/*/*/*/$(1) ) \
+	$(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/$(1) ) \
+	$(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*/$(1) ) \
 
 
 #######################################################################
@@ -24,14 +32,9 @@
 #######################################################################
 
 PYTHON ?= python3
-KEYBOARD_DIR = keyboards/$(KEYBOARD)
 
-MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*.py )
-MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*.py )
-MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*.py )
-MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*.py )
-MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*.py )
-MCH_PYTHON_SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*/*.py )
+MCH_PYTHON_SRC += $(call LIB_INCLUDE,*.py)
+MCH_PYTHON_SRC += $(call LIB_INCLUDE,*.template)
 
 
 $(KEYBOARD_DIR)/keymaps/%/chordmap.c $(KEYBOARD_DIR)/keymaps/%/chordmap_data.h: $(KEYBOARD_DIR)/keymaps/%/chordmap.json $(KEYBOARD_DIR)/gen_chordmap.py $(MCH_PYTHON_SRC)
@@ -41,6 +44,7 @@ $(KEYBOARD_DIR)/keymaps/%/chordmap.c $(KEYBOARD_DIR)/keymaps/%/chordmap_data.h: 
 SRC += $(KEYBOARD_DIR)/keymaps/$(KEYMAP)/chordmap.c
 SRC += $(KEYBOARD_DIR)/keymaps/$(KEYMAP)/chordmap_data.h
 
+
 #######################################################################
 #                                                                     #
 #                                                                     #
@@ -49,13 +53,7 @@ SRC += $(KEYBOARD_DIR)/keymaps/$(KEYMAP)/chordmap_data.h
 #                                                                     #
 #######################################################################
 
-SRC += $(wildcard $(KEYBOARD_DIR)/lib/*.c )
-SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*.c )
-SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*.c )
-SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*.c )
-SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*.c )
-SRC += $(wildcard $(KEYBOARD_DIR)/lib/*/*/*/*/*/*.c )
-
+SRC += $(call LIB_INCLUDE,*.c)
 
 
 #######################################################################
