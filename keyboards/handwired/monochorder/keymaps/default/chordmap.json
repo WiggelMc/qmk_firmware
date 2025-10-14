@@ -7,7 +7,7 @@
     "generation": {
         "headerLines": [
             "#include \"keymap_german.h\"",
-            "#include \"keymap_us_international.h\""
+            "//#include \"keymap_us_international.h\""
         ]
     },
     "input": {

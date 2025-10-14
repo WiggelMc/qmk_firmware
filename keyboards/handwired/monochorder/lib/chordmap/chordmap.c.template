@@ -8,6 +8,11 @@ $gen_header
 #include "../../lib/mch_keymap.h"
 #include "chordmap_data.h"
 
+/* #region     user-headers */
+$header_lines
+
+/* #endregion  user-headers */
+
 #define KEY(key) ${key_prefix}_##key
 #define KEY_AMOUNT $key_amount
 
