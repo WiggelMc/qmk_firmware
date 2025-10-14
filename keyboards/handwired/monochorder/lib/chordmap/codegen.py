@@ -71,10 +71,10 @@ def generate_code():
                 f'{nl(1)}options->{n} = {d};' for i, n, d in [(1, 'tap_code_delay', 0), (2, 'tap_code_gap', 0)]
             ),
             reset_option_switch=''.join(
-                f'{nl(2)}case {i}:{nl(3)}options->{n} = {d};{nl(3)}return true;' for i, n, d in [(1, 'tap_code_delay', 0), (2, 'tap_code_gap', 0)]
+                f'{nl(2)}case 0x{i:04X}:{nl(3)}options->{n} = {d};{nl(3)}return true;' for i, n, d in [(1, 'tap_code_delay', 0), (2, 'tap_code_gap', 0)]
             ),
             set_option_switch=''.join(
-                f'{nl(2)}case {i}:{nl(3)}options->{n} = value;{nl(3)}return true;' for i, n, d in [(1, 'tap_code_delay', 0), (2, 'tap_code_gap', 0)]
+                f'{nl(2)}case 0x{i:04X}:{nl(3)}options->{n} = value;{nl(3)}return true;' for i, n, d in [(1, 'tap_code_delay', 0), (2, 'tap_code_gap', 0)]
             ),
             special_noop_check=''.join(
                 f'{nl(2)}|| MASK_CMP(chord, 0x{b:04X}, 0x{m:04X}) // {c}' for b, m, c in [(0b11111_11111, 0b11111_11111, '11111 11111'), (0b11111_00000, 0b11111_11111, '11111 00000'), (0b00000_11111, 0b11111_11111, '00000 11111')]
