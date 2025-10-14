@@ -26,11 +26,11 @@ gen_disclaimer = '''\
  */
 '''
 
-comment = f'/* /{"TEXT"} */'
-
 
 def nl(indent: int):
     return '\n' + ' ' * 4 * indent
+
+comment = f'{nl(1)}///{"TEXT"}'
 
 
 def create_gen_header(name: str, author: str):
@@ -72,7 +72,7 @@ def generate_code() -> GenerationOutput:
             f'{nl(1)}/* {c} */ [0x{i:04X}] = {k},{f" // {m}" if m is not None else ""}' for i, c, k, m in [(1, '00000 00000 L-', 'KC_RESERVED', '+S'), (2, '00000 01100 L1', 'KEY(A)', None)]
         ),
         'dk_mapping': ''.join(
-            (f'{nl(1)}[0x{i:04X}] = {{ /* {n} */'
+            (f'{nl(1)}[0x{i:04X}] = {{ // {n}'
              + ''.join(f'{nl(2)}[0x{i:01X}] = {e},'
                        for i, e in reversed(list(enumerate(m)))
                        )

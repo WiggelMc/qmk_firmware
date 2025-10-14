@@ -1,2 +1,2 @@
-chordmap.c
-chordmap_data.h
+keymaps/**/chordmap.c
+keymaps/**/chordmap_data.h
