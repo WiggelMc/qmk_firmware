@@ -58,7 +58,6 @@ uint16_t get_option_index(chord_t chord) {
 }
 
 bool reset_option_values_gen(options_state_t *options) {
-
     $reset_options
 
     return true;
