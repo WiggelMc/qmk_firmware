@@ -17,7 +17,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
 
-from validate import PrefixedDict, get_dict, get_ranged_int, get_str
+from .types import PrefixedDict, SimpleChordList
+from .validate import get_dict, get_ranged_int, get_simple_chord_list, get_str
 
 
 @dataclass
@@ -101,13 +102,17 @@ class Option:
 
 @dataclass
 class SpecialChords:
-    noop: list[str]
-    cancel: list[str]
-    zero: list[str]
+    noop: SimpleChordList
+    cancel: SimpleChordList
+    zero: SimpleChordList
 
     @classmethod
     def from_dict(cls, data: PrefixedDict, properties: MapProperties) -> SpecialChords:
-        ...
+        return cls(
+            noop=get_simple_chord_list(data, 'noop', properties),
+            cancel=get_simple_chord_list(data, 'cancel', properties),
+            zero=get_simple_chord_list(data, 'zero', properties),
+        )
 
 @dataclass
 class Chords:

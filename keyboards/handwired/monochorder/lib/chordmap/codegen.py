@@ -14,10 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from string import Template
 import textwrap
+
+from .types import Comment
 
 gen_disclaimer = '''\
 /*
@@ -29,8 +32,6 @@ gen_disclaimer = '''\
 
 def nl(indent: int):
     return '\n' + ' ' * 4 * indent
-
-comment = f'{nl(1)}///{"TEXT"}'
 
 
 def create_gen_header(name: str, author: str):
@@ -47,6 +48,38 @@ class GenerationOutput:
     chordmap_data_h: str
 
 
+@dataclass
+class ChordDefinitionEntry:
+    index: int
+    name_raw: str
+    key_expression: str
+    modifiers_raw: str | None
+
+
+def generate_header_lines(lines: list[str]) -> str:
+    return ''.join(
+        f'{nl(0)}{l}'
+        for l in lines
+    )
+
+
+def generate_comment_entry(e: Comment):
+    return f'{nl(0)}{nl(1)}///{e.text}{nl(0)}'
+
+
+def generate_chord_definition_entry(e: ChordDefinitionEntry):
+    return f'{nl(1)}/* {e.name_raw} */ [0x{e.index:04X}] = {e.key_expression},{f" // {e.modifiers_raw}" if e.modifiers_raw is not None else ""}'
+
+
+def generate_chord_definitions(entries: list[ChordDefinitionEntry | Comment]) -> str:
+    return ''.join(
+        generate_comment_entry(e)
+        if isinstance(e, Comment)
+        else generate_chord_definition_entry(e)
+        for e in entries
+    )
+
+
 def generate_code() -> GenerationOutput:
     dir_path = Path(__file__).parent.resolve()
 
@@ -57,20 +90,23 @@ def generate_code() -> GenerationOutput:
         'chordmap_data.h.template'
     ).read_text()
 
+    header_lines = ["#include \"keymap_german.h\"",
+                    "//#include \"keymap_us_international.h\""]
+
+    chord_definitions = [
+        Comment("Hello"),
+        ChordDefinitionEntry(1, '00000 00000 L-', 'KC_RESERVED', '+S'),
+        ChordDefinitionEntry(2, '00000 01100 L1', 'KEY(A)', None),
+        Comment("World"),
+        ChordDefinitionEntry(3, '00000 11100 L1', 'KEY(D)', None),
+    ]
+
     substitutions = {
         'gen_header': create_gen_header('default', 'WiggelMc'),
-        'header_lines': ''.join(
-            f'{nl(0)}{l}'
-            for l in [
-                "#include \"keymap_german.h\"",
-                "//#include \"keymap_us_international.h\""
-            ]
-        ),
+        'header_lines': generate_header_lines(header_lines),
         'key_prefix': 'DE',
         'key_amount': '10',
-        'chord_definitions': ''.join(
-            f'{nl(1)}/* {c} */ [0x{i:04X}] = {k},{f" // {m}" if m is not None else ""}' for i, c, k, m in [(1, '00000 00000 L-', 'KC_RESERVED', '+S'), (2, '00000 01100 L1', 'KEY(A)', None)]
-        ),
+        'chord_definitions': generate_chord_definitions(chord_definitions),
         'dk_mapping': ''.join(
             (f'{nl(1)}[0x{i:04X}] = {{ // {n}'
              + ''.join(f'{nl(2)}[0x{i:01X}] = {e},'

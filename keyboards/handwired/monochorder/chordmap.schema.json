@@ -36,11 +36,11 @@
             "properties": {
                 "uint8m": {
                     "type": "string",
-                    "pattern": "^[\\s0-7m\\-]+$"
+                    "pattern": "^[ 0-7m\\-]+$"
                 },
                 "uint9": {
                     "type": "string",
-                    "pattern": "^[\\s0-8\\-]+$"
+                    "pattern": "^[ 0-8\\-]+$"
                 }
             },
             "required": ["uint8m", "uint9"],
@@ -164,15 +164,15 @@
         },
         "chord": {
             "type": "string",
-            "pattern": "^[\\s01-]+$"
+            "pattern": "^[ 01-]+$"
         },
         "advancedChord": {
             "type": "string",
-            "pattern": "^[\\s01scamMACS\\-]+\\sL[0-9A-F\\-]$"
+            "pattern": "^[ 01scamMACS\\-]+ L[0-9A-F\\-]$"
         },
         "modifiers": {
             "type": "string",
-            "pattern": "^([\\+i][\\sscamMACS]+)+$"
+            "pattern": "^([\\+i][ scamMACS]+)+$"
         },
         "chordArray": {
             "type": "array",
