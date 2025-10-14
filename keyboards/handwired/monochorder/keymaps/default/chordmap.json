@@ -252,20 +252,20 @@
         ["01101 01001 L-", "CC_TYPE_BYTE_OCT"],
         ["01101 10001 L-", "CC_TYPE_BYTE_DEC"],
 
+        ["01101 11101 L-", "CC_TYPE_BYTE_HEX_PREFIXED"],
+        ["01101 00101 L-", "CC_TYPE_BYTE_BIN_PREFIXED"],
+        ["01101 01101 L-", "CC_TYPE_BYTE_OCT_PREFIXED"],
+        ["01101 10101 L-", "CC_TYPE_BYTE_DEC_PREFIXED"],
+
         ["11101 10001 L-", "CC_SET_OPTION"],
         ["11101 11101 L-", "CC_RESET_OPTION"],
 
         ["11001 10001 L-", "CC_ENTER_DIRECT_KEY_MODE"],
         ["11001 10101 L-", "CC_ENTER_TRAINER_MODE"],
 
-        ["00110 10001 L-", "CC_FLAG_MOD_SHIFT"],
-        ["00110 01001 L-", "CC_FLAG_MOD_CTRL"],
-        ["00110 00101 L-", "CC_FLAG_MOD_ALT"],
-        ["00110 00001 L-", "CC_FLAG_MOD_META"],
-        ["10110 10001 L-", "CC_FLAG_MOD_R_SHIFT"],
-        ["10110 01001 L-", "CC_FLAG_MOD_R_CTRL"],
-        ["10110 00101 L-", "CC_FLAG_MOD_R_ALT"],
-        ["10110 00001 L-", "CC_FLAG_MOD_R_META"],
+        ["-0110 00001 L-", "CC_FLAG_OVERRIDE_MODS"],
+        ["0011m sca01 L-", "CC_FLAG_ADD_MODS"],
+        ["1011M SCA01 L-", "CC_FLAG_ADD_MODS"],
 
         ["00011 00001 L-", "CC_FLAG_LAYER_1"],
 

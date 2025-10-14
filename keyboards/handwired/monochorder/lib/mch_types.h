@@ -37,7 +37,8 @@ typedef struct {
     uint9_t tap_code_gap;
 } options_state_t;
 
-typedef enum {
+typedef uint8_t modifiers_t;
+enum {
     M_L_CTRL  = 1 << 0,
     M_L_SHIFT = 1 << 1,
     M_L_ALT   = 1 << 2,
@@ -46,7 +47,7 @@ typedef enum {
     M_R_SHIFT = 1 << 5,
     M_R_ALT   = 1 << 6,
     M_R_META  = 1 << 7,
-} modifiers_t;
+};
 
 typedef struct {
     keycode_t   keycode;
@@ -64,6 +65,7 @@ typedef enum {
 typedef struct {
     mch_keyevent_t event;
     bool           pressed;
+    modifiers_t    raw_modifiers;
 } mch_keyrecord_t;
 
 #define KC_RESERVED 0
@@ -90,7 +92,6 @@ enum custom_keycodes {
 
     MCH_R,
 
-
     // Direct Key
     SECTION_MCH_DK,
 
@@ -111,7 +112,6 @@ enum custom_keycodes {
     MCH_DK_LAYER_E,
     MCH_DK_LAYER_F,
 
-
     // Control Codes
     SECTION_MCH_CC,
 
@@ -126,6 +126,7 @@ enum custom_keycodes {
 
     CC_ENTER_DIRECT_KEY_MODE,
     CC_ENTER_TRAINER_MODE,
+
     CC_HOLD_RELEASE_ALL,
     CC_DETACH_ALL,
 
@@ -134,14 +135,14 @@ enum custom_keycodes {
     CC_TYPE_BYTE_OCT,
     CC_TYPE_BYTE_DEC,
 
-    CC_FLAG_MOD_META,
-    CC_FLAG_MOD_CTRL,
-    CC_FLAG_MOD_SHIFT,
-    CC_FLAG_MOD_ALT,
-    CC_FLAG_MOD_R_META,
-    CC_FLAG_MOD_R_CTRL,
-    CC_FLAG_MOD_R_SHIFT,
-    CC_FLAG_MOD_R_ALT,
+    CC_TYPE_BYTE_HEX_PREFIXED,
+    CC_TYPE_BYTE_BIN_PREFIXED,
+    CC_TYPE_BYTE_OCT_PREFIXED,
+    CC_TYPE_BYTE_DEC_PREFIXED,
+
+    CC_FLAG_OVERRIDE_MODS,
+    CC_FLAG_ADD_MODS,
+    CC_FLAG_REMOVE_MODS,
 
     CC_FLAG_LAYER_0,
     CC_FLAG_LAYER_1,
